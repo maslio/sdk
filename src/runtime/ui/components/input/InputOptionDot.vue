@@ -15,7 +15,8 @@ defineProps<{
     >
       <div
         v-if="active"
-        h-2 w-2 rounded-full
+        h-2 w-2
+        rounded-full
         color="positive"
       />
     </Transition>

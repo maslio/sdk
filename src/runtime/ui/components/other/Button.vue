@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import type { Placement } from '@floating-ui/vue'
 import delay from 'delay'
-import { defu } from 'defu'
 import type { Props as OpenProps, Target } from './Open.vue'
 
 defineOptions({

@@ -15,7 +15,7 @@ const text = computed(() => {
 </script>
 
 <template>
-  <div class="text-negative flex items-center gap-1 p-1">
+  <div class="flex items-center gap-1 p-1 text-negative">
     <div>
       <Icon name="material-symbols:error" />
     </div>

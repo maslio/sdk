@@ -18,7 +18,7 @@ const { menuEl } = useLayout()
   <Teleport v-if="menuEl" :to="menuEl">
     <Button
       v-slot="{ close }"
-      mini flat
+      flat mini
       :icon
       :open="{ target: 'dialog', label, header: !!label }"
       @click="emit('click', $event)"

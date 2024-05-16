@@ -62,7 +62,8 @@ const css = computed(() => {
     >
       <div
         v-if="selected"
-        fit flex justify-center
+        fit flex
+        justify-center
         class="dialog text-light backdrop-blur-2"
         :class="{ 'backdrop-blur-2': blur, [css.items]: true }"
       >
@@ -77,7 +78,11 @@ const css = computed(() => {
           light="ring-neutral-200"
         >
           <div :style="{ height: height ? `${height}px` : 'auto' }" class="transition-height-300">
-            <Layout ref="layout" :label :no-header="!header" :close>
+            <Layout
+              ref="layout" :label
+              :no-header="!header"
+              :close
+            >
               <OpenError v-if="error" :error @close="close" />
               <Suspense v-else @resolve="loading = false" @pending="loading = true">
                 <slot />

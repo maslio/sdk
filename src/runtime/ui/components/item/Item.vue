@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { Placement } from '@floating-ui/vue'
 import Open, { type Props as OpenProps, type Target } from '../open/Open.vue'
 
 const props = withDefaults(defineProps<{

@@ -1,4 +1,3 @@
-import unoConfig from './templates/uno.config'
 import {
   addComponentsDir,
   addImportsDir,
@@ -8,6 +7,7 @@ import {
   installModule,
 } from '@nuxt/kit'
 import type { Nuxt } from '@nuxt/schema'
+import unoConfig from './templates/uno.config'
 
 export interface Options {}
 

@@ -21,7 +21,11 @@ function toggle() {
 </script>
 
 <template>
-  <Item :label :clickable="!readonly" :caption @click="toggle">
+  <Item
+    :label :clickable="!readonly"
+    :caption
+    @click="toggle"
+  >
     <template #left>
       <InputOptionDot :active />
     </template>

@@ -17,7 +17,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 function propsToString(props: Record<string, any>) {
   const string = JSON.stringify(props, null, 2)
-  return string.replace(/\"/g, '')
+  return string.replace(/"/g, '')
     .substring(4, string.length - 6)
 }
 

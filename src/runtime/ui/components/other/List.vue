@@ -1,8 +1,5 @@
 <!-- eslint-disable ts/no-use-before-define -->
 <script setup lang="ts" generic="T">
-import { sumBy } from 'lodash-es'
-import type { DefineComponent } from 'vue'
-
 type Items = T[] | { total: number, items: T[] }
 type ItemsFn = (input: string, limit: number, items: T[]) => Items | Promise<Items>
 
@@ -166,7 +163,11 @@ await data.fetch()
           <div v-if="data.pending">
             <Icon name="spinner" animate-spin />
           </div>
-          <div v-else-if="input" flex items-center text-faint>
+          <div
+            v-else-if="input" flex
+            items-center
+            text-faint
+          >
             <ItemButton icon="close" @click="input = ''" />
           </div>
         </InputString>
@@ -179,12 +180,20 @@ await data.fetch()
           :class="{ focused: (focus.active && index === focus.index) }"
           class="flex children:flex-1"
         >
-          <component :is="component" v-if="props.component" :item :index />
+          <component
+            :is="component" v-if="props.component"
+            :item
+            :index
+          />
           <slot v-else :item="item" :index />
         </div>
       </template>
       <template v-else>
-        <div flex flex-col items-center justify-center p-3>
+        <div
+          flex flex-col
+          items-center
+          justify-center p-3
+        >
           <Icon name="tabler:mood-empty" size="40" />
           <div text-faint>
             No data
@@ -205,7 +214,11 @@ await data.fetch()
       </template>
     </div>
   </Card>
-  <div v-if="props.total" m-2 text-center text-faint>
+  <div
+    v-if="props.total" m-2
+    text-center
+    text-faint
+  >
     Total: {{ data.total }}
   </div>
 </template>

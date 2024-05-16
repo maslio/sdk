@@ -25,7 +25,11 @@ function onSelect(option: Option) {
 </script>
 
 <template>
-  <List v-slot="{ item }" :items keys="value" :input :input-debounce="0">
+  <List
+    v-slot="{ item }" :items
+    keys="value"
+    :input :input-debounce="0"
+  >
     <Item
       :label="item.label"
       :caption="item.caption"

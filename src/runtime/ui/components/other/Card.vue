@@ -36,7 +36,12 @@ const grid = computed(() => {
     >
       <slot />
     </div>
-    <div v-if="caption" mb-3 mt-1 pl-3 text-sm font-300 text-faint>
+    <div
+      v-if="caption" mb-3
+      mt-1
+      pl-3 text-sm
+      font-300 text-faint
+    >
       {{ caption }}
     </div>
   </div>
