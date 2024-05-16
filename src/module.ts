@@ -2,11 +2,13 @@ import {
   addComponentsDir,
   addImportsDir,
   addPlugin,
+  addTemplate,
   createResolver,
   defineNuxtModule,
   installModule,
 } from '@nuxt/kit'
 import type { Nuxt } from '@nuxt/schema'
+import genUnoConfig from './genUnoConfig'
 
 export interface ModuleOptions {
   ui?: Record<string, any>
@@ -53,13 +55,13 @@ async function setupUi(_options: ModuleOptions['ui'], nuxt: Nuxt) {
       send: 'material-symbols:send',
     },
   }
-  // const unoConfigFile = addTemplate({
-  //   getContents: () => unoConfig,
-  //   filename: 'uno.config.ts',
-  //   write: true,
-  // })
+  const unoConfigFile = addTemplate({
+    getContents: () => genUnoConfig(),
+    filename: 'uno.config.ts',
+    write: true,
+  })
   await installModule('@unocss/nuxt', {
-    configFile: resolve('./runtime/uno.config'),
+    configFile: resolve(unoConfigFile.dst),
   })
   nuxt.options.css.push('@unocss/reset/tailwind.css')
   nuxt.options.css.push(resolve('./runtime/ui/assets/global.css'))
