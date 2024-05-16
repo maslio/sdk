@@ -28,7 +28,8 @@
     "lint:inspector": "eslint-config-inspector",
     "test": "vitest run",
     "test:watch": "vitest watch",
-    "test:types": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit"
+    "test:types": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit",
+    "docker": "docker compose -f ./docker/docker-compose.yaml up -d"
   },
   "dependencies": {
     "@antfu/eslint-config": "^2.17.0",
@@ -64,7 +65,7 @@
     "@types/node": "^20.12.11",
     "changelogen": "^0.5.5",
     "concurrently": "^8.2.2",
-    "nuxt": "^3.11.2",
+    "nuxt": "npm:nuxt-nightly@latest",
     "typescript": "latest",
     "vitest": "^1.6.0",
     "vue-tsc": "^2.0.16"

@@ -1,1 +1,1 @@
-export { default } from './src/runtime/uno.config'
+export { default } from './playground/.nuxt/uno.config'

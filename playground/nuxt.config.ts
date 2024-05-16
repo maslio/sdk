@@ -1,7 +1,8 @@
 export default defineNuxtConfig({
   modules: ['../src/module.ts'],
   maslio: {
-    ui: {},
+    ui: true,
+    db: true,
   },
   devtools: { enabled: true },
 })

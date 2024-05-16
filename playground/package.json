@@ -5,9 +5,10 @@
   "scripts": {
     "dev": "nuxi dev",
     "build": "nuxi build",
-    "generate": "nuxi generate"
+    "generate": "nuxi generate",
+    "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "nuxt": "^3.11.2"
+    "nuxt": "npm:nuxt-nightly@latest"
   }
 }

@@ -1,18 +1,28 @@
+/* eslint-disable node/prefer-global/process */
+import { $fetch } from 'ofetch'
 import {
   addComponentsDir,
   addImportsDir,
+  addImportsSources,
   addPlugin,
+  addServerHandler,
+  addServerImportsDir,
   addTemplate,
+  addTypeTemplate,
   createResolver,
   defineNuxtModule,
   installModule,
+  logger,
 } from '@nuxt/kit'
 import type { Nuxt } from '@nuxt/schema'
-import genUnoConfig from './genUnoConfig'
-import genEslintConfig from './genEslintConfig'
+import { joinURL } from 'ufo'
+import genUnoConfig from './config/genUnoConfig'
+import genEslintConfig from './config/genEslintConfig'
+import genDirectusTypes from './config/genDirectusTypes'
 
 export interface ModuleOptions {
-  ui?: Record<string, any>
+  ui?: boolean
+  db?: boolean
 }
 
 const { resolve } = createResolver(import.meta.url)
@@ -43,11 +53,13 @@ export default defineNuxtModule<ModuleOptions>({
     })
 
     if (options.ui)
-      await setupUi(options.ui, nuxt)
+      await setupUi(nuxt)
+    if (options.db)
+      await setupDb(nuxt)
   },
 })
 
-async function setupUi(_options: ModuleOptions['ui'], nuxt: Nuxt) {
+async function setupUi(nuxt: Nuxt) {
   nuxt.options.appConfig.nuxtIcon = {
     size: '24px',
     aliases: {
@@ -78,4 +90,67 @@ async function setupUi(_options: ModuleOptions['ui'], nuxt: Nuxt) {
   addImportsDir(resolve('./runtime/ui/composables'))
   addImportsDir(resolve('./runtime/ui/utils'))
   addPlugin(resolve('./runtime/ui/plugins/maska'))
+}
+
+async function setupDb(nuxt: Nuxt) {
+  const directusUrl = process.env.DIRECTUS_URL || 'http://localhost:8055'
+  const directusToken = process.env.DIRECTUS_TOKEN || ''
+
+  if (!await checkDirectus(directusUrl, directusToken))
+    return
+  nuxt.options.runtimeConfig.directusUrl = directusUrl
+  nuxt.options.runtimeConfig.directusToken = directusToken
+
+  addServerHandler({
+    route: '/_db/**',
+    handler: resolve('./runtime/db/server/routes/proxy'),
+  })
+
+  addTypeTemplate({
+    filename: 'types/directus.d.ts',
+    getContents: async () => genDirectusTypes(directusUrl, directusToken),
+  })
+  addPlugin({
+    src: resolve('./runtime/db/plugins/directus.client'),
+    mode: 'client',
+  })
+  addPlugin({
+    src: resolve('./runtime/db/plugins/directus.server'),
+    mode: 'server',
+  })
+
+  addImportsDir(resolve('./runtime/db/composables'))
+  addServerImportsDir(resolve('./runtime/db/server/utils'))
+
+  addImportsDir(resolve('./runtime/db/imports'))
+  addServerImportsDir(resolve('./runtime/db/imports'))
+
+  // hack: this add directus types on server
+  nuxt.hook('app:templates', (app) => {
+    const nitro = app.templates.find(t => t.filename === 'types/nitro-nuxt.d.ts')
+    const getContents = nitro?.getContents as any
+    Object.defineProperty(nitro, 'getContents', {
+      value(data: any) {
+        const contents = getContents(data)
+        return `/// <reference path="./directus.d.ts" />\n${contents}`
+      },
+    })
+  })
+}
+
+async function checkDirectus(url: string, token: string): Promise<boolean> {
+  if (!token) {
+    logger.error(`DIRECTUS_TOKEN is not provided`)
+    return false
+  }
+  try {
+    const ping = await $fetch(joinURL(url, 'server/ping'))
+    if (ping !== 'pong')
+      throw new Error(`Cannot connect to directus at ${url}`)
+  }
+  catch (e) {
+    logger.error(`Cannot connect to directus at ${url}`)
+    return false
+  }
+  return true
 }
