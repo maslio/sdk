@@ -44,23 +44,5 @@
     "gql",
     "graphql",
     "astro"
-  ],
-  "files.exclude": {
-    "**/package.json": true,
-    "**/uno.config.ts": true,
-    "**/tsconfig.json": true,
-    "**/.editorconfig": true,
-    "**/.eslintrc.cjs": true,
-    "**/.gitignore": true,
-    "**/.npmrc": true,
-    "**/.nuxtrc": true,
-    "**/bun.lockb": true,
-    "**/README.md": true,
-    "**/node_modules": true,
-    "**/eslint.config.js": true,
-    "**/.nuxt": true,
-    "dist": true,
-    "test": true,
-    ".vscode": true
-  }
+  ]
 }

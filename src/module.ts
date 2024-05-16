@@ -1,18 +1,15 @@
-import eslintConfig from './templates/eslint.config.js'
-import { readFileSync } from 'node:fs'
 import {
+  addComponentsDir,
+  addImportsDir,
   addPlugin,
-  addTemplate,
   createResolver,
   defineNuxtModule,
   installModule,
-  addComponentsDir,
-  addImportsDir
 } from '@nuxt/kit'
 import type { Nuxt } from '@nuxt/schema'
 
 export interface ModuleOptions {
-  ui?: {}
+  ui?: Record<string, any>
 }
 
 const { resolve } = createResolver(import.meta.url)
@@ -26,7 +23,6 @@ export default defineNuxtModule<ModuleOptions>({
   },
 
   async setup(options, nuxt) {
-    console.log(123)
     await installModule('@vueuse/nuxt')
     await installModule('@nuxtjs/color-mode', {
       classSuffix: '',
@@ -36,10 +32,9 @@ export default defineNuxtModule<ModuleOptions>({
       src: resolve('./runtime/base/plugins/device'),
       order: 1,
     })
-    
+
     if (options.ui)
       await setupUi(options.ui, nuxt)
-
   },
 })
 
