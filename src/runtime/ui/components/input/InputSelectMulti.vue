@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Value } from './Select.vue'
 import type { Props as SelectProps } from './SelectMulti.vue'
+import { computed } from '#imports'
 
 interface Props extends SelectProps {
   label: string

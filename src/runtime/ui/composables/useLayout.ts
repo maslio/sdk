@@ -1,4 +1,5 @@
 import type { ComputedRef, Ref } from 'vue'
+import { inject } from '#imports'
 
 export interface LayoutProvide {
   id: string
@@ -6,7 +7,7 @@ export interface LayoutProvide {
   pageEl: Ref<HTMLElement>
   menuEl: Ref<HTMLElement>
   nextEl: Ref<HTMLElement>
-  nextId: Ref<any>
+  nextId: Ref<string | null>
   bottomEl: Ref<HTMLElement>
   footerEl: Ref<HTMLElement>
   close: () => void

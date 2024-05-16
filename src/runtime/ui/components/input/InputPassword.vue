@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import Input from './Input.vue'
+import { type Ref, defineModel, ref, useFocus, watch } from '#imports'
+
 defineProps<{
   placeholder?: string
   autofocus?: boolean

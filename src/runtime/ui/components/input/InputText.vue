@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import Input from './Input.vue'
+import { useFocus, useTextareaAutosize, watch } from '#imports'
+
 defineOptions({
   inheritAttrs: false,
 })

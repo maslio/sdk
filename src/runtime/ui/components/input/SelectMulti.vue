@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import Item from '../elements/Item.vue'
+import List from '../elements/List.vue'
 import type { Option, Value } from './Select.vue'
 
 export interface Props {

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import delay from 'delay'
-import type { Props as OpenProps, Target } from './Open.vue'
+import Open, { type Props as OpenProps, type Target } from '../open/Open.vue'
+import { type Ref, computed, nextTick, ref, useSlots } from '#imports'
 
 defineOptions({
   inheritAttrs: false,
@@ -35,7 +36,7 @@ const slots = useSlots()
 const selected = ref(false)
 const hasOpen = slots.default != null || typeof props.open === 'object'
 const renderOpen = ref(false)
-const open = ref<null | InstanceType<typeof import('./Open.vue').default>>(null)
+const open = ref<null | InstanceType<typeof Open>>(null)
 function close() {
   open.value?.close()
 }

@@ -25,6 +25,7 @@
     "release": "npm run lint && npm run test && npm run prepack && changelogen --release && npm publish && git push --follow-tags",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "lint:inspector": "eslint-config-inspector",
     "test": "vitest run",
     "test:watch": "vitest watch",
     "test:types": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit"
@@ -52,6 +53,7 @@
     "unocss-preset-scrollbar": "^0.3.1"
   },
   "devDependencies": {
+    "@eslint/config-inspector": "^0.4.8",
     "@nuxt/devtools": "^1.2.0",
     "@nuxt/eslint-config": "^0.3.10",
     "@nuxt/module-builder": "^0.6.0",

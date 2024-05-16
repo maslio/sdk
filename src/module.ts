@@ -28,6 +28,7 @@ export default defineNuxtModule<ModuleOptions>({
       classSuffix: '',
     })
     await installModule('@nuxtjs/device')
+    await installModule('nuxt-icon')
     addPlugin({
       src: resolve('./runtime/base/plugins/device'),
       order: 1,
@@ -39,7 +40,6 @@ export default defineNuxtModule<ModuleOptions>({
 })
 
 async function setupUi(_options: ModuleOptions['ui'], nuxt: Nuxt) {
-  await installModule('nuxt-icon')
   nuxt.options.appConfig.nuxtIcon = {
     size: '24px',
     aliases: {

@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import Item from '../elements/Item.vue'
+import List from '../elements/List.vue'
+
 export interface Option {
   value: string | number
   label: string
@@ -13,7 +16,7 @@ const { options } = defineProps<Props>()
 const model = defineModel<Value>()
 
 function items(_input: string) {
-  const input = _input.trim().toLocaleLowerCase()
+  const input = _input.trim().toLowerCase()
   if (!input)
     return options
   return options.filter(o => o.label.toLowerCase().includes(input))

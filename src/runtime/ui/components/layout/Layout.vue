@@ -1,4 +1,16 @@
 <script setup lang="ts">
+import type { LayoutProvide } from '../../composables/useLayout'
+import {
+  type Ref,
+  computed,
+  provide,
+  ref,
+  useId,
+  useResizeObserver,
+  useSwipe,
+  useToNumber,
+} from '#imports'
+
 const props = withDefaults(defineProps<{
   root?: boolean
   width?: string | number

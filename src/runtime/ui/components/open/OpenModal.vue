@@ -1,4 +1,10 @@
 <script setup lang="ts">
+import { useLayout } from '../../composables/useLayout'
+import Layout from '../layout/Layout.vue'
+import Spinner from '../elements/Spinner.vue'
+import OpenError from './OpenError.vue'
+import { computed, onErrorCaptured, ref, useResizeObserver } from '#imports'
+
 defineOptions({
   inheritAttrs: false,
 })
@@ -88,7 +94,7 @@ const css = computed(() => {
                 <slot />
                 <template #fallback>
                   <div class="h-100px flex items-center justify-center">
-                    <IconCSS name="spinner" animate-spin />
+                    <Spinner />
                   </div>
                 </template>
               </Suspense>

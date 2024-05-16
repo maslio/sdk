@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { useLayout } from '../../composables/useLayout'
+import Button from '../elements/Button.vue'
+
 withDefaults(defineProps<{
   icon?: string
   label?: string

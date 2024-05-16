@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import Open, { type Props as OpenProps, type Target } from '../open/Open.vue'
+import InputOptionDot from '../input/InputOptionDot.vue'
+import { type Ref, computed, nextTick, ref, useSlots } from '#imports'
 
 const props = withDefaults(defineProps<{
   icon?: string

@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import Item from '../elements/Item.vue'
 import type { Props as SelectProps } from './Select.vue'
+import Select from './Select.vue'
+import { computed } from '#imports'
 
 interface Props extends SelectProps {
   label: string

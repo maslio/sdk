@@ -1,4 +1,10 @@
 <script setup lang="ts">
+import { useLayout } from '../../composables/useLayout'
+import Layout from '../layout/Layout.vue'
+import OpenLoading from './OpenLoading.vue'
+import OpenError from './OpenError.vue'
+import { computed, getCurrentInstance, onErrorCaptured, ref, syncRefs } from '#imports'
+
 defineOptions({
   inheritAttrs: false,
 })

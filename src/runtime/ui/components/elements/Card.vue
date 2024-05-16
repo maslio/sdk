@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed } from '#imports'
+
 const props = defineProps<{
   label?: string
   caption?: string

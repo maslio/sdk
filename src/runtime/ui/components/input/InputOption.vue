@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import InputOptionDot from './InputOptionDot.vue'
+import { computed } from '#imports'
+
 const { value, readonly } = defineProps<{
   label?: string
   caption?: string

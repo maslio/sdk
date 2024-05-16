@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import Item from '../elements/Item.vue'
+
 defineProps<{
   label?: string
   icon?: string

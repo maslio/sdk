@@ -1,3 +1,5 @@
+import { ref } from '#imports'
+
 export function useAction<Args extends any[], ReturnType>(callback?: (...args: Args) => ReturnType) {
   const pending = ref(false)
   const error = ref<Error | string | undefined>()

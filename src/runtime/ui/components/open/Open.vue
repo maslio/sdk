@@ -7,6 +7,7 @@ import OpenModal from './OpenModal.vue'
 import OpenFloat from './OpenFloat.vue'
 import OpenFull from './OpenFull.vue'
 import OpenDialog from './OpenDialog.vue'
+import { computed, ref } from '#imports'
 
 export type Target = 'next' | 'modal' | 'full' | 'dialog' | 'float'
 export interface Props {

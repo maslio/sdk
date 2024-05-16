@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import Input from './Input.vue'
+import { type Ref, ref, useFocus, watch } from '#imports'
+
 defineOptions({
   inheritAttrs: false,
 })

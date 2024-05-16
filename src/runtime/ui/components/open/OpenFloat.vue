@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import { type Placement, flip, offset, shift, useFloating } from '@floating-ui/vue'
+import { useLayout } from '../../composables/useLayout'
+import Layout from '../layout/Layout.vue'
+import OpenError from './OpenError.vue'
+import { onClickOutside, onErrorCaptured, ref, toRef, useResizeObserver } from '#imports'
 
 export type { Placement }
 defineOptions({

@@ -1,4 +1,10 @@
 <script setup lang="ts">
+import { useLayout } from '../../composables/useLayout'
+import Layout from '../layout/Layout.vue'
+import Spinner from '../elements/Spinner.vue'
+import OpenError from './OpenError.vue'
+import { onClickOutside, onErrorCaptured, ref, useResizeObserver, useSwipe } from '#imports'
+
 defineOptions({
   inheritAttrs: false,
 })
@@ -100,7 +106,7 @@ onClickOutside(layout, (e) => {
                 <slot />
                 <template #fallback>
                   <div class="h-100px flex items-center justify-center">
-                    <IconCSS name="spinner" animate-spin />
+                    <Spinner />
                   </div>
                 </template>
               </Suspense>

@@ -1,4 +1,9 @@
 <script setup lang="ts">
+import Spinner from '../elements/Spinner.vue'
+import Layout from '../layout/Layout.vue'
+import OpenError from './OpenError.vue'
+import { onErrorCaptured, ref } from '#imports'
+
 defineOptions({
   inheritAttrs: false,
 })
@@ -46,12 +51,11 @@ onErrorCaptured((e: Error) => {
           <slot />
           <template #fallback>
             <div class="h-100px flex items-center justify-center">
-              <IconCSS name="spinner" animate-spin />
+              <Spinner />
             </div>
           </template>
         </Suspense>
       </Layout>
-      <!-- </div> -->
     </Transition>
   </Teleport>
 </template>
