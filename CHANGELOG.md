@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.6
+
+[compare changes](https://undefined/undefined/compare/v0.0.5...v0.0.6)
+
+### 🏡 Chore
+
+- Add useHead import to device plugin (0b73a44)
+
+### ❤️ Contributors
+
+- Maslio <vlad@maslio.com>
+
 ## v0.0.5
 
 [compare changes](https://undefined/undefined/compare/v0.0.4...v0.0.5)
