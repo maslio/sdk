@@ -9,6 +9,7 @@ import {
 } from '@nuxt/kit'
 import type { Nuxt } from '@nuxt/schema'
 import genUnoConfig from './genUnoConfig'
+import genEslintConfig from './genEslintConfig'
 
 export interface ModuleOptions {
   ui?: Record<string, any>
@@ -34,6 +35,11 @@ export default defineNuxtModule<ModuleOptions>({
     addPlugin({
       src: resolve('./runtime/base/plugins/device'),
       order: 1,
+    })
+    addTemplate({
+      getContents: () => genEslintConfig(),
+      filename: 'eslint.config.js',
+      write: true,
     })
 
     if (options.ui)

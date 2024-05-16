@@ -1,1 +1,1 @@
-export { default } from '../src/runtime/eslint.config'
+export { default } from './.nuxt/eslint.config'
