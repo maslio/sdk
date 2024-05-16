@@ -1,4 +1,5 @@
 import { kebabCase } from 'scule'
+import { defineNuxtPlugin } from '#imports'
 
 export default defineNuxtPlugin(({ $device }) => {
   const device = $device as Record<string, boolean>
