@@ -2,9 +2,9 @@
   "name": "@maslio/kit",
   "type": "module",
   "version": "0.0.1",
-  "description": "My new Nuxt module",
+  "description": "My personal kit for a nuxt project",
   "license": "MIT",
-  "repository": "your-org/my-module",
+  "repository": "@maslio/kit",
   "exports": {
     ".": {
       "types": "./dist/types.d.ts",
