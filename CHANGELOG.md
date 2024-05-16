@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.11
+
+[compare changes](https://undefined/undefined/compare/v0.0.10...v0.0.11)
+
+### 🏡 Chore
+
+- Update eslint and uno config paths in package.json (edffb61)
+
+### ❤️ Contributors
+
+- Maslio <vlad@maslio.com>
+
 ## v0.0.10
 
 [compare changes](https://undefined/undefined/compare/v0.0.9...v0.0.10)
