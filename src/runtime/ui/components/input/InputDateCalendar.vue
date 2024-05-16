@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import dt from 'dayjs'
+import { daysForLocale, monthsForLocale } from './date'
 
 const { selected } = defineProps<{
   selected: string[]
@@ -98,7 +99,11 @@ function select(date: string) {
           </div>
         </div>
         <div>
-          <div w-270px flex flex-wrap p-1 text-sm>
+          <div
+            w-270px flex
+            flex-wrap
+            p-1 text-sm
+          >
             <div
               v-for="(month, index) in months"
               :key="month"

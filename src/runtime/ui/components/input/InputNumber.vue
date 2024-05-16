@@ -65,7 +65,8 @@ const dataMaska = computed(() => {
           :data-maska="dataMaska"
           data-maska-tokens="9:[0-9]:repeated"
           data-maska-reversed
-          :placeholder :autofocus :readonly
+          :placeholder :autofocus
+          :readonly
           class="min-h-6 w-full appearance-none bg-transparent text-right outline-none text-faint"
           @click="input.select()"
         >

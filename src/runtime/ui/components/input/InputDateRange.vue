@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import dt from 'dayjs'
+import { presetsRange } from './date'
 
-defineProps<{
-  label: string
+withDefaults(defineProps<{
+  label?: string
   readonly?: boolean
-}>()
+}>(), {
+  label: 'Date range',
+})
 const model = defineModel<[string, string]>({
   default: [
     dt().format('YYYY-MM-DD'),
@@ -84,11 +87,19 @@ const value = computed(() => {
           <div flex>
             <div flex-1 text-center>
               <label text-faint>Начало периода</label>
-              <InputDateInput ref="input1" v-model="model[0]" label="Начало периода" @next="input2.select('day')" />
+              <InputDateInput
+                ref="input1" v-model="model[0]"
+                label="Начало периода"
+                @next="input2.select('day')"
+              />
             </div>
             <div flex-1 text-center>
               <label text-faint>Конец периода</label>
-              <InputDateInput ref="input2" v-model="model[1]" label="Конец периода" @prev="input1.select('year')" />
+              <InputDateInput
+                ref="input2" v-model="model[1]"
+                label="Конец периода"
+                @prev="input1.select('year')"
+              />
             </div>
           </div>
         </div>

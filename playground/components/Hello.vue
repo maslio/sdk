@@ -3,8 +3,7 @@
 
 <template>
   <Layout root>
-    <Item label="Hello"></Item>
-    <Item label="Hello"></Item>
-    <Item label="Hello"></Item>
+    <InputDate />
+    <InputDateRange />
   </Layout>
 </template>

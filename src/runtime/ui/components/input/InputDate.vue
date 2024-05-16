@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import dt from 'dayjs'
+import { presetsPoint } from './date'
 
-defineProps<{
-  label: string
+withDefaults(defineProps<{
+  label?: string
   readonly?: boolean
-}>()
+}>(), {
+  label: 'Date',
+})
 const model = defineModel<string>({
   default: dt().format('YYYY-MM-DD'),
 })
