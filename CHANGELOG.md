@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.5
+
+[compare changes](https://undefined/undefined/compare/v0.0.4...v0.0.5)
+
+### 🏡 Chore
+
+- Add Nuxt plugin for device and maska imports (4d52a6a)
+
+### ❤️ Contributors
+
+- Maslio <vlad@maslio.com>
+
 ## v0.0.4
 
 [compare changes](https://undefined/undefined/compare/v0.0.3...v0.0.4)
