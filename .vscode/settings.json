@@ -1,0 +1,66 @@
+{
+  // Enable the ESlint flat config support
+  // (remove this if your ESLint extension above v3.0.5)
+  "eslint.experimental.useFlatConfig": true,
+
+  // Disable the default formatter, use eslint instead
+  "prettier.enable": false,
+  "editor.formatOnSave": false,
+
+  // Auto fix
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "never"
+  },
+
+  // Silent the stylistic rules in you IDE, but still auto fix them
+  "eslint.rules.customizations": [
+    { "rule": "style/*", "severity": "off" },
+    { "rule": "no-console", "severity": "info" },
+    { "rule": "format/*", "severity": "off" },
+    { "rule": "*-indent", "severity": "off" },
+    { "rule": "*-spacing", "severity": "off" },
+    { "rule": "*-spaces", "severity": "off" },
+    { "rule": "*-order", "severity": "off" },
+    { "rule": "*-dangle", "severity": "off" },
+    { "rule": "*-newline", "severity": "off" },
+    { "rule": "*quotes", "severity": "off" },
+    { "rule": "*semi", "severity": "off" }
+  ],
+
+  // Enable eslint for all supported languages
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "vue",
+    "html",
+    "markdown",
+    "json",
+    "jsonc",
+    "yaml",
+    "toml",
+    "gql",
+    "graphql",
+    "astro"
+  ],
+  "files.exclude": {
+    "**/package.json": true,
+    "**/uno.config.ts": true,
+    "**/tsconfig.json": true,
+    "**/.editorconfig": true,
+    "**/.eslintrc.cjs": true,
+    "**/.gitignore": true,
+    "**/.npmrc": true,
+    "**/.nuxtrc": true,
+    "**/bun.lockb": true,
+    "**/README.md": true,
+    "**/node_modules": true,
+    "**/eslint.config.js": true,
+    "**/.nuxt": true,
+    "dist": true,
+    "test": true,
+    ".vscode": true
+  }
+}

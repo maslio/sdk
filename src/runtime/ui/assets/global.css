@@ -1,0 +1,33 @@
+.clickable {
+  cursor: pointer;
+  user-select: none;
+}
+.desktop {
+  --uno: text-sm;
+}
+body {
+  overflow: hidden;
+  --uno: color-back;
+}
+
+.desktop .text-xs {
+  font-size: 0.625rem; /* 10px */
+  line-height: 0.75rem; /* 12px */
+}
+.desktop .text-sm {
+  font-size: 0.75rem; /* 12px */
+  line-height: 1rem; /* 16px */
+  
+}
+.desktop .text-base {
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.25rem; /* 20px */
+}
+.desktop .text-lg {
+  font-size: 1rem; /* 16px */
+  line-height: 1.5rem; /* 24px */
+}
+.desktop .text-xl {
+  font-size: 1.125rem; /* 18px */
+  line-height: 1.75rem; /* 28px */
+}
