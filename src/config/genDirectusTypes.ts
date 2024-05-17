@@ -16,28 +16,24 @@ export default async function (directusUrl: string, directusToken: string) {
 
   schema.push(`import { User } from '@directus/types'`)
 
-  schema.push('declare global {')
-
-  schema.push(`  interface ${itemName('directus_users')} extends User {`)
-  schema.push(`  }`)
+  schema.push(`interface ${itemName('directus_users')} extends User {`)
+  schema.push(`}`)
 
   // interfaces for all collections
   for (const col of collections) {
-    schema.push(`  interface ${itemName(col.collection)} {`)
+    schema.push(`interface ${itemName(col.collection)} {`)
     for (const field of fields.filter(f => f.collection === col.collection))
-      schema.push(`    ${tsType(field)}`)
-    schema.push('  }')
+      schema.push(`  ${tsType(field)}`)
+    schema.push('}')
   }
 
   // Schema interface
-  schema.push(`  interface DirectusSchema {`)
+  schema.push(`export interface DirectusSchema {`)
   for (const col of collections)
-    schema.push(`    ${col.collection}: ${itemName(col.collection)}[]`)
-  schema.push(`    directus_users: ${itemName('directus_users')}`)
+    schema.push(`  ${col.collection}: ${itemName(col.collection)}[]`)
+  schema.push(`  directus_users: ${itemName('directus_users')}`)
 
-  schema.push(`  }`)
   schema.push('}')
-  schema.push('export {}')
   schema.push('')
 
   return schema.join('\n')

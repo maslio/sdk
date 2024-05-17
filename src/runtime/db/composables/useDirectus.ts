@@ -1,8 +1,9 @@
 import type { AuthenticationClient, DirectusClient, RestClient } from '@directus/sdk'
 import { type User, fetchMe } from '../utils/user'
 import { type Ref, useNuxtApp, useState } from '#imports'
+// @ts-expect-error directus
+import type { DirectusSchema } from '#build/directus.d.ts'
 
-// @ts-expect-error Directus
 type Client = DirectusClient<DirectusSchema> & RestClient<DirectusSchema> & AuthenticationClient<DirectusSchema>
 type ClientAny = DirectusClient<any> & RestClient<any> & AuthenticationClient<any>
 

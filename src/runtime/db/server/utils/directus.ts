@@ -2,8 +2,9 @@ import { type DirectusClient, type RestClient, createDirectus, rest, staticToken
 import { type H3Event, getCookie } from 'h3'
 import { jwtDecode } from 'jwt-decode'
 import { createError, useRuntimeConfig } from '#imports'
+// @ts-expect-error directus
+import type { DirectusSchema } from '~/.nuxt/directus.d.ts'
 
-// @ts-expect-error Directus
 type Client = DirectusClient<DirectusSchema> & RestClient<DirectusSchema>
 type ClientAny = DirectusClient<any> & RestClient<any>
 
@@ -12,8 +13,7 @@ let clientAdmin: Client
 function adminClient() {
   if (!clientAdmin) {
     const { directusUrl, directusToken } = useRuntimeConfig()
-    // @ts-expect-error Directus
-    clientAdmin = createDirectus<DirectusSchema>(directusUrl)
+    clientAdmin = createDirectus<DirectusSchema>(directusUrl as string)
       .with(rest())
       .with(staticToken(directusToken as string))
   }
@@ -25,8 +25,7 @@ function userClient(event: H3Event) {
   const token = getCookie(event, 'directus_session_token')
   if (!token)
     throw createError({ status: 401 })
-  // @ts-expect-error Directus
-  return createDirectus<DirectusSchema>(directusUrl)
+  return createDirectus<DirectusSchema>(directusUrl as string)
     .with(rest())
     .with(staticToken(token))
 }
