@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v0.0.12
+
+[compare changes](https://undefined/undefined/compare/v0.0.11...v0.0.12)
+
+### 🚀 Enhancements
+
+- Directus (5966547)
+
+### 🏡 Chore
+
+- Update npm dependencies and import statements (a90de62)
+
+### ❤️ Contributors
+
+- Maslio <vlad@maslio.com>
+
 ## v0.0.11
 
 [compare changes](https://undefined/undefined/compare/v0.0.10...v0.0.11)
