@@ -118,23 +118,14 @@ async function setupDb(nuxt: Nuxt) {
     mode: 'server',
   })
 
+  addComponentsDir({
+    path: resolve('./runtime/db/components'),
+    pathPrefix: false,
+  })
   addImportsDir(resolve('./runtime/db/composables'))
   addServerImportsDir(resolve('./runtime/db/server/utils'))
-
   addImportsDir(resolve('./runtime/db/imports'))
   addServerImportsDir(resolve('./runtime/db/imports'))
-
-  // hack: this add directus types on server
-  // nuxt.hook('app:templates', (app) => {
-  //   const nitro = app.templates.find(t => t.filename === 'types/nitro-nuxt.d.ts')
-  //   const getContents = nitro?.getContents as any
-  //   Object.defineProperty(nitro, 'getContents', {
-  //     value(data: any) {
-  //       const contents = getContents(data)
-  //       return `/// <reference path="./directus.d.ts" />\n${contents}`
-  //     },
-  //   })
-  // })
 }
 
 async function checkDirectus(url: string, token: string): Promise<boolean> {

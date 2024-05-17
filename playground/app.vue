@@ -2,5 +2,9 @@
 </script>
 
 <template>
-  <Hello />
+  <DirectusLogin>
+    <Layout root>
+      <DirectusMe />
+    </Layout>
+  </DirectusLogin>
 </template>

@@ -11,6 +11,7 @@ defineProps<{
   disabled?: boolean
   readonly?: boolean
   flat?: boolean
+  label?: string
 }>()
 const emit = defineEmits(['focus', 'blur'])
 defineSlots<{
@@ -33,7 +34,7 @@ function onClick() {
 <template>
   <Input
     :focused :readonly
-    :flat
+    :flat :label
     @click="onClick"
   >
     <input

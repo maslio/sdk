@@ -13,6 +13,7 @@ withDefaults(defineProps<{
   flat?: boolean
   class?: any
   rows?: number
+  label?: string
 }>(), {
   rows: 1,
 })
@@ -37,7 +38,7 @@ watch(focused, (value) => {
 <template>
   <Input
     :focused :readonly
-    :flat
+    :flat :label
     :class="$props.class"
   >
     <textarea
