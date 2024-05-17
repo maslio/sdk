@@ -14,5 +14,8 @@ export default antfu({
         max: 2,
       },
     }],
+    'style/max-statements-per-line': ['error', {
+      max: 2,
+    }],
   },
 })

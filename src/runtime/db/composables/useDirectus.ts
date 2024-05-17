@@ -1,4 +1,4 @@
-import { type AuthenticationClient, type DirectusClient, type RestClient, readMe } from '@directus/sdk'
+import type { AuthenticationClient, DirectusClient, RestClient } from '@directus/sdk'
 import { type User, fetchMe } from '../utils/user'
 import { type Ref, useNuxtApp, useState } from '#imports'
 

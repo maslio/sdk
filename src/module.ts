@@ -3,7 +3,6 @@ import { $fetch } from 'ofetch'
 import {
   addComponentsDir,
   addImportsDir,
-  addImportsSources,
   addPlugin,
   addServerHandler,
   addServerImportsDir,
