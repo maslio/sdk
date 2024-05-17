@@ -22,8 +22,16 @@ async function action() {
   >
     <div class="flex flex-col gap-3">
       <Card class="w-300px py-3">
-        <InputString v-model="email" label="Email" />
-        <InputPassword v-model="password" label="Password" />
+        <InputString
+          v-model="email" type="email"
+          label="Email"
+          autocomplete="username"
+        />
+        <InputPassword
+          v-model="password"
+          label="Password"
+          autocomplete="current-password"
+        />
       </Card>
       <Button label="Login" color="positive" :action />
     </div>

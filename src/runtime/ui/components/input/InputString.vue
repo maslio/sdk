@@ -5,14 +5,17 @@ import { type Ref, ref, useFocus, watch } from '#imports'
 defineOptions({
   inheritAttrs: false,
 })
-defineProps<{
+withDefaults(defineProps<{
   placeholder?: string
   autofocus?: boolean
   disabled?: boolean
   readonly?: boolean
   flat?: boolean
   label?: string
-}>()
+  type?: 'text' | 'email'
+}>(), {
+  type: 'text',
+})
 const emit = defineEmits(['focus', 'blur'])
 defineSlots<{
   default: () => void
@@ -40,7 +43,7 @@ function onClick() {
     <input
       ref="input"
       v-bind="$attrs" v-model="model"
-      type="text" :placeholder
+      :placeholder :type
       :autofocus :readonly
       class="min-h-6 w-full flex-1 appearance-none bg-transparent outline-none"
       :class="{ 'text-faint': disabled }"
