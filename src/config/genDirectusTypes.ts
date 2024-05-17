@@ -16,12 +16,12 @@ export default async function (directusUrl: string, directusToken: string) {
 
   schema.push(`import { User } from '@directus/types'`)
 
-  schema.push(`interface ${itemName('directus_users')} extends User {`)
+  schema.push(`interface ${collection('directus_users')} extends User {`)
   schema.push(`}`)
 
   // interfaces for all collections
   for (const col of collections) {
-    schema.push(`interface ${itemName(col.collection)} {`)
+    schema.push(`interface ${collection(col.collection)} {`)
     for (const field of fields.filter(f => f.collection === col.collection))
       schema.push(`  ${tsType(field)}`)
     schema.push('}')
@@ -30,8 +30,8 @@ export default async function (directusUrl: string, directusToken: string) {
   // Schema interface
   schema.push(`export interface DirectusSchema {`)
   for (const col of collections)
-    schema.push(`  ${col.collection}: ${itemName(col.collection)}[]`)
-  schema.push(`  directus_users: ${itemName('directus_users')}`)
+    schema.push(`  ${col.collection}: ${collection(col.collection)}[]`)
+  schema.push(`  directus_users: ${collection('directus_users')}[]`)
 
   schema.push('}')
   schema.push('')
@@ -70,12 +70,12 @@ function tsType(field: Field) {
     type = choices.map(c => `'${c.value}'`).join(' | ')
   }
   else if (field.schema?.foreign_key_table) {
-    type = `${type} | ${itemName(field.schema.foreign_key_table)}`
+    type = `${type} | ${collection(field.schema.foreign_key_table)}`
   }
   const q = field.schema?.is_nullable ? '?' : ''
   return `${key}${q}: ${type}`
 }
 
-function itemName(name: string) {
-  return `Item${pascalCase(name)}`
+function collection(name: string) {
+  return pascalCase(name)
 }
