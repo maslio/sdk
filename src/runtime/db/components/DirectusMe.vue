@@ -1,13 +1,17 @@
 <script setup lang="ts">
+import { updateMe } from '@directus/sdk'
 import { useDirectus } from '../composables/useDirectus'
 import Item from '../../ui/components/elements/Item.vue'
 import Card from '../../ui/components/elements/Card.vue'
-import { defineAsyncComponent } from '#imports'
-
-const Me = defineAsyncComponent(() => import('./imports/Me.vue'))
+import DirectusForm from './DirectusForm.vue'
 
 const d = useDirectus()
 const user = d.user
+
+async function save(data: Record<string, any>) {
+  await d.request(updateMe(data))
+  d.refreshUser()
+}
 </script>
 
 <template>
@@ -21,7 +25,14 @@ const user = d.user
           <Icon name="material-symbols:account-circle" size="28" class="rounded-full" />
         </div>
       </template>
-      <Me />
+      <template #default="{ close }">
+        <DirectusForm
+          collection="directus_users"
+          :fields="['first_name', 'last_name']"
+          :values="user" :save
+          @save="close"
+        />
+      </template>
     </Item>
   </Card>
 </template>
