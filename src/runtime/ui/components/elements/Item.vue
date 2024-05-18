@@ -7,6 +7,7 @@ const props = withDefaults(defineProps<{
   icon?: string
   label?: string
   caption?: string | number
+  captionFirst?: boolean
   value?: string | number
   clickable?: boolean
   open?: Target | OpenProps
@@ -112,7 +113,11 @@ const clickable = computed(() => {
       <div v-if="$slots.main" class="flex-1">
         <slot v-if="$slots.main" name="main" />
       </div>
-      <div v-else class="flex-1 flex-basis-2xl flex-nowrap overflow-hidden">
+      <div
+        v-else
+        class="flex flex-1 flex-basis-2xl flex-col flex-nowrap overflow-hidden"
+        :class="captionFirst ? 'flex-col-reverse' : 'flex-col'"
+      >
         <div v-if="$props.label" class="text-base" :class="{ truncate: !noTruncate }">
           {{ label }}
         </div>

@@ -121,6 +121,7 @@ async function setupDb(nuxt: Nuxt) {
   addComponentsDir({
     path: resolve('./runtime/db/components'),
     pathPrefix: false,
+    ignore: ['imports/*'],
   })
   addImportsDir(resolve('./runtime/db/composables'))
   addServerImportsDir(resolve('./runtime/db/server/utils'))

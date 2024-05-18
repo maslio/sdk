@@ -2,7 +2,9 @@
 import { useDirectus } from '../composables/useDirectus'
 import Item from '../../ui/components/elements/Item.vue'
 import Card from '../../ui/components/elements/Card.vue'
-import DirectusMeUpdate from './DirectusMeUpdate.vue'
+import { defineAsyncComponent } from '#imports'
+
+const Me = defineAsyncComponent(() => import('./imports/Me.vue'))
 
 const d = useDirectus()
 const user = d.user
@@ -19,7 +21,7 @@ const user = d.user
           <Icon name="material-symbols:account-circle" size="28" class="rounded-full" />
         </div>
       </template>
-      <DirectusMeUpdate :user />
+      <Me />
     </Item>
   </Card>
 </template>
