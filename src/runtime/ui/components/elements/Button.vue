@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import delay from 'delay'
-import Open, { type Props as OpenProps, type Target } from '../open/Open.vue'
+import { useAction } from '../../composables/useAction'
+import { type PageProps, type PageTarget, usePage } from '../../composables/usePage'
+import Error from '../elements/Error.vue'
+import Spinner from './Spinner.vue'
 import { type Ref, computed, nextTick, ref, useSlots } from '#imports'
 
 defineOptions({
@@ -10,22 +13,20 @@ const props = withDefaults(defineProps<{
   label?: string
   color?: 'default' | 'primary' | 'positive' | 'negative' | 'contrast'
   icon?: string
-  action?: () => Promise<() => void> | Promise<void>
-  actionDelay?: number
+  click?: (e?: Event) => any
   disabled?: boolean
   mini?: boolean
   flat?: boolean
-  open?: Target | OpenProps
+  page?: PageProps | PageTarget
 }>(), {
   color: 'default',
-  actionDelay: 500,
-  open: 'dialog',
+  page: 'center',
 })
 
 const emit = defineEmits(['click'])
 
 defineSlots<{
-  default: (props: {
+  page: (props: {
     close: () => void
   }) => any
 }>()
@@ -33,55 +34,19 @@ defineSlots<{
 const el = ref() as Ref<HTMLElement>
 const slots = useSlots()
 
-const selected = ref(false)
-const hasOpen = slots.default != null || typeof props.open === 'object'
-const renderOpen = ref(false)
-const open = ref<null | InstanceType<typeof Open>>(null)
-function close() {
-  open.value?.close()
-}
-const openProps = computed(() => {
-  if (typeof props.open === 'string') {
-    return {
-      target: props.open,
-      label: props.label,
-    }
-  }
-  return {
-    target: props.open.target,
-    label: props.open.label ?? props.label,
-    width: props.open.width,
-    header: props.open.header,
-    placement: props.open.placement,
-    component: props.open.component,
-    props: props.open.props,
-  }
-})
+const page = slots.page ? usePage(props.page, props.label) : null
 
-const pending = ref(false)
-const isDisabled = computed(() => props.disabled || pending.value)
-async function onClick(e: Event) {
-  if (isDisabled.value)
+const { pending, action, shake, error } = useAction(async (e: Event) => {
+  if (props.disabled)
     return
   e.stopPropagation()
   e.preventDefault()
   emit('click', e)
-  if (hasOpen) {
-    if (!renderOpen.value) {
-      renderOpen.value = true
-      await nextTick()
-    }
-    open.value?.open()
-    return
-  }
-  if (props.action == null)
-    return
-  pending.value = true
-  const result = await delay(props.actionDelay, { value: props.action() })
-  pending.value = false
-  if (typeof result === 'function')
-    result()
-}
+  if (props.click)
+    return await props.click(e)
+  if (page)
+    return page.open()
+})
 </script>
 
 <template>
@@ -89,16 +54,17 @@ async function onClick(e: Event) {
     class="dialog:my-0"
     :class="{ 'w-full dialog:px-2': !mini }"
   >
+    <Error v-if="error" :error />
     <button
       ref="el"
       class="max-h-full min-h-11 w-full rounded-xl font-500 desktop:min-h-10"
       :color
-      :disabled="isDisabled"
-      :class="{ clickable: !isDisabled, mini, flat, selected }"
-      @click="onClick"
+      :disabled="disabled || pending"
+      :class="{ clickable: !disabled, mini, flat, opened: page?.opened.value, shake }"
+      @click="action"
     >
       <div v-if="pending">
-        <Icon name="mingcute:loading-3-line" :size="mini ? '20' : '24'" animate-spin />
+        <Spinner :size="mini ? '20' : '24'" />
       </div>
       <div v-else class="flex items-center justify-center gap-2">
         <Icon v-if="icon" :name="icon" />
@@ -107,15 +73,16 @@ async function onClick(e: Event) {
         </div>
       </div>
     </button>
-    <Open
-      v-if="renderOpen"
-      ref="open"
-      v-bind="openProps"
-      v-model="selected"
-      :parent="el"
-    >
-      <slot :close />
-    </Open>
+    <template v-if="page">
+      <component
+        :is="page.component"
+        :ref="page.target"
+        v-bind="page.props"
+        :parent="el"
+      >
+        <slot name="page" :close="page.close" />
+      </component>
+    </template>
   </div>
 </template>
 

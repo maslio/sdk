@@ -2,25 +2,25 @@ import { ref } from '#imports'
 
 export function useAction<Args extends any[], ReturnType>(callback?: (...args: Args) => ReturnType) {
   const pending = ref(false)
-  const error = ref<Error | string | undefined>()
-  const shake = ref('')
-  const shakeClass = 'animate-shake-x animate-duration-500'
+  const error = ref<Error | string | null>(null)
+  const shake = ref(false)
 
   async function action(...params: Args): Promise<ReturnType | undefined> {
     if (!callback)
       return
       // throw new Error('Callback function is not provided')
     pending.value = true
-
+    error.value = null
     try {
       const result = await callback(...params)
       return result
     }
     catch (err) {
+      console.error(err)
       error.value = err instanceof Error ? err : new Error(String(err))
-      shake.value = shakeClass
+      shake.value = true
       setTimeout(() => {
-        shake.value = ''
+        shake.value = false
       }, 500)
     }
     finally {

@@ -13,7 +13,7 @@ export default function () {
     import { presetScrollbar } from 'unocss-preset-scrollbar'
     
     const parentVariants = ['focused', 'dialog', 'desktop', 'mobile', 'card']
-    const selfVariants = ['selected']
+    const selfVariants = ['opened']
     
     export default defineConfig({
       content: {
@@ -32,6 +32,7 @@ export default function () {
         ['scrollbar-gutter-stable', { 'scrollbar-gutter': 'stable' }],
       ],
       shortcuts: {
+        'shake': 'animate-shake-x animate-duration-500',
         'fit': 'absolute w-full h-full top-0 left-0',
         'text-bright': 'dark:text-light light:text-dark',
         'text-faint': 'dark:text-neutral-400 light:text-neutral-500',
@@ -42,8 +43,8 @@ export default function () {
         'bg-primary': 'dark:bg-purple-800 light:bg-purple-600',
         'color-back': 'dark:(bg-dark-900 text-light) light:(bg-neutral-200 text-dark)',
         'color-default': '\
-            dark:(bg-dark-600 text-light clickable:bg-dark-300 selected:bg-neutral-700! focused:bg-dark-300)\
-            light:(bg-light-100 text-dark clickable:bg-light-400 selected:bg-light-500! focused:bg-light-400)',
+            dark:(bg-dark-600 text-light clickable:bg-dark-300 opened:bg-neutral-700! focused:bg-dark-300)\
+            light:(bg-light-100 text-dark clickable:bg-light-400 opened:bg-light-500! focused:bg-light-400)',
         'color-contrast': '\
           dark:(bg-light-300 text-dark clickable:bg-neutral-200)\
           light:(bg-dark-200 text-light clickable:bg-dark-100)',

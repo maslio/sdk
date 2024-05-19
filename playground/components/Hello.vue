@@ -1,9 +1,7 @@
 <script setup>
+// throw new Error('')
 </script>
 
 <template>
-  <Layout root>
-    <InputDate />
-    <InputDateRange />
-  </Layout>
+  <div>Hello</div>
 </template>

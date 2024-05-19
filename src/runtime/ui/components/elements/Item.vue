@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import Open, { type Props as OpenProps, type Target } from '../open/Open.vue'
 import InputOptionDot from '../input/InputOptionDot.vue'
-import { type Ref, computed, nextTick, ref, useSlots } from '#imports'
+import { type PageProps, type PageTarget, usePage } from '../../composables/usePage'
+import { type Ref, computed, ref, useSlots } from '#imports'
 
 const props = withDefaults(defineProps<{
   icon?: string
@@ -10,18 +10,17 @@ const props = withDefaults(defineProps<{
   captionFirst?: boolean
   value?: string | number
   clickable?: boolean
-  open?: Target | OpenProps
+  page?: PageProps | PageTarget
   href?: string
   option?: boolean
   selected?: boolean
   noTruncate?: boolean
   disabled?: boolean
 }>(), {
-  open: 'next',
 })
 const emit = defineEmits(['click'])
 defineSlots<{
-  default: (props: {
+  page: (props: {
     close: () => void
   }) => any
   left: () => any
@@ -32,27 +31,7 @@ defineSlots<{
 const el = ref() as Ref<HTMLElement>
 const slots = useSlots()
 
-const opened = ref(false)
-const hasOpen = slots.default != null || typeof props.open === 'object'
-const renderOpen = ref(import.meta.dev && hasOpen)
-const open = ref<null | InstanceType<typeof Open>>(null)
-const openProps = computed(() => {
-  if (typeof props.open === 'string') {
-    return {
-      target: props.open,
-      label: props.label,
-    }
-  }
-  return {
-    target: props.open.target,
-    label: props.open.label ?? props.label,
-    width: props.open.width,
-    header: props.open.header,
-    placement: props.open.placement,
-    component: props.open.component,
-    props: props.open.props,
-  }
-})
+const page = slots.page ? usePage(props.page, props.label) : null
 
 async function onClick(e: Event) {
   if (props.disabled)
@@ -60,13 +39,8 @@ async function onClick(e: Event) {
   emit('click', e)
   if (props.option)
     return
-  if (hasOpen) {
-    if (!renderOpen.value) {
-      renderOpen.value = true
-      await nextTick()
-    }
-    open.value?.open()
-  }
+  if (page)
+    page.open()
 }
 const icon = computed(() => {
   if (!props.icon)
@@ -74,13 +48,9 @@ const icon = computed(() => {
   const [name, ..._class] = props.icon.split(' ')
   return { name, class: _class }
 })
-function close() {
-  open.value?.close()
-}
-// const tag = props.href ? 'a' : hasOpen ? 'button' : 'div'
 const tag = props.href ? 'a' : 'div'
 const clickable = computed(() => {
-  return props.clickable || props.option || props.href || hasOpen
+  return props.clickable || props.option || props.href || page
 })
 </script>
 
@@ -89,7 +59,7 @@ const clickable = computed(() => {
     :is="tag"
     class="block min-h-11 w-full overflow-hidden rounded-xl text-left desktop:min-h-10 card:rounded-none"
     color="default"
-    :class="{ clickable, selected: opened }"
+    :class="{ clickable, opened: page?.opened.value }"
     :href="href"
     v-bind="$attrs"
     @click="onClick"
@@ -137,19 +107,20 @@ const clickable = computed(() => {
         class="ml--3 mr--1 transition-color text-faint"
       />
       <Icon
-        v-else-if="hasOpen"
+        v-else-if="page"
         name="fluent:chevron-right-16-filled" size="18"
         class="ml--3 mr--1 transition-color text-faint"
       />
     </div>
   </component>
-  <Open
-    v-if="renderOpen"
-    ref="open"
-    v-bind="openProps"
-    v-model="opened"
-    :parent="el"
-  >
-    <slot :close />
-  </Open>
+  <template v-if="page">
+    <component
+      :is="page.component"
+      :ref="page.target"
+      v-bind="page.props"
+      :parent="el"
+    >
+      <slot name="page" :close="page.close" />
+    </component>
+  </template>
 </template>

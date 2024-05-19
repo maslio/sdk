@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Spinner from '../elements/Spinner.vue'
 import Layout from '../layout/Layout.vue'
-import OpenError from './OpenError.vue'
+import PageError from './PageError.vue'
 import { onErrorCaptured, ref } from '#imports'
 
 defineOptions({
@@ -11,23 +11,24 @@ defineProps<{
   label?: string
   width?: number
 }>()
-const selected = defineModel<boolean>({ default: false })
+const opened = ref(false)
 const loading = ref(true)
 const error = ref<Error | null>(null)
 function close() {
-  selected.value = false
+  opened.value = false
 }
 function open() {
   error.value = null
-  selected.value = true
+  opened.value = true
 }
-defineExpose({ open, close })
 onErrorCaptured((e: Error) => {
   error.value = e
   loading.value = false
   console.error(e)
   return false
 })
+
+defineExpose({ open, close, opened })
 </script>
 
 <template>
@@ -39,14 +40,14 @@ onErrorCaptured((e: Error) => {
       leave-to-class="translate-x-100% desktop:translate-x-320px desktop:opacity-0"
     >
       <Layout
-        v-if="selected"
+        v-if="opened"
         :label
         :width
         :no-header="!label"
         :close
         close-icon="back"
       >
-        <OpenError v-if="error" :error @close="close" />
+        <PageError v-if="error" :error @close="close" />
         <Suspense v-else @resolve="loading = false" @pending="loading = true">
           <slot />
           <template #fallback>

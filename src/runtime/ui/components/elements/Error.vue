@@ -4,6 +4,7 @@ import { computed } from '#imports'
 const { error } = defineProps<{
   error: Error | string
 }>()
+
 const text = computed(() => {
   if (!error)
     return ''
@@ -17,12 +18,16 @@ const text = computed(() => {
 </script>
 
 <template>
-  <div class="flex items-center gap-1 p-1 text-negative">
-    <div>
-      <Icon name="material-symbols:error" />
+  <Transition
+    appear
+    appear-from-class="translate-y-20px opacity-0"
+    appear-active-class="transition-100"
+  >
+    <div class="flex items-center gap-1 p-1 text-negative">
+      <Icon name="material-symbols:error" size="16" />
+      <div>
+        {{ text }}
+      </div>
     </div>
-    <div>
-      {{ text }}
-    </div>
-  </div>
+  </Transition>
 </template>

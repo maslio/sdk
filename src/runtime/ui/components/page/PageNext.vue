@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useLayout } from '../../composables/useLayout'
 import Layout from '../layout/Layout.vue'
-import OpenLoading from './OpenLoading.vue'
-import OpenError from './OpenError.vue'
-import { computed, getCurrentInstance, onErrorCaptured, ref, syncRefs } from '#imports'
+import Spinner from '../elements/Spinner.vue'
+import PageError from './PageError.vue'
+import { computed, getCurrentInstance, onErrorCaptured, ref, syncRefs, watch } from '#imports'
 
 defineOptions({
   inheritAttrs: false,
@@ -16,11 +16,7 @@ const id = (import.meta.dev ? label : null) ?? String(getCurrentInstance()?.uid)
 const loading = ref(true)
 const error = ref<Error | null>(null)
 const { nextId, nextEl, isMini } = useLayout()
-const selected = defineModel<boolean>()
-const isOpened = computed(() => {
-  return nextId.value === id
-})
-syncRefs(isOpened, selected)
+const opened = computed(() => nextId.value === id)
 function open() {
   error.value = null
   nextId.value = id
@@ -28,7 +24,7 @@ function open() {
 function close() {
   nextId.value = null
 }
-defineExpose({ open, close })
+defineExpose({ open, close, opened })
 onErrorCaptured((e: Error) => {
   error.value = e
   loading.value = false
@@ -46,17 +42,19 @@ onErrorCaptured((e: Error) => {
       leave-to-class="translate-x-0!"
     >
       <Layout
-        v-if="isOpened" :width="width"
+        v-if="opened" :width="width"
         :label
         class="mobile:translate-x--100%"
         :close
         :close-icon="isMini ? 'back' : 'close'"
       >
-        <OpenError v-if="error" :error @close="close" />
+        <PageError v-if="error" :error @close="close" />
         <Suspense v-else @resolve="loading = false" @pending="loading = true">
           <slot />
           <template #fallback>
-            <OpenLoading />
+            <div class="h-100px flex items-center justify-center">
+              <Spinner />
+            </div>
           </template>
         </Suspense>
       </Layout>

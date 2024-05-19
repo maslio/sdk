@@ -2,6 +2,7 @@
 import { useAction } from '../../composables/useAction'
 import ItemButton from '../elements/ItemButton.vue'
 import Spinner from '../elements/Spinner.vue'
+import Error from '../elements/Error.vue'
 import InputText from './InputText.vue'
 import { ref } from '#imports'
 
@@ -37,7 +38,7 @@ const { pending, error, action, shake } = useAction(async () => {
   <Error v-if="error" :error />
   <InputText
     v-model="model"
-    flat :class="shake"
+    flat :class="{ shake }"
     :placeholder :disabled="disabled || pending"
     enterkeyhint="send"
     @keydown.enter.exact.prevent="action"

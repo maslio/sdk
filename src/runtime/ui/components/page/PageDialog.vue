@@ -2,59 +2,48 @@
 import { useLayout } from '../../composables/useLayout'
 import Layout from '../layout/Layout.vue'
 import Spinner from '../elements/Spinner.vue'
-import OpenError from './OpenError.vue'
+import PageError from './PageError.vue'
 import { onClickOutside, onErrorCaptured, ref, useResizeObserver, useSwipe } from '#imports'
 
 defineOptions({
   inheritAttrs: false,
 })
 const props = withDefaults(defineProps<{
+  target: 'center' | 'top' | 'bottom'
   label?: string
   header?: boolean
-  parent: HTMLElement
 }>(), {
 })
 const { pageEl } = useLayout()
-const selected = defineModel<boolean>()
+const opened = ref(false)
 const loading = ref(true)
 const error = ref<Error | null>(null)
 function close() {
-  selected.value = false
+  opened.value = false
 }
-const classEnter = ref('')
-const classItems = ref('')
+const [classEnter, classItems] = (function () {
+  if (props.target === 'top')
+    return ['children:translate-y--100%', 'items-start']
+  if (props.target === 'center')
+    return ['children:scale-80 opacity-0', 'items-center']
+  else
+    return ['children:translate-y-100%', 'items-end']
+})()
 function open() {
-  const elemRect = props.parent.getBoundingClientRect()
-  const pageRect = pageEl.value.getBoundingClientRect()
-  const top = elemRect.top - pageRect.top
-  const bottom = pageRect.bottom - elemRect.bottom
-  if (top > 200 && bottom > 200) {
-    classEnter.value = 'children:scale-80 opacity-0'
-    classItems.value = 'items-center'
-  }
-  else if (top > bottom) {
-    classEnter.value = 'children:translate-y-100%'
-    classItems.value = 'items-end'
-  }
-  else {
-    classEnter.value = 'children:translate-y--100%'
-    classItems.value = 'items-start'
-  }
   error.value = null
-  selected.value = true
+  opened.value = true
 }
 
 const backdrop = ref<HTMLElement>()
 const swipe = useSwipe(backdrop, {
   onSwipe() {
-    if (swipe.direction.value === 'up' && classItems.value === 'items-start')
+    if (swipe.direction.value === 'up' && classItems === 'items-start')
       close()
-    else if (swipe.direction.value === 'down' && classItems.value === 'items-end')
+    else if (swipe.direction.value === 'down' && classItems === 'items-end')
       close()
   },
 })
 
-defineExpose({ open, close })
 const dialog = ref()
 onErrorCaptured((e: Error) => {
   error.value = e
@@ -71,6 +60,8 @@ onClickOutside(layout, (e) => {
   e.stopPropagation()
   close()
 })
+
+defineExpose({ open, close, opened })
 </script>
 
 <template>
@@ -82,7 +73,7 @@ onClickOutside(layout, (e) => {
       :leave-to-class="classEnter"
     >
       <div
-        v-if="selected"
+        v-if="opened"
         ref="backdrop"
         class="dialog fit flex justify-center text-light backdrop-blur-2"
         :class="classItems"
@@ -101,7 +92,9 @@ onClickOutside(layout, (e) => {
               :no-header="!header"
               :close
             >
-              <OpenError v-if="error" :error @close="close" />
+              <Error v-if="error" :error @close="close">
+                <Icon name="tabler:face-id-error" size="100" />
+              </Error>
               <Suspense v-else @resolve="loading = false" @pending="loading = true">
                 <slot />
                 <template #fallback>
