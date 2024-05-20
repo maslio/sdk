@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import InputOptionDot from '../input/InputOptionDot.vue'
+import InputOptionDot from '../inputs/InputOptionDot.vue'
 import { type PageProps, type PageTarget, usePage } from '../../composables/usePage'
 import { type Ref, computed, ref, useSlots } from '#imports'
 

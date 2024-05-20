@@ -17,10 +17,6 @@ function toggle() {
   <Input :clickable="!readonly" :label @click="toggle">
     <template #right>
       <ClientOnly>
-        <!-- <div
-          h-24px w-40px rounded-full p-3px transition duration-200 ease-in-out
-          :class="model ? 'bg-emerald-500' : 'dark:bg-neutral-600 light:bg-neutral-300'"
-        > -->
         <div
           h-24px w-40px
           rounded-full p-3px

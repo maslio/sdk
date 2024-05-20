@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Item from '../elements/Item.vue'
 import InputOptionDot from './InputOptionDot.vue'
 import { computed } from '#imports'
 

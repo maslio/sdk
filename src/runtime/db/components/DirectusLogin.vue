@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useDirectus } from '../composables/useDirectus'
 import Card from '../../ui/components/elements/Card.vue'
-import InputPassword from '../../ui/components/input/InputPassword.vue'
-import InputString from '../../ui/components/input/InputString.vue'
+import InputPassword from '../../ui/components/inputs/InputPassword.vue'
+import InputString from '../../ui/components/inputs/InputString.vue'
 import Button from '../../ui/components/elements/Button.vue'
 import { ref } from '#imports'
 
@@ -10,7 +10,7 @@ const d = useDirectus()
 const email = ref('')
 const password = ref('')
 
-async function action() {
+async function click() {
   await d.login(email.value, password.value)
 }
 </script>
@@ -33,7 +33,7 @@ async function action() {
           autocomplete="current-password"
         />
       </Card>
-      <Button label="Login" color="positive" :action />
+      <Button label="Login" color="positive" :click />
     </div>
   </div>
   <slot v-else />

@@ -20,13 +20,14 @@ const { menuEl } = useLayout()
 <template>
   <Teleport v-if="menuEl" :to="menuEl">
     <Button
-      v-slot="{ close }"
       flat mini
       :icon
-      :open="{ target: 'dialog', label, header: !!label }"
+      :page="{ target: 'top', label, header: !!label }"
       @click="emit('click', $event)"
     >
-      <slot :close />
+      <template #page="{ close }">
+        <slot :close />
+      </template>
     </Button>
   </Teleport>
 </template>

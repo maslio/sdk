@@ -31,7 +31,7 @@ const value = computed(() => {
 
 <template>
   <Item :label :value :disabled="readonly">
-    <template v-if="!readonly" #default>
+    <template v-if="!readonly" #page>
       <Card>
         <div class="px-3 py-2 text-center">
           <label text-faint>Дата</label>

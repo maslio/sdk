@@ -72,13 +72,13 @@ function select(date: string) {
 
 <template>
   <Card>
-    <Item open="float">
+    <Item page="center">
       <template #main>
         <div ml-4 text-center>
           {{ months[selectedMonth] }} {{ selectedYear }}
         </div>
       </template>
-      <template #default>
+      <template #page>
         <div>
           <div flex select-none>
             <div

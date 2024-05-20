@@ -21,6 +21,8 @@ const value = computed(() => {
 
 <template>
   <Item :label :value>
-    <Select v-model="model" v-bind="$props" />
+    <template #page>
+      <Select v-model="model" v-bind="$props" />
+    </template>
   </Item>
 </template>

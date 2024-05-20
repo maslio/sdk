@@ -7,6 +7,7 @@ import { presetsRange } from './date'
 import InputDateInput from './InputDateInput.vue'
 import InputOption from './InputOption.vue'
 import InputDateCalendar from './InputDateCalendar.vue'
+import Select from './Select.vue'
 import { computed, ref } from '#imports'
 
 withDefaults(defineProps<{
@@ -21,6 +22,7 @@ const model = defineModel<[string, string]>({
     dt().format('YYYY-MM-DD'),
   ],
 })
+
 const input1 = ref()
 const input2 = ref()
 
@@ -36,21 +38,26 @@ const calendarSelected = computed(() => {
 })
 let waitForEnd = false
 function onCalendarSelect(value: string) {
+  const values: [string, string] = [
+    model.value[0],
+    model.value[1],
+  ]
   if (!waitForEnd) {
-    model.value[0] = value
-    model.value[1] = value
+    values[0] = value
+    values[1] = value
     waitForEnd = true
   }
   else {
-    if (value > model.value[0]) {
-      model.value[1] = value
+    if (value > values[0]) {
+      values[1] = value
     }
     else {
-      model.value[1] = model.value[0]
-      model.value[0] = value
+      values[1] = values[0]
+      values[0] = value
     }
     waitForEnd = false
   }
+  model.value = values
 }
 
 function rangeToString(range: [string, string]) {
@@ -88,7 +95,7 @@ const value = computed(() => {
 
 <template>
   <Item :label :value :disabled="readonly">
-    <template v-if="!readonly" #default>
+    <template v-if="!readonly" #page>
       <Card>
         <div px-3 py-2>
           <div flex>
