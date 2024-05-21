@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import delay from 'delay'
 import { useAction } from '../../composables/useAction'
 import { type PageProps, type PageTarget, usePage } from '../../composables/usePage'
 import Error from '../elements/Error.vue'
 import Spinner from './Spinner.vue'
-import { type Ref, computed, nextTick, ref, useSlots } from '#imports'
+import { type Ref, ref, useSlots } from '#imports'
 
 defineOptions({
   inheritAttrs: false,

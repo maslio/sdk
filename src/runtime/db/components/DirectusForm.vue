@@ -5,7 +5,7 @@ import { useDirectus } from '../composables/useDirectus'
 import Card from '../../ui/components/elements/Card.vue'
 import Button from '../../ui/components/elements/Button.vue'
 import DirectusField from './DirectusField.vue'
-import { reactive, ref } from '#imports'
+import { reactive } from '#imports'
 
 const props = withDefaults(defineProps<{
   collection: string

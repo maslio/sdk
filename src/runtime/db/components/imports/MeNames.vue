@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { updateMe } from '@directus/sdk'
-import { pick } from 'lodash-es'
 import Card from '../../../ui/components/elements/Card.vue'
 import Button from '../../../ui/components/elements/Button.vue'
 import InputString from '../../../ui/components/inputs/InputString.vue'

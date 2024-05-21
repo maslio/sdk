@@ -92,9 +92,7 @@ defineExpose({ open, close, opened })
               :no-header="!header"
               :close
             >
-              <Error v-if="error" :error @close="close">
-                <Icon name="tabler:face-id-error" size="100" />
-              </Error>
+              <PageError v-if="error" :error @close="close" />
               <Suspense v-else @resolve="loading = false" @pending="loading = true">
                 <slot />
                 <template #fallback>

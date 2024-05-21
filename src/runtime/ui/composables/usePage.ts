@@ -1,5 +1,5 @@
 import type { Component } from 'vue'
-import { computed, defineAsyncComponent, nextTick, ref, toReactive, watch } from '#imports'
+import { computed, defineAsyncComponent, nextTick, ref } from '#imports'
 
 export type PageTarget = 'next' | 'full' | 'top' | 'center' | 'bottom'
 export interface PageProps {

@@ -1,5 +1,4 @@
 import { existsSync } from 'node:fs'
-import { createResolver } from '@nuxt/kit'
 import { join } from 'pathe'
 
 // const { resolvePath } = createResolver(import.meta.url)
@@ -8,7 +7,6 @@ export async function genLocaleBundle(dirs: string[], locale: string): Promise<s
   const files: string[] = []
   for (const dir of dirs) {
     const file = join(dir, `${locale}.ftl`)
-    console.log(file)
     if (existsSync(file))
       files.push(file)
   }

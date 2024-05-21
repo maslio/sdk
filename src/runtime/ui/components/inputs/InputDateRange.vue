@@ -7,7 +7,6 @@ import { presetsRange } from './date'
 import InputDateInput from './InputDateInput.vue'
 import InputOption from './InputOption.vue'
 import InputDateCalendar from './InputDateCalendar.vue'
-import Select from './Select.vue'
 import { computed, ref } from '#imports'
 
 withDefaults(defineProps<{

@@ -3,7 +3,7 @@ import { useLayout } from '../../composables/useLayout'
 import Layout from '../layout/Layout.vue'
 import Spinner from '../elements/Spinner.vue'
 import PageError from './PageError.vue'
-import { computed, getCurrentInstance, onErrorCaptured, ref, syncRefs, watch } from '#imports'
+import { computed, getCurrentInstance, onErrorCaptured, ref } from '#imports'
 
 defineOptions({
   inheritAttrs: false,

@@ -1,4 +1,3 @@
-import { FluentBundle } from '@fluent/bundle'
 import { createFluentVue } from 'fluent-vue'
 import { defineNuxtPlugin, useCookie, useRuntimeConfig } from '#imports'
 // @ts-expect-error created by module

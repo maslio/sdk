@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Field } from '@directus/types'
-import { defineAsyncComponent, ref, syncRef, syncRefs } from '#imports'
+import { defineAsyncComponent, ref, syncRef } from '#imports'
 
 defineProps<{
   field: Field

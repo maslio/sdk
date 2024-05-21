@@ -1,12 +1,9 @@
 <script setup lang="ts">
-import { readMe, updateMe } from '@directus/sdk'
+import { readMe } from '@directus/sdk'
 import { useDirectus } from '../../composables/useDirectus'
 import Card from '../../../ui/components/elements/Card.vue'
 import Item from '../../../ui/components/elements/Item.vue'
-import InputString from '../../../ui/components/inputs/InputString.vue'
-import Button from '../../../ui/components/elements/Button.vue'
-import MeNames from './MeNames.vue'
-import { reactive, useAsyncData } from '#imports'
+import { useAsyncData } from '#imports'
 
 export interface User {
   first_name: string
