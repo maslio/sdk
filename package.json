@@ -4,7 +4,10 @@
   "version": "0.0.14",
   "description": "My personal kit for a nuxt project",
   "license": "MIT",
-  "repository": "@maslio/kit",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maslio/kit.git"
+  },
   "exports": {
     ".": {
       "types": "./dist/types.d.ts",
