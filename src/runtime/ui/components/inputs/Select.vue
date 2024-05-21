@@ -5,6 +5,7 @@ import List from '../elements/List.vue'
 export interface Option {
   value: string | number
   label: string
+  icon?: string
   caption?: string
 }
 export type Value = string | number
@@ -29,16 +30,19 @@ function onSelect(option: Option) {
 
 <template>
   <List
-    v-slot="{ item }" :items
+    :items
     keys="value"
     :input :input-debounce="0"
   >
-    <Item
-      :label="item.label"
-      :caption="item.caption"
-      :selected="model === item.value"
-      option
-      @click="onSelect(item)"
-    />
+    <template #default="{ item }">
+      <Item
+        :label="item.label"
+        :icon="item.icon"
+        :caption="item.caption"
+        :selected="model === item.value"
+        option
+        @click="onSelect(item)"
+      />
+    </template>
   </List>
 </template>

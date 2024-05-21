@@ -1,5 +1,5 @@
 import { createFluentVue } from 'fluent-vue'
-import { defineNuxtPlugin, useCookie, useRuntimeConfig } from '#imports'
+import { computed, defineNuxtPlugin, useCookie, useRuntimeConfig } from '#imports'
 // @ts-expect-error created by module
 import * as bundles from '~/.nuxt/locales/index'
 
@@ -21,6 +21,8 @@ export default defineNuxtPlugin((nuxt) => {
 
   return {
     provide: {
+      locale: computed(() => selectedLocale.value),
+      locales,
       changeLocale(locale: string) {
         if (!locales.includes(locale))
           throw new Error(`Invalid locale ${locale}`)

@@ -4,6 +4,7 @@ import Card from '../elements/Card.vue'
 import Item from '../elements/Item.vue'
 import { presetsPoint } from './date'
 import InputDateCalendar from './InputDateCalendar.vue'
+import InputDateInput from './InputDateInput.vue'
 import InputOption from './InputOption.vue'
 import { computed } from '#imports'
 
@@ -50,4 +51,4 @@ const value = computed(() => {
       <InputDateCalendar :selected="[model]" @select="onCalendarSelect" />
     </template>
   </Item>
-</template>./input/date../elements/Item.vue
+</template>
