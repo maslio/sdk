@@ -18,13 +18,16 @@ import { joinURL } from 'ufo'
 import genUnoConfig from './config/genUnoConfig'
 import genEslintConfig from './config/genEslintConfig'
 import genDirectusTypes from './config/genDirectusTypes'
+import { genLocaleBundle, genLocaleIndex } from './config/genLocale'
 
 export interface ModuleOptions {
+  locales?: string[]
   ui?: boolean
   db?: boolean
+  ai?: boolean
 }
 
-const { resolve } = createResolver(import.meta.url)
+const { resolve, resolvePath } = createResolver(import.meta.url)
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
@@ -35,28 +38,64 @@ export default defineNuxtModule<ModuleOptions>({
   },
 
   async setup(options, nuxt) {
-    await installModule('@vueuse/nuxt')
-    await installModule('@nuxtjs/color-mode', {
-      classSuffix: '',
-    })
-    await installModule('@nuxtjs/device')
-    await installModule('nuxt-icon')
-    addPlugin({
-      src: resolve('./runtime/base/plugins/device'),
-      order: 1,
-    })
-    addTemplate({
-      getContents: () => genEslintConfig(),
-      filename: 'eslint.config.js',
-      write: true,
-    })
-
+    await setupBase(options, nuxt)
+    await setupFluent(options, nuxt)
     if (options.ui)
       await setupUi(nuxt)
     if (options.db)
       await setupDb(nuxt)
   },
 })
+
+async function setupBase(_options: ModuleOptions, _nuxt: Nuxt) {
+  await installModule('@vueuse/nuxt')
+  await installModule('@nuxtjs/color-mode', {
+    classSuffix: '',
+  })
+  await installModule('@nuxtjs/device')
+  await installModule('nuxt-icon')
+  addPlugin({
+    src: resolve('./runtime/base/plugins/device'),
+    order: 1,
+  })
+  addTemplate({
+    getContents: () => genEslintConfig(),
+    filename: 'eslint.config.js',
+    write: true,
+  })
+}
+
+async function setupFluent(options: ModuleOptions, nuxt: Nuxt) {
+  await installModule('unplugin-fluent-vue/nuxt', {
+    sfc: {
+      blockType: 'fluent',
+    },
+  })
+  const locales = options.locales ?? ['en']
+  const dirs: string[] = []
+  if (options.ui)
+    dirs.push(resolve('./runtime/ui/locales'))
+  if (options.db)
+    dirs.push(resolve('./runtime/db/locales'))
+  if (options.ai)
+    dirs.push(resolve('./runtime/ai/locales'))
+  dirs.push(await resolvePath('~/locales'))
+  for (const locale of locales) {
+    addTemplate({
+      getContents: () => genLocaleBundle(dirs, locale),
+      filename: `locales/${locale}.ts`,
+      write: true,
+    })
+  }
+  nuxt.options.runtimeConfig.public.locales = locales.join(',')
+  nuxt.options.runtimeConfig.public.defaultLocale = locales[0]
+  addTemplate({
+    getContents: () => genLocaleIndex(locales),
+    filename: `locales/index.ts`,
+    write: true,
+  })
+  addPlugin({ src: resolve('./runtime/base/plugins/fluent') })
+}
 
 async function setupUi(nuxt: Nuxt) {
   nuxt.options.appConfig.nuxtIcon = {

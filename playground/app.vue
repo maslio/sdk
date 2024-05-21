@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import delay from 'delay'
+
 </script>
 
 <template>
@@ -7,6 +7,7 @@ import delay from 'delay'
     <Layout root>
       <!-- <DirectusMe /> -->
       <InputDateRange />
+      <Hello />
     </Layout>
   </DirectusLogin>
 </template>

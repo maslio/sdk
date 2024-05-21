@@ -44,5 +44,11 @@
     "gql",
     "graphql",
     "astro"
-  ]
+  ],
+  "i18n-ally.localesPaths": [
+    "playground/locales",
+    "src/runtime/ui/locales"
+  ],
+  "i18n-ally.sourceLanguage": "en",
+  "i18n-ally.keystyle": "nested"
 }

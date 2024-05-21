@@ -3,5 +3,5 @@
 </script>
 
 <template>
-  <div>Hello</div>
+  <div>{{ $t('hello') }}</div>
 </template>
