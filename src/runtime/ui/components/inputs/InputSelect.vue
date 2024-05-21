@@ -14,8 +14,8 @@ const value = computed(() => {
     return ''
   const option = options.find(o => o.value === model.value)
   if (option)
-    return option.label
-  return model.value
+    return option.item.label
+  return String(model.value)
 })
 </script>
 

@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import Item from '../elements/Item.vue'
+import Item, { type Props as ItemProps } from '../elements/Item.vue'
 import List from '../elements/List.vue'
 
 export interface Option {
   value: string | number
-  label: string
-  icon?: string
-  caption?: string
+  item: ItemProps
 }
 export type Value = string | number
 export interface Props {
@@ -20,7 +18,11 @@ function items(_input: string) {
   const input = _input.trim().toLowerCase()
   if (!input)
     return options
-  return options.filter(o => o.label.toLowerCase().includes(input))
+  return options.filter(o =>
+    o.item.label?.toLowerCase().includes(input)
+    || o.item.caption?.toLowerCase().includes(input)
+    || o.item.value?.toLowerCase().includes(input),
+  )
 }
 
 function onSelect(option: Option) {
@@ -36,11 +38,9 @@ function onSelect(option: Option) {
   >
     <template #default="{ item }">
       <Item
-        :label="item.label"
-        :icon="item.icon"
-        :caption="item.caption"
+        v-bind="item.item"
         :selected="model === item.value"
-        option
+        :option="true"
         @click="onSelect(item)"
       />
     </template>

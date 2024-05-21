@@ -14,7 +14,11 @@ function items(_input: string) {
   const input = _input.trim().toLocaleLowerCase()
   if (!input)
     return options
-  return options.filter(o => o.label.toLowerCase().includes(input))
+  return options.filter(o =>
+    o.item.label?.toLowerCase().includes(input)
+    || o.item.caption?.toLowerCase().includes(input)
+    || o.item.value?.toLowerCase().includes(input),
+  )
 }
 
 function onSelect(option: Option) {
@@ -31,8 +35,7 @@ function onSelect(option: Option) {
     :input :input-debounce="0"
   >
     <Item
-      :label="item.label"
-      :caption="item.caption"
+      v-bind="item.item"
       :selected="model.includes(item.value)"
       option
       @click="onSelect(item)"

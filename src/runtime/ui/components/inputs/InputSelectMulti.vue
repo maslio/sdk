@@ -12,7 +12,7 @@ defineProps<Props>()
 const model = defineModel<Value[]>({ default: [] })
 
 const value = computed(() => {
-  return model.value.length
+  return String(model.value.length)
 })
 </script>
 

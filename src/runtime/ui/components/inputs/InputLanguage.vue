@@ -10,8 +10,6 @@ const props = defineProps<{
 
 const { $t } = useFluent()
 
-const label = props.label || $t('lang')
-
 interface Language {
   code: string
   name: string
@@ -20,23 +18,26 @@ interface Language {
 }
 
 const allLanguages: Language[] = [
-  { code: 'en', name: $t('english'), native: 'English', icon: '🇺🇸' },
-  { code: 'ru', name: $t('russian'), native: 'Русский', icon: '🇷🇺' },
-  { code: 'th', name: $t('thai'), native: 'ไทย', icon: '🇹🇭' },
-  { code: 'jp', name: $t('japanese'), native: '日本語', icon: '🇯🇵' },
+  { code: 'en', name: $t('lang_english'), native: 'English', icon: '🇺🇸' },
+  { code: 'ru', name: $t('lang_russian'), native: 'Русский', icon: '🇷🇺' },
+  { code: 'th', name: $t('lang_thai'), native: 'ไทย', icon: '🇹🇭' },
+  { code: 'jp', name: $t('lang_japanese'), native: '日本語', icon: '🇯🇵' },
 ]
 
 const options = allLanguages
   .filter(lang => props.codes.includes(lang.code))
   .map(lang => ({
     value: lang.code,
-    label: props.native ? lang.native : lang.name,
-    icon: lang.icon,
+    item: {
+      label: props.native ? lang.native : lang.name,
+      icon: lang.icon,
+      iconSize: '18',
+    },
   }))
 
 const model = defineModel<string>()
 </script>
 
 <template>
-  <InputSelect v-model="model" :options :label />
+  <InputSelect v-model="model" :options :label="label ?? $t('lang')" />
 </template>

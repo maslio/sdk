@@ -3,12 +3,17 @@ import InputOptionDot from '../inputs/InputOptionDot.vue'
 import { type PageProps, type PageTarget, usePage } from '../../composables/usePage'
 import { type Ref, computed, ref, useSlots } from '#imports'
 
-const props = withDefaults(defineProps<{
+export interface Props {
   icon?: string
+  iconClass?: string
+  iconSize?: string
   label?: string
-  caption?: string | number
+  labelClass?: string | string[]
+  caption?: string
   captionFirst?: boolean
-  value?: string | number
+  captionClass?: string | string[]
+  value?: string
+  valueClass?: string | string[]
   clickable?: boolean
   page?: PageProps | PageTarget
   href?: string
@@ -16,7 +21,10 @@ const props = withDefaults(defineProps<{
   selected?: boolean
   noTruncate?: boolean
   disabled?: boolean
-}>(), {
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  iconSize: '24',
 })
 const emit = defineEmits(['click'])
 defineSlots<{
@@ -42,12 +50,12 @@ async function onClick(e: Event) {
   if (page)
     page.open()
 }
-const icon = computed(() => {
-  if (!props.icon)
-    return null
-  const [name, ..._class] = props.icon.split(' ')
-  return { name, class: _class }
-})
+// const icon = computed(() => {
+//   if (!props.icon)
+//     return null
+//   const [name, ..._class] = props.icon.split(' ')
+//   return { name, class: _class }
+// })
 const tag = props.href ? 'a' : 'div'
 const clickable = computed(() => {
   return props.clickable || props.option || props.href || page
@@ -74,10 +82,10 @@ const clickable = computed(() => {
       <slot v-if="$slots.left" name="left" />
       <div v-else-if="$props.icon" class="h-6 w-6 flex items-center justify-center rounded desktop:(h-5 w-5)">
         <Icon
-          v-if="icon" :name="icon.name"
-          :class="icon.class"
+          v-if="icon" :name="icon"
+          :class="iconClass"
           rounded p-2px
-          size="24"
+          :size="iconSize"
         />
       </div>
       <div v-if="$slots.main" class="flex-1">
@@ -88,16 +96,16 @@ const clickable = computed(() => {
         class="flex flex-1 flex-basis-2xl flex-col flex-nowrap overflow-hidden"
         :class="captionFirst ? 'flex-col-reverse' : 'flex-col'"
       >
-        <div v-if="$props.label" class="text-base" :class="{ truncate: !noTruncate }">
+        <div v-if="$props.label" class="text-base" :class="$props.labelClass">
           {{ label }}
         </div>
-        <div v-if="$props.caption" class="text-sm text-faint" :class="{ truncate: !noTruncate }">
+        <div v-if="$props.caption" class="text-sm text-faint" :class="$props.captionClass">
           {{ caption }}
         </div>
       </div>
 
       <slot v-if="$slots.right" name="right" />
-      <div v-else-if="$props.value" class="max-w-50% truncate text-right text-sm text-faint">
+      <div v-else-if="$props.value" class="max-w-50% truncate text-right text-sm text-faint" :class="$props.valueClass">
         {{ value }}
       </div>
 
