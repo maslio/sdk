@@ -1,6 +1,26 @@
 # Changelog
 
 
+## v0.0.14
+
+[compare changes](https://undefined/undefined/compare/v0.0.13...v0.0.14)
+
+### 🚀 Enhancements
+
+- Directus components (f379d5d)
+- Type in InputString (14c1e81)
+- Add DirectusForm component for creating and updating records (8b44484)
+- Page component instead of Open component (c68fba5)
+- Fluent localization (3ff26f5)
+
+### 🏡 Chore
+
+- Update npm dependencies to include fluent-vue and unplugin-fluent-vue (d27512e)
+
+### ❤️ Contributors
+
+- Maslio <vlad@maslio.com>
+
 ## v0.0.13
 
 [compare changes](https://undefined/undefined/compare/v0.0.12...v0.0.13)
