@@ -3,6 +3,7 @@
 import InputString from '../inputs/InputString.vue'
 import Separator from './Separator.vue'
 import Item from './Item.vue'
+import Card from './Card.vue'
 import { type Ref, computed, onKeyStroke, ref, toReactive, watch, watchDebounced } from '#imports'
 
 type Items = T[] | { total: number, items: T[] }
@@ -154,7 +155,7 @@ await data.fetch()
   <Card>
     <div
       ref="list"
-      class="list overflow-hidden rounded-xl dialog:rounded-none"
+      class="list overflow-hidden rounded-xl card:rounded-none dialog:rounded-none"
       color="default"
     >
       <template v-if="$props.input">
