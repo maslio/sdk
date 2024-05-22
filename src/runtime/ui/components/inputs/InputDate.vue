@@ -3,7 +3,7 @@ import { useFluent } from 'fluent-vue'
 import { addDays, subDays } from 'date-fns'
 import Card from '../elements/Card.vue'
 import Item from '../elements/Item.vue'
-import InputDateCalendar from './InputDateCalendar.vue'
+import DateCalendar from './DateCalendar.vue'
 import InputDateInput from './InputDateInput.vue'
 import Select from './Select.vue'
 import { computed } from '#imports'
@@ -66,7 +66,8 @@ const value = computed(() => {
         </div>
       </Card>
       <Select v-model="model" :options="presets" />
-      <InputDateCalendar :selected="[model]" @select="onCalendarSelect" />
+      <DateCalendar :selected="[model]" @select="onCalendarSelect" />
+      <!-- <InputDateCalendar :selected="[model]" @select="onCalendarSelect" /> -->
     </template>
   </Item>
 </template>

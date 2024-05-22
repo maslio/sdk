@@ -72,60 +72,19 @@ function select(date: string) {
 
 <template>
   <Card>
-    <Item page="center">
-      <template #main>
-        <div ml-4 text-center>
-          {{ months[selectedMonth] }} {{ selectedYear }}
-        </div>
-      </template>
-      <template #page>
-        <div>
-          <div flex select-none>
-            <div
-              class="clickable flex flex-1 items-center justify-start p-3 text-sm text-faint"
-              color="default"
-              @click="setYear(selectedYear - 1)"
-            >
-              <Icon name="fluent:chevron-left-16-filled" size="20" />
-              {{ selectedYear - 1 }}
-            </div>
-            <div flex-1 p-3 text-center>
-              {{ selectedYear }}
-            </div>
-            <div
-              class="clickable flex flex-1 items-center justify-end p-3 text-sm text-faint"
-              color="default"
-              @click="setYear(selectedYear + 1)"
-            >
-              {{ selectedYear + 1 }}
-              <Icon name="fluent:chevron-right-16-filled" size="20" />
-            </div>
+    <div flex flex-row>
+      <Item
+        icon="material-symbols:chevron-left-rounded"
+        clickable
+      />
+      <Item>
+        <template #main>
+          <div ml-4 text-center>
+            {{ months[selectedMonth] }} {{ selectedYear }}
           </div>
-        </div>
-        <div>
-          <div
-            w-270px flex
-            flex-wrap
-            p-1 text-sm
-          >
-            <div
-              v-for="(month, index) in months"
-              :key="month"
-              class="flex-1/3 p-0.5"
-            >
-              <div
-                class="clickable truncate rounded px-1 py-2 text-center capitalize ring-neutral-500"
-                :class="{ 'ring-1': index === currentMonth && index !== selectedMonth }"
-                :color="index === selectedMonth ? 'contrast' : 'default'"
-                @click="setMonth(index)"
-              >
-                {{ month }}
-              </div>
-            </div>
-          </div>
-        </div>
-      </template>
-    </Item>
+        </template>
+      </Item>
+    </div>
     <Separator />
     <div class="flex flex-wrap p-2">
       <div
