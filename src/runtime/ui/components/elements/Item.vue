@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import InputOptionDot from '../inputs/InputOptionDot.vue'
 import { type PageProps, type PageTarget, usePage } from '../../composables/usePage'
+import Checkbox from './Checkbox.vue'
 import { type Ref, computed, ref, useSlots } from '#imports'
 
 export interface Props {
@@ -77,7 +77,7 @@ const clickable = computed(() => {
       class="relative min-h-11 flex items-center gap-3 px-3 py-3 desktop:min-h-10 desktop:py-2"
     >
       <div v-if="option">
-        <InputOptionDot :active="selected" />
+        <Checkbox :selected />
       </div>
       <slot v-if="$slots.left" name="left" />
       <div v-else-if="$props.icon" class="h-6 w-6 flex items-center justify-center rounded desktop:(h-5 w-5)">
