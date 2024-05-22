@@ -3,10 +3,11 @@ import { useFluent } from 'fluent-vue'
 import { addDays, subDays } from 'date-fns'
 import Card from '../elements/Card.vue'
 import Item from '../elements/Item.vue'
+import { formatDate } from '../../../base/utils/date'
 import DateCalendar from './DateCalendar.vue'
 import InputDateInput from './InputDateInput.vue'
 import Select from './Select.vue'
-import { computed } from '#imports'
+import { type Ref, computed, useNuxtApp } from '#imports'
 
 defineProps<{
   label?: string
@@ -14,6 +15,12 @@ defineProps<{
 }>()
 
 const { $t } = useFluent()
+const locale = useNuxtApp().$locale as Ref<string>
+const { format: formatPresetDate } = new Intl.DateTimeFormat(locale.value, {
+  month: 'long',
+  year: 'numeric',
+  day: 'numeric',
+})
 
 const model = defineModel<string>({
   default: new Date().toISOString().split('T')[0],
@@ -21,29 +28,26 @@ const model = defineModel<string>({
 function onCalendarSelect(value: string) {
   model.value = value
 }
-function format(date: Date) {
-  return date.toISOString().split('T')[0]
-}
 
 const presets = [{
-  value: format(subDays(new Date(), 1)),
+  value: formatDate(subDays(new Date(), 1)),
   item: {
     label: $t('date_day_prev'),
-    value: $t('date_format_long', { date: subDays(new Date(), 1) }),
+    value: formatPresetDate(subDays(new Date(), 1)),
     valueClass: 'font-mono',
   },
 }, {
-  value: format(new Date()),
+  value: formatDate(new Date()),
   item: {
     label: $t('date_day_this'),
-    value: $t('date_format_long', { date: new Date() }),
+    value: formatPresetDate(new Date()),
     valueClass: 'font-mono',
   },
 }, {
-  value: format(addDays(new Date(), 1)),
+  value: formatDate(addDays(new Date(), 1)),
   item: {
     label: $t('date_day_next'),
-    value: $t('date_format_long', { date: addDays(new Date(), 1) }),
+    value: formatPresetDate(addDays(new Date(), 1)),
     valueClass: 'font-mono',
   },
 }]
@@ -52,7 +56,7 @@ const value = computed(() => {
   const preset = presets.find(p => p.value === model.value)
   if (preset)
     return preset.item.label
-  return $t('date_format_long', { date: new Date(model.value) })
+  return formatPresetDate(new Date(model.value))
 })
 </script>
 

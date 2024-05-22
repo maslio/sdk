@@ -17,8 +17,5 @@ date_month_prev = Previous month
 date_year_this = Current year
 date_year_next = Following year
 date_year_prev = Previous year
-date_format_long = {{ DATETIME($date, month: "long", year: "numeric", day: "numeric") }}
-date_format_short = {{ DATETIME($date, month: "short", year: "2-digit", day: "numeric") }}
-date_format_numeric = {{ DATETIME($date, month: "2-digit", year: "2-digit", day: "2-digit") }}
 
 input = Input

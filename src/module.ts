@@ -63,6 +63,9 @@ async function setupBase(_options: ModuleOptions, _nuxt: Nuxt) {
     filename: 'eslint.config.js',
     write: true,
   })
+  addImportsDir(resolve('./runtime/base/composables'))
+  addImportsDir(resolve('./runtime/base/utils'))
+  addServerImportsDir(resolve('./runtime/base/utils'))
 }
 
 async function setupFluent(options: ModuleOptions, nuxt: Nuxt) {

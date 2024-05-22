@@ -3,19 +3,14 @@ import { upperFirst } from 'scule'
 import { addDays, addMonths, endOfMonth, intlFormat, startOfMonth, subDays, subMonths } from 'date-fns'
 import Separator from '../elements/Separator.vue'
 import Card from '../elements/Card.vue'
+import { formatDate } from '../../../base/utils/date'
 import { type Ref, computed, ref, useNuxtApp, watch } from '#imports'
 
 const props = defineProps<{
   selected: string[]
 }>()
 const emit = defineEmits(['select'])
-const app = useNuxtApp()
-const locale = app.$locale as Ref<string>
-
-function formatDate(date: Date) {
-  return new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
-    .toISOString().split('T')[0]
-}
+const locale = useNuxtApp().$locale as Ref<string>
 
 const calendarDate = ref(new Date())
 const displayMonth = computed(() => {
