@@ -129,7 +129,7 @@ function select(date: string) {
             <div
               class="p-0.5"
               :class="{
-                'ring-1 dark:ring-light light:ring-dark rounded-xl z-2': (day.isToday && !day.selected),
+                'ring-1 dark:ring-light ring-opacity-15! light:ring-dark rounded-xl z-2': (day.isToday && !day.selected),
               }"
             >
               {{ day.label }}

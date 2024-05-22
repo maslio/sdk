@@ -5,9 +5,8 @@ import Item from '../elements/Item.vue'
 import Card from '../elements/Card.vue'
 import { formatDate } from '../../../base/utils/date'
 import Tabs from '../elements/Tabs.vue'
-import Separator from '../elements/Separator.vue'
 import Select from './Select.vue'
-import InputDateInput from './InputDateInput.vue'
+import DateInput from './DateInput.vue'
 import DateCalendar from './DateCalendar.vue'
 import { type Ref, computed, ref, useNuxtApp } from '#imports'
 
@@ -238,7 +237,7 @@ const formatValue = new Intl.DateTimeFormat(locale.value, {
 })
 
 const value = computed(() => {
-  const preset = presets.find(p => p.value === modelString.value)
+  const preset = presets.find(p => rangeToString([p.start, p.end]) === modelString.value)
   if (preset)
     return preset.label
   return formatValue.formatRange(new Date(model.value[0]), new Date(model.value[1]))
@@ -249,26 +248,20 @@ const value = computed(() => {
   <Item :label="$props.label ?? $t('date_range')" :value :disabled="readonly">
     <template v-if="!readonly" #page>
       <Card>
-        <div px-3 py-2>
-          <div flex>
-            <div flex-1 text-center>
-              <label text-faint>Начало периода</label>
-              <InputDateInput
-                ref="input1" v-model="model[0]"
-                label="Начало периода"
-                @next="input2.select('day')"
-              />
-            </div>
-            <div flex-1 text-center>
-              <label text-faint>Конец периода</label>
-              <InputDateInput
-                ref="input2" v-model="model[1]"
-                label="Конец периода"
-                @prev="input1.select('year')"
-              />
-            </div>
-          </div>
-        </div>
+        <DateInput
+          ref="input1"
+          :model-value="model[0]"
+          :label="$t('date_range_start')"
+          @update:model-value="model = [$event, model[1]]"
+          @next="input2.select('day')"
+        />
+        <DateInput
+          ref="input2"
+          :label="$t('date_range_end')"
+          :model-value="model[1]"
+          @update:model-value="model = [model[0], $event]"
+          @prev="input1.select('year')"
+        />
       </Card>
       <Card>
         <Tabs v-model="presetsTab" :tabs="presetsTabs" />

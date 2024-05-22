@@ -9,8 +9,10 @@
         :model-value="$locale.value"
         @update:model-value="$changeLocale"
       />
-      <InputDateRange />
-      <Hello />
+      <Card>
+        <InputDate />
+        <InputDateRange />
+      </Card>
     </Layout>
   </DirectusLogin>
 </template>

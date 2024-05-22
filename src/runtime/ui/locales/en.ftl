@@ -5,7 +5,9 @@ lang_thai = Thai
 lang_japanese = Japanese
 
 date = Date
-date_range = Period
+date_range = Date range
+date_range_start = Start date
+date_range_end = End date
 date_day_this = Today
 date_day_next = Tomorrow
 date_day_prev = Yesterday

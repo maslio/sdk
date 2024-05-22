@@ -6,6 +6,8 @@ lang_japanese = Японский
 
 date = Дата
 date_range = Пероид
+date_range_start = Начало периода
+date_range_end = Конец периода
 date_day_this = Сегодня
 date_day_next = Завтра
 date_day_prev = Вчера
