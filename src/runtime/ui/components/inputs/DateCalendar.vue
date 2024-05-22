@@ -42,12 +42,16 @@ const days = computed(() => {
     const formated = formatDate(date)
     days.push({
       label: date.getDate(),
+      first: props.selected[0] === formated,
+      last: props.selected.at(-1) === formated,
+      selected: props.selected.includes(formated),
       formated,
       isToday: formated === today,
       inCalendarMonth: date.getMonth() === calendarDate.value.getMonth()
       && date.getFullYear() === calendarDate.value.getFullYear(),
     })
   }
+
   return days
 })
 
@@ -103,15 +107,34 @@ function select(date: string) {
     <div class="flex flex-wrap p-2">
       <div
         v-for="day in days" :key="day.formated"
-        class="flex-1/7 p-1px text-center"
+        class="flex-1/7 text-center"
       >
         <div
-          class="clickable rounded p-1 ring-neutral-500"
-          :color="selected.includes(day.formated) ? 'contrast' : 'default'"
-          :class="{ 'text-faint': !day.inCalendarMonth, 'ring-1': (day.isToday && !selected.includes(day.formated)) }"
+          class="clickable rounded-xl py-1 ring-neutral-500"
+          :color="day.selected ? '' : 'default'"
+          :class="{
+            'text-opacity-30!': !day.inCalendarMonth,
+          }"
           @click="select(day.formated)"
         >
-          {{ day.label }}
+          <div
+            class="p-0.5"
+            :color="day.selected ? 'primary' : ''"
+            :class="{
+              'rounded-l-xl': day.first,
+              'rounded-r-xl': day.last,
+              'bg-opacity-30!': !day.first && !day.last,
+            }"
+          >
+            <div
+              class="p-0.5"
+              :class="{
+                'ring-1 dark:ring-light light:ring-dark rounded-xl z-2': (day.isToday && !day.selected),
+              }"
+            >
+              {{ day.label }}
+            </div>
+          </div>
         </div>
       </div>
     </div>
