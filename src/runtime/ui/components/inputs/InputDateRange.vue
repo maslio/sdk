@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { useFluent } from 'fluent-vue'
-import { addDays, endOfMonth, startOfMonth, startOfWeek, subDays, subMonths, subWeeks } from 'date-fns'
+import { addDays, addMonths, addWeeks, endOfMonth, startOfMonth, startOfWeek, subDays, subMonths, subWeeks } from 'date-fns'
 import Item from '../elements/Item.vue'
 import Card from '../elements/Card.vue'
 import { formatDate } from '../../../base/utils/date'
+import Tabs from '../elements/Tabs.vue'
+import Separator from '../elements/Separator.vue'
 import Select from './Select.vue'
 import InputDateInput from './InputDateInput.vue'
 import DateCalendar from './DateCalendar.vue'
@@ -36,6 +38,18 @@ const modelString = computed({
 
 const input1 = ref()
 const input2 = ref()
+
+const presetsTabs = [{
+  label: $t('day'),
+  value: 'day',
+}, {
+  label: $t('week'),
+  value: 'week',
+}, {
+  label: $t('month'),
+  value: 'month',
+}]
+const presetsTab = ref('day')
 
 const presets = (() => {
   interface Preset {
@@ -74,6 +88,17 @@ const presets = (() => {
       value: formatPresetDate(date),
     })
   }
+  {
+    const date = addDays(new Date(), 1)
+    const formated = formatDate(date)
+    presets.push({
+      type: 'day',
+      start: formated,
+      end: formated,
+      label: $t('date_day_next'),
+      value: formatPresetDate(date),
+    })
+  }
 
   // week
   const formatWeek = new Intl.DateTimeFormat(locale.value, {
@@ -108,6 +133,20 @@ const presets = (() => {
       value: formatWeek.formatRange(dateStart, dateEnd),
     })
   }
+  {
+    const date = new Date()
+    const dateStart = date.getDay() > 0
+      ? addDays(startOfWeek(date), 4)
+      : addDays(addWeeks(date, 1), 4)
+    const dateEnd = addDays(dateStart, 6)
+    presets.push({
+      type: 'week',
+      start: formatDate(dateStart),
+      end: formatDate(dateEnd),
+      label: $t('date_week_next'),
+      value: formatWeek.formatRange(dateStart, dateEnd),
+    })
+  }
 
   const formatMonth = new Intl.DateTimeFormat(locale.value, {
     month: 'long',
@@ -134,15 +173,31 @@ const presets = (() => {
       value: formatMonth.format(date),
     })
   }
+  {
+    const date = addMonths(new Date(), 1)
+    presets.push({
+      type: 'month',
+      start: formatDate(startOfMonth(date)),
+      end: formatDate(endOfMonth(date)),
+      label: $t('date_month_next'),
+      value: formatMonth.format(date),
+    })
+  }
 
-  return presets.map(p => ({
-    value: rangeToString([p.start, p.end]),
-    item: {
-      label: p.label,
-      value: p.value,
-    },
-  }))
+  return presets
 })()
+
+const presetsFiltered = computed(() => {
+  return presets
+    .filter(p => p.type === presetsTab.value)
+    .map(p => ({
+      value: rangeToString([p.start, p.end]),
+      item: {
+        label: p.label,
+        value: p.value,
+      },
+    }))
+})
 
 const calendarSelected = computed(() => {
   const dates = []
@@ -185,7 +240,7 @@ const formatValue = new Intl.DateTimeFormat(locale.value, {
 const value = computed(() => {
   const preset = presets.find(p => p.value === modelString.value)
   if (preset)
-    return preset.item.label
+    return preset.label
   return formatValue.formatRange(new Date(model.value[0]), new Date(model.value[1]))
 })
 </script>
@@ -215,7 +270,11 @@ const value = computed(() => {
           </div>
         </div>
       </Card>
-      <Select v-model="modelString" :options="presets" />
+      <Card>
+        <Tabs v-model="presetsTab" :tabs="presetsTabs" />
+        <!-- <Separator /> -->
+        <Select v-model="modelString" :options="presetsFiltered" />
+      </Card>
       <DateCalendar :selected="calendarSelected" @select="onCalendarSelect" />
     </template>
   </Item>

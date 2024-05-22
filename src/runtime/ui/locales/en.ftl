@@ -19,4 +19,13 @@ date_year_this = Current year
 date_year_next = Following year
 date_year_prev = Previous year
 
+day = Day
+days = Days
+week = Week
+weeks = Weeks
+month = Month
+months = Months
+year = Year
+years = Years
+
 input = Input

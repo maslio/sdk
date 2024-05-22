@@ -19,4 +19,13 @@ date_year_this = Текущий год
 date_year_next = Следующий год
 date_year_prev = Предыдущий год
 
+day = День
+days = Дни
+week = Неделя
+weeks = Недели
+month = Месяц
+months = Месяцы
+year = Год
+years = Годы
+
 input = Ввод
