@@ -1,38 +1,155 @@
 <script setup lang="ts">
-import dt from 'dayjs'
+import { useFluent } from 'fluent-vue'
+import { addDays, endOfMonth, startOfMonth, startOfWeek, subDays, subMonths, subWeeks } from 'date-fns'
 import Item from '../elements/Item.vue'
 import Card from '../elements/Card.vue'
-import Separator from '../elements/Separator.vue'
-import { presetsRange } from './date'
+import { formatDate } from '../../../base/utils/date'
+import Select from './Select.vue'
 import InputDateInput from './InputDateInput.vue'
-import InputOption from './InputOption.vue'
-import InputDateCalendar from './InputDateCalendar.vue'
-import { computed, ref } from '#imports'
+import DateCalendar from './DateCalendar.vue'
+import { type Ref, computed, ref, useNuxtApp } from '#imports'
 
-withDefaults(defineProps<{
+defineProps<{
   label?: string
   readonly?: boolean
-}>(), {
-  label: 'Date range',
-})
+}>()
+const { $t } = useFluent()
+const locale = useNuxtApp().$locale as Ref<string>
+
 const model = defineModel<[string, string]>({
   default: [
-    dt().format('YYYY-MM-DD'),
-    dt().format('YYYY-MM-DD'),
+    formatDate(new Date()),
+    formatDate(new Date()),
   ],
+})
+function rangeToString(range: [string, string]) {
+  return `${range[0]} - ${range[1]}`
+}
+function stringToRange(string: string) {
+  return string.split(' - ') as [string, string]
+}
+
+const modelString = computed({
+  get: () => rangeToString(model.value),
+  set: value => model.value = stringToRange(value),
 })
 
 const input1 = ref()
 const input2 = ref()
 
+const presets = (() => {
+  interface Preset {
+    type: 'day' | 'week' | 'month'
+    start: string
+    end: string
+    label: string
+    value: string
+  }
+  const presets: Preset[] = []
+
+  // day
+  const { format: formatPresetDate } = new Intl.DateTimeFormat(locale.value, {
+    month: 'long',
+    day: 'numeric',
+  })
+  {
+    const date = subDays(new Date(), 1)
+    const formated = formatDate(date)
+    presets.push({
+      type: 'day',
+      start: formated,
+      end: formated,
+      label: $t('date_day_prev'),
+      value: formatPresetDate(date),
+    })
+  }
+  {
+    const date = new Date()
+    const formated = formatDate(date)
+    presets.push({
+      type: 'day',
+      start: formated,
+      end: formated,
+      label: $t('date_day_this'),
+      value: formatPresetDate(date),
+    })
+  }
+
+  // week
+  const formatWeek = new Intl.DateTimeFormat(locale.value, {
+    month: 'short',
+    day: 'numeric',
+  })
+  {
+    const date = new Date()
+    const dateStart = date.getDay() > 0
+      ? addDays(subWeeks(startOfWeek(date), 2), 4)
+      : addDays(subWeeks(date, 1), 4)
+    const dateEnd = addDays(dateStart, 6)
+    presets.push({
+      type: 'week',
+      start: formatDate(dateStart),
+      end: formatDate(dateEnd),
+      label: $t('date_week_prev'),
+      value: formatWeek.formatRange(dateStart, dateEnd),
+    })
+  }
+  {
+    const date = new Date()
+    const dateStart = date.getDay() > 0
+      ? addDays(subWeeks(startOfWeek(date), 1), 4)
+      : addDays(date, 4)
+    const dateEnd = addDays(dateStart, 6)
+    presets.push({
+      type: 'week',
+      start: formatDate(dateStart),
+      end: formatDate(dateEnd),
+      label: $t('date_week_this'),
+      value: formatWeek.formatRange(dateStart, dateEnd),
+    })
+  }
+
+  const formatMonth = new Intl.DateTimeFormat(locale.value, {
+    month: 'long',
+    year: 'numeric',
+  })
+  // month
+  {
+    const date = subMonths(new Date(), 1)
+    presets.push({
+      type: 'month',
+      start: formatDate(startOfMonth(date)),
+      end: formatDate(endOfMonth(date)),
+      label: $t('date_month_prev'),
+      value: formatMonth.format(date),
+    })
+  }
+  {
+    const date = new Date()
+    presets.push({
+      type: 'month',
+      start: formatDate(startOfMonth(date)),
+      end: formatDate(endOfMonth(date)),
+      label: $t('date_month_this'),
+      value: formatMonth.format(date),
+    })
+  }
+
+  return presets.map(p => ({
+    value: rangeToString([p.start, p.end]),
+    item: {
+      label: p.label,
+      value: p.value,
+    },
+  }))
+})()
+
 const calendarSelected = computed(() => {
   const dates = []
-  let date = dt(model.value[0])
-  const dateEnd = dt(model.value[1]).format('YYYY-MM-DD')
-  while (date.format('YYYY-MM-DD') <= dateEnd) {
-    dates.push(date.format('YYYY-MM-DD'))
-    date = date.add(1, 'day')
-  }
+  // let date = new Date(model.value[0])
+  const dateEnd = new Date(model.value[1])
+  for (let date = new Date(model.value[0]); date <= dateEnd; date = addDays(date, 1))
+    dates.push(formatDate(date))
   return dates
 })
 let waitForEnd = false
@@ -59,41 +176,22 @@ function onCalendarSelect(value: string) {
   model.value = values
 }
 
-function rangeToString(range: [string, string]) {
-  return `${range[0]} - ${range[1]}`
-}
-function stringToRange(string: string) {
-  return string.split(' - ') as [string, string]
-}
-
-const modelString = computed({
-  get() {
-    return rangeToString(model.value)
-  },
-  set(value) {
-    model.value = stringToRange(value)
-  },
+const formatValue = new Intl.DateTimeFormat(locale.value, {
+  month: 'short',
+  day: 'numeric',
+  year: 'numeric',
 })
-
-const presets = presetsRange()
-const presetsDay = presets.filter(p => p.type === 'day')
-const presetsWeek = presets.filter(p => p.type === 'week')
-const presetsMonth = presets.filter(p => p.type === 'month')
 
 const value = computed(() => {
   const preset = presets.find(p => p.value === modelString.value)
   if (preset)
-    return preset.label
-  if (dt(model.value[0]).format('YYYY-MM-DD') === dt(model.value[1]).format('YYYY-MM-DD'))
-    return `${dt(model.value[0]).format('D MMM')}`
-  if (dt(model.value[0]).year() === dt(model.value[1]).year())
-    return `${dt(model.value[0]).format('D MMM')} - ${dt(model.value[1]).format('D MMM YYYY')}`
-  return `${dt(model.value[0]).format('D MMM YYYY')} - ${dt(model.value[1]).format('D MMM YYYY')}`
+    return preset.item.label
+  return formatValue.formatRange(new Date(model.value[0]), new Date(model.value[1]))
 })
 </script>
 
 <template>
-  <Item :label :value :disabled="readonly">
+  <Item :label="$props.label ?? $t('date_range')" :value :disabled="readonly">
     <template v-if="!readonly" #page>
       <Card>
         <div px-3 py-2>
@@ -117,32 +215,8 @@ const value = computed(() => {
           </div>
         </div>
       </Card>
-      <Card>
-        <InputOption
-          v-for="preset in presetsDay" :key="preset.label"
-          v-model="modelString"
-          :label="preset.label"
-          :caption="preset.caption"
-          :value="preset.value"
-        />
-        <Separator ml-11 />
-        <InputOption
-          v-for="preset in presetsWeek" :key="preset.label"
-          v-model="modelString"
-          :label="preset.label"
-          :caption="preset.caption"
-          :value="preset.value"
-        />
-        <Separator ml-11 />
-        <InputOption
-          v-for="preset in presetsMonth" :key="preset.label"
-          v-model="modelString"
-          :label="preset.label"
-          :caption="preset.caption"
-          :value="preset.value"
-        />
-      </Card>
-      <InputDateCalendar :selected="calendarSelected" @select="onCalendarSelect" />
+      <Select v-model="modelString" :options="presets" />
+      <DateCalendar :selected="calendarSelected" @select="onCalendarSelect" />
     </template>
   </Item>
 </template>

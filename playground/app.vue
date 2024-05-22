@@ -9,7 +9,7 @@
         :model-value="$locale.value"
         @update:model-value="$changeLocale"
       />
-      <InputDate />
+      <InputDateRange />
       <Hello />
     </Layout>
   </DirectusLogin>

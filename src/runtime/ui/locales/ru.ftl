@@ -5,6 +5,7 @@ lang_thai = Тайский
 lang_japanese = Японский
 
 date = Дата
+date_range = Пероид
 date_day_this = Сегодня
 date_day_next = Завтра
 date_day_prev = Вчера

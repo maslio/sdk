@@ -23,7 +23,7 @@ const { format: formatPresetDate } = new Intl.DateTimeFormat(locale.value, {
 })
 
 const model = defineModel<string>({
-  default: new Date().toISOString().split('T')[0],
+  default: formatDate(new Date()),
 })
 function onCalendarSelect(value: string) {
   model.value = value
