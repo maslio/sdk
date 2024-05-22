@@ -32,7 +32,7 @@ const grid = computed(() => {
       <span v-else>{{ label }}</span>
     </div>
     <div
-      class="card overflow-hidden rounded-xl dialog:rounded-none"
+      class="card overflow-hidden rounded-xl card:rounded-none dialog:rounded-none"
       color="default"
       :class="[$props.class, grid]"
     >
