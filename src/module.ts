@@ -24,11 +24,15 @@ import { genLocaleBundle, genLocaleIndex } from './config/genLocale'
 export interface ModuleOptions {
   locales?: string[]
   ui?: OptionsUi
-  db?: boolean
+  db?: OptionsDb
   ai?: boolean
 }
 interface OptionsUi {
+  prefix?: string
   weekStartsOn?: Day
+}
+interface OptionsDb {
+  prefix?: string
 }
 
 const { resolve, resolvePath } = createResolver(import.meta.url)
@@ -43,9 +47,9 @@ export default defineNuxtModule<ModuleOptions>({
     await setupBase(options, nuxt)
     await setupFluent(options, nuxt)
     if (options.ui)
-      await setupUi(nuxt, options.ui)
+      await setupUi(options.ui, nuxt)
     if (options.db)
-      await setupDb(nuxt)
+      await setupDb(options.db, nuxt)
   },
 })
 
@@ -102,7 +106,7 @@ async function setupFluent(options: ModuleOptions, nuxt: Nuxt) {
   addPlugin({ src: resolve('./runtime/base/plugins/fluent') })
 }
 
-async function setupUi(nuxt: Nuxt, options: OptionsUi) {
+async function setupUi(options: OptionsUi, nuxt: Nuxt) {
   nuxt.options.appConfig.ui = {
     weekStartsOn: options.weekStartsOn ?? 1,
   }
@@ -131,6 +135,7 @@ async function setupUi(nuxt: Nuxt, options: OptionsUi) {
   nuxt.options.css.push(resolve('./runtime/ui/assets/global.css'))
   addComponentsDir({
     path: resolve('./runtime/ui/components'),
+    prefix: options.prefix ?? '',
     pathPrefix: false,
   })
   addImportsDir(resolve('./runtime/ui/composables'))
@@ -138,7 +143,7 @@ async function setupUi(nuxt: Nuxt, options: OptionsUi) {
   addPlugin(resolve('./runtime/ui/plugins/maska'))
 }
 
-async function setupDb(nuxt: Nuxt) {
+async function setupDb(options: OptionsDb, nuxt: Nuxt) {
   const directusUrl = process.env.DIRECTUS_URL || 'http://localhost:8055'
   const directusToken = process.env.DIRECTUS_TOKEN || ''
 
@@ -167,6 +172,7 @@ async function setupDb(nuxt: Nuxt) {
 
   addComponentsDir({
     path: resolve('./runtime/db/components'),
+    prefix: options.prefix ?? 'db',
     pathPrefix: false,
     ignore: ['imports/*'],
   })

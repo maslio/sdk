@@ -16,25 +16,25 @@ async function click() {
 </script>
 
 <template>
-  <div
-    v-if="!d.user.value"
-    class="fit flex items-center justify-center"
-  >
-    <div class="flex flex-col gap-3">
-      <Card class="w-300px py-3">
-        <InputString
-          v-model="email" type="email"
-          label="Email"
-          autocomplete="username"
-        />
-        <InputPassword
-          v-model="password"
-          label="Password"
-          autocomplete="current-password"
-        />
-      </Card>
-      <Button label="Login" color="positive" :click />
-    </div>
+  <div class="flex flex-col gap-3">
+    <Card class="w-300px py-3">
+      <InputString
+        v-model="email"
+        type="email"
+        :label="$t('email')"
+        autocomplete="username"
+      />
+      <InputPassword
+        v-model="password"
+        :label="$t('password')"
+        autocomplete="current-password"
+      />
+    </Card>
+    <Button
+      :label="$t('sign_in')"
+      color="primary"
+      :click
+    />
   </div>
-  <slot v-else />
 </template>
+../../composables/useDirectus
