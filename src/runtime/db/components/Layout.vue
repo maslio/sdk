@@ -4,6 +4,7 @@ import { useDirectus } from '../composables/useDirectus'
 import Item from '../../ui/components/elements/Item.vue'
 import LayoutSignIn from './LayoutSignIn.vue'
 import LayoutMe from './LayoutMe.vue'
+import UserAvatar from './UserAvatar.vue'
 
 const d = useDirectus()
 const user = d.user
@@ -22,6 +23,9 @@ const user = d.user
       :label="`${user.first_name} ${user.last_name}`"
       :caption="user.email"
     >
+      <template #left>
+        <UserAvatar :user="user" size="40" />
+      </template>
       <template #page>
         <LayoutMe />
       </template>

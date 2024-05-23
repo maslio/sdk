@@ -16,7 +16,7 @@ export interface User {
 }
 export async function fetchMe(client: DirectusClient<DirectusSchema> & RestClient<DirectusSchema>) {
   return await client.request(readMe<any, any>({
-    fields: ['id', 'first_name', 'last_name', 'email', {
+    fields: ['id', 'first_name', 'last_name', 'email', 'avatar', {
       role: ['id', 'name', 'app_access', 'admin_access'],
     }],
   })) as User

@@ -1,13 +1,16 @@
 <script setup lang="ts">
-import type { User } from '@directus/types'
+import type { File, User } from '@directus/types'
 import { readMe, updateMe } from '@directus/sdk'
 import { useDirectus } from '../composables/useDirectus'
 import Card from '../../ui/components/elements/Card.vue'
 import Item from '../../ui/components/elements/Item.vue'
+import Button from '../../ui/components/elements/Button.vue'
+import UserAvatar from './UserAvatar.vue'
 import Form from './Form.vue'
-import { useAsyncData } from '#imports'
+import FilesUpload from './FilesUpload.vue'
+import { ref, useAsyncData } from '#imports'
 
-const { requestAny, logout } = useDirectus()
+const { requestAny, logout, refreshUser } = useDirectus()
 
 const { data: user, refresh } = await useAsyncData(() => {
   return requestAny(readMe()) as Promise<User>
@@ -16,11 +19,39 @@ const { data: user, refresh } = await useAsyncData(() => {
 async function save(data: Record<string, any>) {
   await requestAny(updateMe(data))
   refresh()
+  refreshUser()
+}
+
+const newAvatar = ref<File>()
+function uploadAvatar(files: File[]) {
+  newAvatar.value = files[0]
+}
+function saveAvatar(close: () => void) {
+  return async () => {
+    await save({ avatar: newAvatar.value })
+    newAvatar.value = undefined
+    close()
+  }
 }
 </script>
 
 <template>
   <template v-if="user">
+    <div flex justify-center pb-3>
+      <UserAvatar :user size="100" />
+    </div>
+    <Card>
+      <Item label="Change photo">
+        <template #page="{ close }">
+          <FilesUpload @upload="uploadAvatar" />
+          <Button
+            v-if="newAvatar" color="primary"
+            label="Save"
+            :click="saveAvatar(close)"
+          />
+        </template>
+      </Item>
+    </Card>
     <Card>
       <Item :label="$t('user_name')" :value="`${user.first_name} ${user.last_name}`">
         <template #page="{ close }">
