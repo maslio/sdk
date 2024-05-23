@@ -60,6 +60,7 @@ async function setupBase(_options: ModuleOptions, _nuxt: Nuxt) {
   })
   await installModule('@nuxtjs/device')
   await installModule('nuxt-icon')
+  await installModule('@nuxt/image')
   addPlugin({
     src: resolve('./runtime/base/plugins/device'),
     order: 1,
@@ -151,6 +152,13 @@ async function setupDb(options: OptionsDb, nuxt: Nuxt) {
     return
   nuxt.options.runtimeConfig.directusUrl = directusUrl
   nuxt.options.runtimeConfig.directusToken = directusToken
+  // @ts-expect-error directus image
+  nuxt.options.image = {
+    directus: {
+      baseURL: 'http://localhost:8055/assets',
+    },
+  }
+  // console.log(nuxt)
 
   addServerHandler({
     route: '/_db/**',

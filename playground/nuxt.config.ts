@@ -5,7 +5,12 @@ export default defineNuxtConfig({
     ui: {
       weekStartsOn: 1,
     },
-    db: true,
+    db: {},
+  },
+  image: {
+    directus: {
+      baseURL: '/_db/assets/',
+    },
   },
   devtools: { enabled: true },
 })
