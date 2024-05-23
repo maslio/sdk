@@ -1,5 +1,5 @@
 <script setup lang="ts">
-
+const files = ref<File[]>([])
 </script>
 
 <template>
@@ -12,6 +12,13 @@
     <Card>
       <InputDate />
       <InputDateRange />
+    </Card>
+    <InputFiles v-model="files" />
+    <Card>
+      <Item
+        v-for="file in files" :key="file.name"
+        :label="file.name"
+      />
     </Card>
   </DbLayout>
 </template>
