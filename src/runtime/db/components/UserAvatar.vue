@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { User } from '@directus/types'
-
 withDefaults(defineProps<{
   user: Record<string, any>
   size: string

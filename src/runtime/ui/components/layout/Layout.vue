@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Button from '../elements/Button.vue'
 import type { LayoutProvide } from '../../composables/useLayout'
 import {
   type Ref,
@@ -96,15 +97,16 @@ provide<LayoutProvide>('layout', { isMini, pageEl, menuEl, nextEl, nextId, foote
         />
         <div v-else w-1 />
         <div
+
           flex-1 truncate
-          pr-3
+          pr-3 text-center
           text-base
         >
           {{ label }}
         </div>
         <div
           ref="menuEl"
-          class="h-10 flex flex-nowrap items-center"
+          class="h-10 w-10 flex flex-nowrap items-center"
         />
       </header>
       <main

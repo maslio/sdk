@@ -12,6 +12,5 @@
       <InputDate />
       <InputDateRange />
     </Card>
-    <DbFilesUpload />
   </DbLayout>
 </template>

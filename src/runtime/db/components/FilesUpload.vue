@@ -72,6 +72,7 @@ async function uploadNext() {
       v-for="file in newFiles"
       :key="file.id"
       :label="file.label"
+      label-class="truncate"
       :caption="file.size"
     >
       <template #left>
@@ -87,7 +88,7 @@ async function uploadNext() {
             :src="file.directusFile.id"
             width="40"
             height="40"
-            class="h-10 w-10 rounded"
+            class="h-10 w-10 rounded-lg"
           />
         </div>
       </template>

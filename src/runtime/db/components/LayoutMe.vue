@@ -41,7 +41,7 @@ function saveAvatar(close: () => void) {
       <UserAvatar :user size="100" />
     </div>
     <Card>
-      <Item label="Change photo">
+      <Item label="Change avatar" icon="material-symbols:add-a-photo">
         <template #page="{ close }">
           <FilesUpload @upload="uploadAvatar" />
           <Button
