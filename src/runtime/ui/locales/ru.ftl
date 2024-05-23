@@ -31,3 +31,8 @@ year = Год
 years = Годы
 
 input = Ввод
+save = Сохранить
+apply = Применить
+delete = Удалить
+update = Обновить
+remove = Убрать

@@ -2,12 +2,12 @@
 import type { Field } from '@directus/types'
 import InputString from '../../ui/components/inputs/InputString.vue'
 
-const props = defineProps<{
+defineProps<{
   field: Field
+  label: string
   value?: string
 }>()
 
-const label = props.field.meta?.field
 const model = defineModel<string>({ default: '' })
 </script>
 

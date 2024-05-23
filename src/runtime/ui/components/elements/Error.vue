@@ -23,8 +23,10 @@ const text = computed(() => {
     appear-from-class="translate-y-20px opacity-0"
     appear-active-class="transition-100"
   >
-    <div class="flex items-center gap-1 p-1 text-negative">
-      <Icon name="material-symbols:error" size="16" />
+    <div class="flex gap-1 p-1 text-negative">
+      <div class="relative top--1px">
+        <Icon name="material-symbols:error" size="16" />
+      </div>
       <div>
         {{ text }}
       </div>

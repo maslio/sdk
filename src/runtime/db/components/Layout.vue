@@ -2,7 +2,7 @@
 import Layout from '../../ui/components/layout/Layout.vue'
 import { useDirectus } from '../composables/useDirectus'
 import Item from '../../ui/components/elements/Item.vue'
-import SignIn from './SignIn.vue'
+import LayoutSignIn from './LayoutSignIn.vue'
 import LayoutMe from './LayoutMe.vue'
 
 const d = useDirectus()
@@ -15,7 +15,7 @@ const user = d.user
     color="back"
     class="fit flex items-center justify-center"
   >
-    <SignIn />
+    <LayoutSignIn />
   </div>
   <Layout v-else root>
     <Item

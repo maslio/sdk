@@ -13,6 +13,7 @@ withDefaults(defineProps<{
   flat?: boolean
   label?: string
   type?: 'text' | 'email'
+  error?: boolean
 }>(), {
   type: 'text',
 })
@@ -38,6 +39,7 @@ function onClick() {
   <Input
     :focused :readonly
     :flat :label
+    :error
     @click="onClick"
   >
     <input

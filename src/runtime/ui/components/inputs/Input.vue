@@ -7,6 +7,7 @@ defineProps<{
   focused?: boolean
   readonly?: boolean
   disabled?: boolean
+  error?: boolean
   flat?: boolean
 }>()
 const emit = defineEmits(['click'])
@@ -24,7 +25,8 @@ defineSlots<{
     <template #main>
       <div
         v-if="label"
-        class="text-sm text-faint"
+        class="text-sm"
+        :class="error ? 'text-negative' : 'text-faint'"
       >
         {{ label }}
       </div>

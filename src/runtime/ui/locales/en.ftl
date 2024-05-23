@@ -31,3 +31,8 @@ year = Year
 years = Years
 
 input = Input
+save = Save
+apply = Apply
+delete = Delete
+update = Update
+remove = Remove

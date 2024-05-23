@@ -2,7 +2,7 @@ import { ref } from '#imports'
 
 export function useAction<Args extends any[], ReturnType>(callback?: (...args: Args) => ReturnType) {
   const pending = ref(false)
-  const error = ref<Error | string | null>(null)
+  const error = ref()
   const shake = ref(false)
 
   async function action(...params: Args): Promise<ReturnType | undefined> {
@@ -17,7 +17,7 @@ export function useAction<Args extends any[], ReturnType>(callback?: (...args: A
     }
     catch (err) {
       console.error(err)
-      error.value = err instanceof Error ? err : new Error(String(err))
+      error.value = err
       shake.value = true
       setTimeout(() => {
         shake.value = false
