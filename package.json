@@ -1,7 +1,7 @@
 {
   "name": "@maslio/kit",
   "type": "module",
-  "version": "0.0.14",
+  "version": "0.1.0",
   "description": "My personal kit for a nuxt project",
   "license": "MIT",
   "repository": {

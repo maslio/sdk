@@ -1,6 +1,48 @@
 # Changelog
 
 
+## v0.1.0
+
+[compare changes](https://github.com/maslio/kit/compare/v0.0.14...v0.1.0)
+
+### 🚀 Enhancements
+
+- Add InputLanguage component for language selection ([b5c8f5c](https://github.com/maslio/kit/commit/b5c8f5c))
+- ⚠️  Change Item props ([2e0d5a2](https://github.com/maslio/kit/commit/2e0d5a2))
+- Add date-fns dependency for date manipulation ([7255998](https://github.com/maslio/kit/commit/7255998))
+- **ui:** DateCalendar component with native js Date ([35cf0c6](https://github.com/maslio/kit/commit/35cf0c6))
+- Add base/utils/date module for date formatting ([f5661fa](https://github.com/maslio/kit/commit/f5661fa))
+- Update InputDateRange component for using js Date ([dd6289b](https://github.com/maslio/kit/commit/dd6289b))
+- Add Tabs component ([1c3e822](https://github.com/maslio/kit/commit/1c3e822))
+- Refactor Card and Select components ([35fbaf0](https://github.com/maslio/kit/commit/35fbaf0))
+- Add Card component to List.vue ([d2bcf66](https://github.com/maslio/kit/commit/d2bcf66))
+- Add Checkbox component for selecting options ([3b37693](https://github.com/maslio/kit/commit/3b37693))
+- **db:** Create Layout component with SignIn ([036950c](https://github.com/maslio/kit/commit/036950c))
+- **ui:** InputFiles component ([a4b9daf](https://github.com/maslio/kit/commit/a4b9daf))
+- Add @nuxt/image add DbFilesUpload ([eeac5d7](https://github.com/maslio/kit/commit/eeac5d7))
+- Add UserAvatar component ([c2f48d7](https://github.com/maslio/kit/commit/c2f48d7))
+
+### 💅 Refactors
+
+- Update InputDateRange component to use JavaScript Date ([b321f46](https://github.com/maslio/kit/commit/b321f46))
+- Update InputDateRange component to use native JavaScript Date ([3d3f258](https://github.com/maslio/kit/commit/3d3f258))
+- Update InputDateRange component to use weekStartsOn option from ui config ([bffce46](https://github.com/maslio/kit/commit/bffce46))
+- Update Db components ([85eac84](https://github.com/maslio/kit/commit/85eac84))
+
+### 🏡 Chore
+
+- Update repository URL in package.json ([60daf2d](https://github.com/maslio/kit/commit/60daf2d))
+- Refactor DateCalendar component for improved date selection UI ([e2e6e8c](https://github.com/maslio/kit/commit/e2e6e8c))
+- Some fixes ([715ce05](https://github.com/maslio/kit/commit/715ce05))
+
+#### ⚠️ Breaking Changes
+
+- ⚠️  Change Item props ([2e0d5a2](https://github.com/maslio/kit/commit/2e0d5a2))
+
+### ❤️ Contributors
+
+- Maslio <vlad@maslio.com>
+
 ## v0.0.14
 
 [compare changes](https://undefined/undefined/compare/v0.0.13...v0.0.14)
