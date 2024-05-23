@@ -15,6 +15,7 @@ import {
 } from '@nuxt/kit'
 import type { Nuxt } from '@nuxt/schema'
 import { joinURL } from 'ufo'
+import type { Day } from 'date-fns'
 import genUnoConfig from './config/genUnoConfig'
 import genEslintConfig from './config/genEslintConfig'
 import genDirectusTypes from './config/genDirectusTypes'
@@ -22,9 +23,12 @@ import { genLocaleBundle, genLocaleIndex } from './config/genLocale'
 
 export interface ModuleOptions {
   locales?: string[]
-  ui?: boolean
+  ui?: OptionsUi
   db?: boolean
   ai?: boolean
+}
+interface OptionsUi {
+  weekStartsOn?: Day
 }
 
 const { resolve, resolvePath } = createResolver(import.meta.url)
@@ -34,14 +38,12 @@ export default defineNuxtModule<ModuleOptions>({
     name: '@maslio/kit',
     configKey: 'maslio',
   },
-  defaults: {
-  },
-
+  defaults: {},
   async setup(options, nuxt) {
     await setupBase(options, nuxt)
     await setupFluent(options, nuxt)
     if (options.ui)
-      await setupUi(nuxt)
+      await setupUi(nuxt, options.ui)
     if (options.db)
       await setupDb(nuxt)
   },
@@ -100,7 +102,10 @@ async function setupFluent(options: ModuleOptions, nuxt: Nuxt) {
   addPlugin({ src: resolve('./runtime/base/plugins/fluent') })
 }
 
-async function setupUi(nuxt: Nuxt) {
+async function setupUi(nuxt: Nuxt, options: OptionsUi) {
+  nuxt.options.appConfig.ui = {
+    weekStartsOn: options.weekStartsOn ?? 1,
+  }
   nuxt.options.appConfig.nuxtIcon = {
     size: '24px',
     aliases: {

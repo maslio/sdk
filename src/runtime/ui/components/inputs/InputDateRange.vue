@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useFluent } from 'fluent-vue'
-import { addDays, addMonths, addWeeks, endOfMonth, startOfMonth, startOfWeek, subDays, subMonths, subWeeks } from 'date-fns'
+import { type Day, addDays, addMonths, addWeeks, endOfMonth, startOfMonth, startOfWeek, subDays, subMonths, subWeeks } from 'date-fns'
 import Item from '../elements/Item.vue'
 import Card from '../elements/Card.vue'
 import { formatDate } from '../../../base/utils/date'
@@ -8,7 +8,7 @@ import Tabs from '../elements/Tabs.vue'
 import Select from './Select.vue'
 import DateInput from './DateInput.vue'
 import DateCalendar from './DateCalendar.vue'
-import { type Ref, computed, ref, useNuxtApp } from '#imports'
+import { type Ref, computed, ref, useAppConfig, useNuxtApp } from '#imports'
 
 defineProps<{
   label?: string
@@ -16,6 +16,8 @@ defineProps<{
 }>()
 const { $t } = useFluent()
 const locale = useNuxtApp().$locale as Ref<string>
+// @ts-expect-error ui config
+const weekStartsOn = useAppConfig().ui.weekStartsOn as Day
 
 const model = defineModel<[string, string]>({
   default: [
@@ -106,9 +108,7 @@ const presets = (() => {
   })
   {
     const date = new Date()
-    const dateStart = date.getDay() > 0
-      ? addDays(subWeeks(startOfWeek(date), 2), 4)
-      : addDays(subWeeks(date, 1), 4)
+    const dateStart = subWeeks(startOfWeek(date, { weekStartsOn }), 1)
     const dateEnd = addDays(dateStart, 6)
     presets.push({
       type: 'week',
@@ -120,9 +120,7 @@ const presets = (() => {
   }
   {
     const date = new Date()
-    const dateStart = date.getDay() > 0
-      ? addDays(subWeeks(startOfWeek(date), 1), 4)
-      : addDays(date, 4)
+    const dateStart = startOfWeek(date, { weekStartsOn })
     const dateEnd = addDays(dateStart, 6)
     presets.push({
       type: 'week',
@@ -134,9 +132,7 @@ const presets = (() => {
   }
   {
     const date = new Date()
-    const dateStart = date.getDay() > 0
-      ? addDays(startOfWeek(date), 4)
-      : addDays(addWeeks(date, 1), 4)
+    const dateStart = addWeeks(startOfWeek(date, { weekStartsOn }), 1)
     const dateEnd = addDays(dateStart, 6)
     presets.push({
       type: 'week',
