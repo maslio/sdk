@@ -131,10 +131,6 @@ provide<LayoutProvide>('layout', { isMini, pageEl, menuEl, nextEl, nextId, foote
 </template>
 
 <style scoped>
-.layout.full:not(.mobile) {
-  position: fixed;
-  left: 0;
-}
 .layout:has(+ .layout) {
   --uno: 'transition-transform-300';
 }

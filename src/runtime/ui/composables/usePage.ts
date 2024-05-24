@@ -21,7 +21,7 @@ export function usePage(props: PageProps | PageTarget = 'next', label?: string) 
     if (props.target === 'next')
       return defineAsyncComponent(() => import('../components/page/PageNext.vue'))
     if (props.target === 'full')
-      return defineAsyncComponent(() => import('../components/page/PageNext.vue'))
+      return defineAsyncComponent(() => import('../components/page/PageFull.vue'))
     return defineAsyncComponent(() => import('../components/page/PageDialog.vue'))
   })()
 
