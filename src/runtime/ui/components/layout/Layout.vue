@@ -151,7 +151,7 @@ provide<LayoutProvide>('layout', { isMini, pageEl, menuEl, nextEl, nextId, foote
     position: relative;
   }
 }
-.mobile:has(> .next > .layout:not(.v-leave-active)) {
+.mobile:has(> .next > .layout:not(.v-leave-active):not(.hidden)) {
   > .page {
     position: absolute;
     transform: translateX(-50%);

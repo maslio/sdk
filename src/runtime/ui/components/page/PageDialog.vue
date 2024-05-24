@@ -3,7 +3,7 @@ import { useLayout } from '../../composables/useLayout'
 import Layout from '../layout/Layout.vue'
 import Spinner from '../elements/Spinner.vue'
 import PageError from './PageError.vue'
-import { onClickOutside, onErrorCaptured, ref, useResizeObserver, useSwipe } from '#imports'
+import { onClickOutside, onErrorCaptured, ref, refDebounced, useResizeObserver, useSwipe } from '#imports'
 
 defineOptions({
   inheritAttrs: false,
@@ -16,7 +16,7 @@ const props = withDefaults(defineProps<{
 })
 const { pageEl } = useLayout()
 const opened = ref(false)
-const loading = ref(true)
+const pending = ref(false)
 const error = ref<Error | null>(null)
 function close() {
   opened.value = false
@@ -47,7 +47,7 @@ const swipe = useSwipe(backdrop, {
 const dialog = ref()
 onErrorCaptured((e: Error) => {
   error.value = e
-  loading.value = false
+  pending.value = false
   console.error(e)
   return false
 })
@@ -61,7 +61,12 @@ onClickOutside(layout, (e) => {
   close()
 })
 
-defineExpose({ open, close, opened })
+defineExpose({
+  open,
+  close,
+  opened,
+  pending: ref(false),
+})
 </script>
 
 <template>
@@ -93,7 +98,7 @@ defineExpose({ open, close, opened })
               :close
             >
               <PageError v-if="error" :error @close="close" />
-              <Suspense v-else @resolve="loading = false" @pending="loading = true">
+              <Suspense v-else @resolve="pending = false" @pending="pending = true">
                 <slot />
                 <template #fallback>
                   <div class="h-100px flex items-center justify-center">

@@ -2,7 +2,7 @@
 import Spinner from '../elements/Spinner.vue'
 import Layout from '../layout/Layout.vue'
 import PageError from './PageError.vue'
-import { onErrorCaptured, ref } from '#imports'
+import { onErrorCaptured, ref, refDebounced } from '#imports'
 
 defineOptions({
   inheritAttrs: false,
@@ -12,7 +12,7 @@ defineProps<{
   width?: number
 }>()
 const opened = ref(false)
-const loading = ref(true)
+const pending = ref(false)
 const error = ref<Error | null>(null)
 function close() {
   opened.value = false
@@ -23,12 +23,17 @@ function open() {
 }
 onErrorCaptured((e: Error) => {
   error.value = e
-  loading.value = false
+  pending.value = false
   console.error(e)
   return false
 })
 
-defineExpose({ open, close, opened })
+defineExpose({
+  open,
+  close,
+  opened,
+  pending: refDebounced(pending, 50),
+})
 </script>
 
 <template>
@@ -40,7 +45,7 @@ defineExpose({ open, close, opened })
       leave-to-class="translate-x-100% desktop:translate-x-320px desktop:opacity-0"
     >
       <Layout
-        v-if="opened"
+        v-if="opened" v-show="!pending"
         :label
         :width
         :no-header="!label"
@@ -48,7 +53,7 @@ defineExpose({ open, close, opened })
         close-icon="back"
       >
         <PageError v-if="error" :error @close="close" />
-        <Suspense v-else @resolve="loading = false" @pending="loading = true">
+        <Suspense v-else @resolve="pending = false" @pending="pending = true">
           <slot />
           <template #fallback>
             <div class="h-100px flex items-center justify-center">
