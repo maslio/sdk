@@ -17,7 +17,9 @@ const loading = ref(true)
 const error = ref<Error | null>(null)
 const { nextId, nextEl, isMini } = useLayout()
 const opened = computed(() => nextId.value === id)
+const transition = ref(false)
 function open() {
+  transition.value = !nextId.value
   error.value = null
   nextId.value = id
 }
@@ -36,8 +38,8 @@ onErrorCaptured((e: Error) => {
 <template>
   <Teleport v-if="nextEl" :to="nextEl">
     <Transition
-      enter-from-class="translate-x-0!"
-      enter-active-class="mobile:transition-300"
+      enter-from-class="translate-x-10 mobile:translate-x-0!"
+      :enter-active-class="transition ? 'transition-200 mobile:transition-300' : ''"
       leave-active-class="mobile:transition-300 v-leave-active"
       leave-to-class="translate-x-0!"
     >
