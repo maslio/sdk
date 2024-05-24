@@ -11,6 +11,7 @@ defineOptions({
 const { label, width } = defineProps<{
   label?: string
   width?: number
+  target: 'next' | 'full'
 }>()
 const id = (import.meta.dev ? label : null) ?? String(getCurrentInstance()?.uid)
 const pending = ref(false)
@@ -36,15 +37,25 @@ onErrorCaptured((e: Error) => {
   console.error(e)
   return false
 })
+
+const transition = {
+  'enter-from-class': 'translate-x--3 mobile:translate-x-0!',
+  'enter-active-class': 'transition-100 mobile:transition-300',
+  'leave-active-class': 'mobile:transition-300 v-leave-active',
+  'leave-to-class': 'translate-x-0!',
+}
+const transitionFull = {
+  'enter-from-class': 'translate-x-10 mobile:translate-x-0!',
+  'enter-active-class': 'transition-200 mobile:transition-300',
+  'leave-active-class': 'transition-100 mobile:transition-300 v-leave-active',
+  'leave-to-class': 'translate-x-10 opacity-0 mobile:translate-x-0! mobile:opacity-100',
+}
 </script>
 
 <template>
   <Teleport v-if="nextEl" :to="nextEl">
     <Transition
-      enter-from-class="translate-x-0!"
-      enter-active-class="mobile:transition-300"
-      leave-active-class="mobile:transition-300 v-leave-active"
-      leave-to-class="translate-x-0!"
+      v-bind="target === 'full' ? transitionFull : transition"
     >
       <Layout
         v-if="opened" v-show="!pending"
@@ -52,7 +63,7 @@ onErrorCaptured((e: Error) => {
         :label
         :close
         :close-icon="isMini ? 'back' : 'close'"
-        :class="{ hidden: pending }"
+        :class="{ hidden: pending, full: target === 'full' }"
         class="mobile:translate-x--100%"
       >
         <PageError v-if="error" :error @close="close" />
