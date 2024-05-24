@@ -114,20 +114,11 @@ const clickable = computed(() => {
         name="material-symbols-light:open-in-new-rounded" size="18"
         class="ml--3 mr--1 transition-color text-faint"
       />
-      <div
+      <Icon
         v-else-if="page"
-        class="ml--3 mr--1 flex items-center"
-      >
-        <Spinner
-          v-if="page.target.value?.pending"
-          class="ml-0.5 mr--0.5" size="18"
-        />
-        <Icon
-          v-else
-          name="fluent:chevron-right-16-filled" size="18"
-          class="transition-color text-faint"
-        />
-      </div>
+        name="fluent:chevron-right-16-filled" size="18"
+        class="ml--3 mr--1 transition-color text-faint"
+      />
     </div>
   </component>
   <template v-if="page">

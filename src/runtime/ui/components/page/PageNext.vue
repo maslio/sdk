@@ -3,7 +3,7 @@ import { useLayout } from '../../composables/useLayout'
 import Layout from '../layout/Layout.vue'
 import Spinner from '../elements/Spinner.vue'
 import PageError from './PageError.vue'
-import { type Ref, computed, getCurrentInstance, onErrorCaptured, ref, refDebounced } from '#imports'
+import { computed, getCurrentInstance, onErrorCaptured, ref } from '#imports'
 
 defineOptions({
   inheritAttrs: false,
@@ -13,7 +13,7 @@ const { label, width } = defineProps<{
   width?: number
 }>()
 const id = (import.meta.dev ? label : null) ?? String(getCurrentInstance()?.uid)
-const pending = ref(false)
+const loading = ref(true)
 const error = ref<Error | null>(null)
 const { nextId, nextEl, isMini } = useLayout()
 const opened = computed(() => nextId.value === id)
@@ -24,15 +24,10 @@ function open() {
 function close() {
   nextId.value = null
 }
-defineExpose({
-  open,
-  close,
-  opened,
-  pending: refDebounced(pending, 50),
-})
+defineExpose({ open, close, opened })
 onErrorCaptured((e: Error) => {
   error.value = e
-  pending.value = false
+  loading.value = false
   console.error(e)
   return false
 })
@@ -47,16 +42,14 @@ onErrorCaptured((e: Error) => {
       leave-to-class="translate-x-0!"
     >
       <Layout
-        v-if="opened" v-show="!pending"
-        :width="width"
+        v-if="opened" :width="width"
         :label
+        class="mobile:translate-x--100%"
         :close
         :close-icon="isMini ? 'back' : 'close'"
-        :class="{ hidden: pending }"
-        class="mobile:translate-x--100%"
       >
         <PageError v-if="error" :error @close="close" />
-        <Suspense v-else @resolve="pending = false" @pending="pending = true">
+        <Suspense v-else @resolve="loading = false" @pending="loading = true">
           <slot />
           <template #fallback>
             <div class="h-100px flex items-center justify-center">

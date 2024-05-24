@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { File, User } from '@directus/types'
 import { readMe, updateMe } from '@directus/sdk'
-import delay from 'delay'
 import { useDirectus } from '../composables/useDirectus'
 import Card from '../../ui/components/elements/Card.vue'
 import Item from '../../ui/components/elements/Item.vue'
@@ -10,8 +9,6 @@ import UserAvatar from './UserAvatar.vue'
 import Form from './Form.vue'
 import FilesUpload from './FilesUpload.vue'
 import { ref, useAsyncData } from '#imports'
-
-await delay(500)
 
 const { requestAny, logout, refreshUser } = useDirectus()
 
@@ -39,10 +36,10 @@ function saveAvatar(close: () => void) {
 </script>
 
 <template>
-  <Menu>
-    <Item label="hello" />
-  </Menu>
   <template v-if="user">
+    <div flex justify-center pb-3>
+      <UserAvatar :user size="100" />
+    </div>
     <Card>
       <Item label="Change avatar" icon="material-symbols:add-a-photo">
         <template #page="{ close }">
