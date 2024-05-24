@@ -4,13 +4,9 @@ export default defineNuxtConfig({
     locales: ['en', 'ru'],
     ui: {
       weekStartsOn: 1,
+      mousedown: true,
     },
     db: {},
-  },
-  image: {
-    directus: {
-      baseURL: '/_db/assets/',
-    },
   },
   devtools: { enabled: true },
 })

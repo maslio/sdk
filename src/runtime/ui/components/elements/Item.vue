@@ -70,7 +70,7 @@ const clickable = computed(() => {
     :class="{ clickable, opened: page?.opened.value }"
     :href="href"
     v-bind="$attrs"
-    @click="onClick"
+    @[$click]="onClick"
   >
     <div
       ref="el"

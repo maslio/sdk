@@ -30,6 +30,7 @@ export interface ModuleOptions {
 interface OptionsUi {
   prefix?: string
   weekStartsOn?: Day
+  mousedown?: boolean
 }
 interface OptionsDb {
   prefix?: string
@@ -60,7 +61,11 @@ async function setupBase(_options: ModuleOptions, _nuxt: Nuxt) {
   })
   await installModule('@nuxtjs/device')
   await installModule('nuxt-icon')
-  await installModule('@nuxt/image')
+  await installModule('@nuxt/image', {
+    directus: {
+      baseURL: '/_db/assets',
+    },
+  })
   addPlugin({
     src: resolve('./runtime/base/plugins/device'),
     order: 1,
@@ -110,6 +115,7 @@ async function setupFluent(options: ModuleOptions, nuxt: Nuxt) {
 async function setupUi(options: OptionsUi, nuxt: Nuxt) {
   nuxt.options.appConfig.ui = {
     weekStartsOn: options.weekStartsOn ?? 1,
+    mousedown: options.mousedown ?? false,
   }
   nuxt.options.appConfig.nuxtIcon = {
     size: '24px',
@@ -142,6 +148,7 @@ async function setupUi(options: OptionsUi, nuxt: Nuxt) {
   addImportsDir(resolve('./runtime/ui/composables'))
   addImportsDir(resolve('./runtime/ui/utils'))
   addPlugin(resolve('./runtime/ui/plugins/maska'))
+  addPlugin(resolve('./runtime/ui/plugins/ui'))
 }
 
 async function setupDb(options: OptionsDb, nuxt: Nuxt) {
@@ -152,12 +159,11 @@ async function setupDb(options: OptionsDb, nuxt: Nuxt) {
     return
   nuxt.options.runtimeConfig.directusUrl = directusUrl
   nuxt.options.runtimeConfig.directusToken = directusToken
-  // @ts-expect-error directus image
-  nuxt.options.image = {
-    directus: {
-      baseURL: 'http://localhost:8055/assets',
-    },
-  }
+  // nuxt.options.image = {
+  //   directus: {
+  //     baseURL: '/_db/assets',
+  //   },
+  // }
   // console.log(nuxt)
 
   addServerHandler({

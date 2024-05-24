@@ -143,7 +143,8 @@ defineExpose({ select })
         data-maska="##"
         placeholder="DD"
         class="w-5.5 appearance-none overflow-hidden bg-transparent text-center font-mono outline-none"
-        @click.stop="select('day')"
+        @mousedown.stop.prevent="select('day')"
+        @click.stop.prevent
         @keydown="onKeydown('day', $event)"
         @blur="onBlur('day')"
       >
@@ -156,7 +157,8 @@ defineExpose({ select })
         data-maska="##"
         placeholder="MM"
         class="w-5.5 appearance-none overflow-hidden bg-transparent text-center font-mono outline-none"
-        @click.stop="select('month')"
+        @mousedown.stop.prevent="select('month')"
+        @click.stop.prevent
         @keydown="onKeydown('month', $event)"
         @blur="onBlur('month')"
       >
@@ -165,10 +167,12 @@ defineExpose({ select })
         ref="inputYear"
         v-model="values.year"
         v-maska
-        placeholder="ГГГГ"
+        inputmode="numeric"
+        placeholder="YYYY"
         data-maska="####"
         class="w-10 appearance-none overflow-hidden bg-transparent text-center font-mono outline-none"
-        @click.stop="select('year')"
+        @mousedown.stop.prevent="select('year')"
+        @click.stop.prevent
         @keydown="onKeydown('year', $event)"
         @blur="onBlur('year')"
       >

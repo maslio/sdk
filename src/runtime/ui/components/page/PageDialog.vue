@@ -78,7 +78,7 @@ defineExpose({ open, close, opened })
         class="dialog fit flex justify-center text-light backdrop-blur-2"
         :class="classItems"
       >
-        <div class="fit" @click="close" />
+        <div class="fit" @[$click]="close" />
         <div
           ref="dialog"
           overflow-hidden rounded-xl

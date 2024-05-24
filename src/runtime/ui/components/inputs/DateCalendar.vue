@@ -77,7 +77,7 @@ function select(date: string) {
     <div flex flex-row items-center>
       <button
         color="default" class="clickable px-3 py-2"
-        @click="calendarDate = subMonths(calendarDate, 1)"
+        @[$click]="calendarDate = subMonths(calendarDate, 1)"
       >
         <Icon name="material-symbols:chevron-left-rounded" />
       </button>
@@ -86,7 +86,7 @@ function select(date: string) {
       </div>
       <button
         color="default" class="clickable px-3 py-2"
-        @click="calendarDate = addMonths(calendarDate, 1)"
+        @[$click]="calendarDate = addMonths(calendarDate, 1)"
       >
         <Icon name="material-symbols:chevron-right-rounded" />
       </button>
@@ -115,7 +115,7 @@ function select(date: string) {
           :class="{
             'text-opacity-30!': !day.inCalendarMonth,
           }"
-          @click="select(day.formated)"
+          @[$click]="select(day.formated)"
         >
           <div
             class="p-0.5"

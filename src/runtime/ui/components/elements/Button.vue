@@ -60,7 +60,7 @@ const { pending, action, shake, error } = useAction(async (e: Event) => {
       :color
       :disabled="disabled || pending"
       :class="{ clickable: !disabled, mini, flat, opened: page?.opened.value, shake }"
-      @click="action"
+      @[$click]="action"
     >
       <div v-if="pending">
         <Spinner :size="mini ? '20' : '24'" />

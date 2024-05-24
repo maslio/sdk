@@ -26,7 +26,7 @@ const model = defineModel<string>()
           color="default"
           class="clickable min-h-8 w-full flex items-center justify-center rounded-lg"
           :class="{ opened: model === tab.value }"
-          @click="model = tab.value"
+          @[$click]="model = tab.value"
         >
           {{ tab.label }}
         </div>

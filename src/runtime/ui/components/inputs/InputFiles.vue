@@ -31,7 +31,7 @@ const { isOverDropZone } = useDropZone(el, {
     <button
       class="fit flex items-center justify-center rounded-xl text-faint"
       border="2 neutral dashed"
-      @click="open()"
+      @[$click]="open()"
     >
       Upload files
     </button>
