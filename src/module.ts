@@ -25,7 +25,7 @@ export interface ModuleOptions {
   locales?: string[]
   ui?: OptionsUi
   db?: OptionsDb
-  ai?: boolean
+  ai?: OptionsAi
 }
 interface OptionsUi {
   prefix?: string
@@ -34,6 +34,9 @@ interface OptionsUi {
 }
 interface OptionsDb {
   prefix?: string
+}
+interface OptionsAi {
+
 }
 
 const { resolve, resolvePath } = createResolver(import.meta.url)
@@ -51,10 +54,14 @@ export default defineNuxtModule<ModuleOptions>({
       await setupUi(options.ui, nuxt)
     if (options.db)
       await setupDb(options.db, nuxt)
+    if (options.ai)
+      await setupAi(options.ai, nuxt)
   },
 })
 
-async function setupBase(_options: ModuleOptions, _nuxt: Nuxt) {
+async function setupBase(_options: ModuleOptions, nuxt: Nuxt) {
+  nuxt.options.runtimeConfig.nitro ||= {}
+  nuxt.options.runtimeConfig.nitro.envPrefix = ''
   await installModule('@vueuse/nuxt')
   await installModule('@nuxtjs/color-mode', {
     classSuffix: '',
@@ -159,12 +166,6 @@ async function setupDb(options: OptionsDb, nuxt: Nuxt) {
     return
   nuxt.options.runtimeConfig.directusUrl = directusUrl
   nuxt.options.runtimeConfig.directusToken = directusToken
-  // nuxt.options.image = {
-  //   directus: {
-  //     baseURL: '/_db/assets',
-  //   },
-  // }
-  // console.log(nuxt)
 
   addServerHandler({
     route: '/_db/**',
@@ -211,4 +212,10 @@ async function checkDirectus(url: string, token: string): Promise<boolean> {
     return false
   }
   return true
+}
+
+async function setupAi(_options: OptionsAi, nuxt: Nuxt) {
+  nuxt.options.runtimeConfig.openaiApiKey = ''
+  nuxt.options.runtimeConfig.googleAiApiKey = ''
+  addServerImportsDir(resolve('./runtime/ai/utils'))
 }

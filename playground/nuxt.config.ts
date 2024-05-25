@@ -7,6 +7,7 @@ export default defineNuxtConfig({
       mousedown: true,
     },
     db: {},
+    ai: {},
   },
   devtools: { enabled: true },
 })
