@@ -8,15 +8,17 @@ import { Buffer } from 'node:buffer'
 
 export default defineEventHandler(async (event) => {
   const { prompt } = getQuery<{ prompt: string }>(event)
-  const { generateObject, model } = useAi('openai')
-  const { object } = await generateObject({
-    model: model('gpt-3.5-turbo'),
-    system: 'You answer in two languages: english and russian',
-    prompt,
-    schema: z.object({
-      russian: z.string(),
-      english: z.string(),
-    }),
+  const { getImage, requestAny } = useDirectus('admin')
+  const { generateText, model } = useAi('openai')
+  const me = await requestAny(readMe({ fields: ['avatar'] }))
+  const { text } = await generateText({
+    model: model('gpt-4o'),
+    messages: [
+      { role: 'user', content: [
+        { type: 'image', image: await getImage(me.avatar) },
+        { type: 'text', text: prompt },
+      ] },
+    ],
   })
-  return object
+  return text
 })

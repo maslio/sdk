@@ -1,4 +1,5 @@
-import { type DirectusClient, type RestClient, createDirectus, rest, staticToken } from '@directus/sdk'
+import { Buffer } from 'node:buffer'
+import { type AssetsQuery, type DirectusClient, type RestClient, createDirectus, readAssetArrayBuffer, rest, staticToken } from '@directus/sdk'
 import { type H3Event, getCookie } from 'h3'
 import { jwtDecode } from 'jwt-decode'
 import { createError, useRuntimeConfig } from '#imports'
@@ -34,9 +35,15 @@ export function useDirectus(event: H3Event | 'admin') {
   const client = event === 'admin' ? adminClient() : userClient(event)
   const requestAny: ClientAny['request'] = options => client.request(options)
   const request: Client['request'] = options => client.request(options)
+  async function getImage(id: string, query?: AssetsQuery) {
+    const arrayBuffer = await request(readAssetArrayBuffer(id, query))
+    const buffer = Buffer.from(arrayBuffer)
+    return buffer.toString('base64')
+  }
   return {
     client,
     request,
+    getImage,
     requestAny,
   }
 }
