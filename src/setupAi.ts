@@ -9,5 +9,5 @@ const { resolve } = createResolver(import.meta.url)
 export default async function setupAi(_options: OptionsAi, nuxt: Nuxt) {
   nuxt.options.runtimeConfig.openaiApiKey = ''
   nuxt.options.runtimeConfig.googleAiApiKey = ''
-  addServerImportsDir(resolve('../runtime/ai/utils'))
+  addServerImportsDir(resolve('./runtime/ai/utils'))
 }

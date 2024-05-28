@@ -1,8 +1,8 @@
 import type { Nuxt } from '@nuxt/schema'
 import { addImportsDir, addPlugin, addServerImportsDir, addTemplate, createResolver, installModule } from '@nuxt/kit'
-import type { ModuleOptions } from '../module'
-import genEslintConfig from '../config/genEslintConfig'
-import { addImports, addImportsPresets } from '../utils/imports'
+import type { ModuleOptions } from './module'
+import genEslintConfig from './config/genEslintConfig'
+import { addImports, addImportsPresets } from './utils/imports'
 
 const { resolve } = createResolver(import.meta.url)
 
@@ -26,7 +26,7 @@ export default async function setupBase(_options: ModuleOptions, nuxt: Nuxt) {
     directus: { baseURL: '/_db/assets' },
   })
   addPlugin({
-    src: resolve('../runtime/base/plugins/device'),
+    src: resolve('./runtime/base/plugins/device'),
     order: 1,
   })
   addTemplate({
@@ -34,7 +34,7 @@ export default async function setupBase(_options: ModuleOptions, nuxt: Nuxt) {
     filename: 'eslint.config.js',
     write: true,
   })
-  addImportsDir(resolve('../runtime/base/composables'))
-  addImportsDir(resolve('../runtime/base/utils'))
-  addServerImportsDir(resolve('../runtime/base/utils'))
+  addImportsDir(resolve('./runtime/base/composables'))
+  addImportsDir(resolve('./runtime/base/utils'))
+  addServerImportsDir(resolve('./runtime/base/utils'))
 }

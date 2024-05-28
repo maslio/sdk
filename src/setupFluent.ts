@@ -1,7 +1,7 @@
 import type { Nuxt } from '@nuxt/schema'
 import { addPlugin, addServerHandler, addTemplate, createResolver, installModule } from '@nuxt/kit'
-import type { ModuleOptions } from '../module'
-import { genLocaleFile, genLocaleIndex } from '../config/genLocale'
+import type { ModuleOptions } from './module'
+import { genLocaleFile, genLocaleIndex } from './config/genLocale'
 
 const { resolve, resolvePath } = createResolver(import.meta.url)
 
@@ -14,14 +14,14 @@ export default async function setupFluent(options: ModuleOptions, nuxt: Nuxt) {
 
   addServerHandler({
     route: '/_locale/:lang',
-    handler: resolve('../runtime/base/server/routes/locale'),
+    handler: resolve('./runtime/base/server/routes/locale'),
   })
 
   const locales = options.locales ?? ['en-US']
   for (const locale of locales) {
     addTemplate({
       getContents: async () => genLocaleFile(locale, [
-        resolve('../runtime/locales'),
+        resolve('./runtime/locales'),
         await resolvePath('~/locales'),
       ]),
       filename: `locales/${locale}.json`,
@@ -36,7 +36,7 @@ export default async function setupFluent(options: ModuleOptions, nuxt: Nuxt) {
     filename: `locales/index.ts`,
     write: true,
   })
-  addPlugin({ src: resolve('../runtime/base/plugins/fluent') })
+  addPlugin({ src: resolve('./runtime/base/plugins/fluent') })
 
   // nuxt.hook('vite:extend', ({ config }) => {
   //   config.plugins ||= []

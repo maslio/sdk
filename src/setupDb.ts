@@ -3,7 +3,7 @@ import { $fetch } from 'ofetch'
 import { joinURL } from 'ufo'
 import type { Nuxt } from '@nuxt/schema'
 import { addComponentsDir, addImportsDir, addPlugin, addServerHandler, addServerImportsDir, addTypeTemplate, createResolver, logger } from '@nuxt/kit'
-import genDirectusTypes from '../config/genDirectusTypes'
+import genDirectusTypes from './config/genDirectusTypes'
 
 const { resolve } = createResolver(import.meta.url)
 
@@ -22,7 +22,7 @@ export default async function setupDb(options: OptionsDb, nuxt: Nuxt) {
 
   addServerHandler({
     route: '/_db/**',
-    handler: resolve('../runtime/db/server/routes/proxy'),
+    handler: resolve('./runtime/db/server/routes/proxy'),
   })
 
   addTypeTemplate({
@@ -30,24 +30,24 @@ export default async function setupDb(options: OptionsDb, nuxt: Nuxt) {
     getContents: async () => genDirectusTypes(directusUrl, directusToken),
   })
   addPlugin({
-    src: resolve('../runtime/db/plugins/directus.client'),
+    src: resolve('./runtime/db/plugins/directus.client'),
     mode: 'client',
   })
   addPlugin({
-    src: resolve('../runtime/db/plugins/directus.server'),
+    src: resolve('./runtime/db/plugins/directus.server'),
     mode: 'server',
   })
 
   addComponentsDir({
-    path: resolve('../runtime/db/components'),
+    path: resolve('./runtime/db/components'),
     prefix: options.prefix ?? 'db',
     pathPrefix: false,
     ignore: ['imports/*'],
   })
-  addImportsDir(resolve('../runtime/db/composables'))
-  addServerImportsDir(resolve('../runtime/db/server/utils'))
-  addImportsDir(resolve('../runtime/db/imports'))
-  addServerImportsDir(resolve('../runtime/db/imports'))
+  addImportsDir(resolve('./runtime/db/composables'))
+  addServerImportsDir(resolve('./runtime/db/server/utils'))
+  addImportsDir(resolve('./runtime/db/imports'))
+  addServerImportsDir(resolve('./runtime/db/imports'))
 }
 
 async function checkDirectus(url: string, token: string): Promise<boolean> {

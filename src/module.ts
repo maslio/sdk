@@ -1,10 +1,10 @@
 import { defineNuxtModule } from '@nuxt/kit'
 
-import setupBase from './setup/setupBase'
-import setupFluent from './setup/setupFluent'
-import setupUi, { type OptionsUi } from './setup/setupUi'
-import setupDb, { type OptionsDb } from './setup/setupDb'
-import setupAi, { type OptionsAi } from './setup/setupAi'
+import setupBase from './setupBase'
+import setupFluent from './setupFluent'
+import setupUi, { type OptionsUi } from './setupUi'
+import setupDb, { type OptionsDb } from './setupDb'
+import setupAi, { type OptionsAi } from './setupAi'
 
 export interface ModuleOptions {
   locales?: string[]
