@@ -14,7 +14,7 @@ export default async function setupFluent(options: ModuleOptions, nuxt: Nuxt) {
 
   addServerHandler({
     route: '/_locale/:lang',
-    handler: resolve('../runtime/base/server/routes/locale.ts'),
+    handler: resolve('../runtime/base/server/routes/locale'),
   })
 
   const locales = options.locales ?? ['en-US']
