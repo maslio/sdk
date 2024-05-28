@@ -23,10 +23,10 @@ export default defineNuxtPlugin((nuxt) => {
     provide: {
       locale: computed(() => selectedLocale.value),
       locales,
-      changeLocale(locale: string) {
-        if (!locales.includes(locale))
-          throw new Error(`Invalid locale ${locale}`)
-        selectedLocale.value = locale
+      changeLocale(_locale: string) {
+        if (!locales.includes(_locale))
+          throw new Error(`Invalid locale ${_locale}`)
+        selectedLocale.value = _locale
         fluent.bundles = [bundles[selectedLocale.value]]
       },
     },

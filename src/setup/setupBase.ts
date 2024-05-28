@@ -2,16 +2,17 @@ import type { Nuxt } from '@nuxt/schema'
 import { addImportsDir, addPlugin, addServerImportsDir, addTemplate, createResolver, installModule } from '@nuxt/kit'
 import type { ModuleOptions } from '../module'
 import genEslintConfig from '../config/genEslintConfig'
-// import type { Import } from 'unimport'
+import { addImports, addImportsPresets } from '../utils/imports'
 
 const { resolve } = createResolver(import.meta.url)
 
 export default async function setupBase(_options: ModuleOptions, nuxt: Nuxt) {
-  nuxt.options.nitro.imports ||= {}
-  nuxt.options.nitro.imports.imports ||= []
-  nuxt.options.nitro.imports.imports.push(
-    { name: 'z', from: 'zod' },
-  )
+  addImports([
+    { from: 'zod', name: 'z' },
+    { from: 'nanoid', name: 'nanoid' },
+    { from: 'delay', name: 'default', as: 'delay' },
+  ])
+  addImportsPresets(['date-fns'])
 
   nuxt.options.runtimeConfig.nitro ||= {}
   nuxt.options.runtimeConfig.nitro.envPrefix = ''
