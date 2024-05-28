@@ -1,11 +1,3 @@
-import { Buffer } from 'node:buffer'
-
-// async function blobToBase64(blob: Blob): Promise<string> {
-//   const arrayBuffer = await blob.arrayBuffer()
-//   const buffer = Buffer.from(arrayBuffer)
-//   return buffer.toString('base64')
-// }
-
 export default defineEventHandler(async (event) => {
   const { prompt } = getQuery<{ prompt: string }>(event)
   const { getImage, requestAny } = useDirectus('admin')

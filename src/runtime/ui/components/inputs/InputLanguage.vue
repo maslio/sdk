@@ -18,10 +18,10 @@ interface Language {
 }
 
 const allLanguages: Language[] = [
-  { code: 'en', name: $t('lang_english'), native: 'English', icon: '🇺🇸' },
-  { code: 'ru', name: $t('lang_russian'), native: 'Русский', icon: '🇷🇺' },
-  { code: 'th', name: $t('lang_thai'), native: 'ไทย', icon: '🇹🇭' },
-  { code: 'jp', name: $t('lang_japanese'), native: '日本語', icon: '🇯🇵' },
+  { code: 'en-US', name: $t('lang_english'), native: 'English', icon: '🇺🇸' },
+  { code: 'ru-RU', name: $t('lang_russian'), native: 'Русский', icon: '🇷🇺' },
+  { code: 'th-TH', name: $t('lang_thai'), native: 'ไทย', icon: '🇹🇭' },
+  { code: 'ja-JP', name: $t('lang_japanese'), native: '日本語', icon: '🇯🇵' },
 ]
 
 const options = allLanguages
