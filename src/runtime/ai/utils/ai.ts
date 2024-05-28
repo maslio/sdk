@@ -2,13 +2,11 @@ import { generateObject, generateText, tool } from 'ai'
 import { createOpenAI } from '@ai-sdk/openai'
 import { createGoogleGenerativeAI } from '@ai-sdk/google'
 import { createOllama } from 'ollama-ai-provider'
-import { z } from 'zod'
 import { useRuntimeConfig } from '#imports'
 
 type Provider = 'openai' | 'google' | 'ollama'
 
 interface Ai {
-  z: typeof z
   tool: typeof tool
   generateText: typeof generateText
   generateObject: typeof generateObject
@@ -51,7 +49,6 @@ export function useAi<T extends Provider>(provider: T): UseAiReturnType<T> {
   })()
 
   return {
-    z,
     model,
     tool,
     generateText,

@@ -8,7 +8,7 @@ import { Buffer } from 'node:buffer'
 
 export default defineEventHandler(async (event) => {
   const { prompt } = getQuery<{ prompt: string }>(event)
-  const { generateObject, model, z } = useAi('openai')
+  const { generateObject, model } = useAi('openai')
   const { object } = await generateObject({
     model: model('gpt-3.5-turbo'),
     system: 'You answer in two languages: english and russian',
