@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.1.3
+
+[compare changes](https://github.com/maslio/kit/compare/v0.1.2...v0.1.3)
+
+### 💅 Refactors
+
+- Move setup files into src directory ([7402b04](https://github.com/maslio/kit/commit/7402b04))
+
+### ❤️ Contributors
+
+- Maslio <vlad@maslio.com>
+
 ## v0.1.2
 
 [compare changes](https://github.com/maslio/kit/compare/v0.1.0...v0.1.2)
