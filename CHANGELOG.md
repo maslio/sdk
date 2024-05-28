@@ -1,6 +1,42 @@
 # Changelog
 
 
+## v0.1.2
+
+[compare changes](https://github.com/maslio/kit/compare/v0.1.0...v0.1.2)
+
+### 🚀 Enhancements
+
+- **db:** Create Layout component with SignIn ([036950c](https://github.com/maslio/kit/commit/036950c))
+- **ui:** InputFiles component ([a4b9daf](https://github.com/maslio/kit/commit/a4b9daf))
+- Add @nuxt/image add DbFilesUpload ([eeac5d7](https://github.com/maslio/kit/commit/eeac5d7))
+- Add UserAvatar component ([c2f48d7](https://github.com/maslio/kit/commit/c2f48d7))
+- **ui:** Update click event handling in UI components ([b0620ae](https://github.com/maslio/kit/commit/b0620ae))
+- New AI module ([8dfa64c](https://github.com/maslio/kit/commit/8dfa64c))
+- **module:** Add new imports utils ([f6ee88e](https://github.com/maslio/kit/commit/f6ee88e))
+- **db:** Add getImage function to server useDirectus ([5cc6222](https://github.com/maslio/kit/commit/5cc6222))
+- **locale:** Improve fluent functionality ([e965a3c](https://github.com/maslio/kit/commit/e965a3c))
+
+### 💅 Refactors
+
+- Update InputDateRange component to use weekStartsOn option from ui config ([bffce46](https://github.com/maslio/kit/commit/bffce46))
+- Update Db components ([85eac84](https://github.com/maslio/kit/commit/85eac84))
+- Update PageNext component transition classes ([a4f3383](https://github.com/maslio/kit/commit/a4f3383))
+- Update PageNext component transition classes" ([0c28349](https://github.com/maslio/kit/commit/0c28349))
+- Update PageNext component transition classes ([539926c](https://github.com/maslio/kit/commit/539926c))
+- Move large module setup into different files ([782807c](https://github.com/maslio/kit/commit/782807c))
+- Update setupFluent.ts to remove file extension in handler path ([051c958](https://github.com/maslio/kit/commit/051c958))
+
+### 🏡 Chore
+
+- Some fixes ([715ce05](https://github.com/maslio/kit/commit/715ce05))
+- **release:** V0.1.0 ([464203b](https://github.com/maslio/kit/commit/464203b))
+- **release:** V0.1.1 ([32dc39b](https://github.com/maslio/kit/commit/32dc39b))
+
+### ❤️ Contributors
+
+- Maslio <vlad@maslio.com>
+
 ## v0.1.1
 
 [compare changes](https://github.com/maslio/kit/compare/v0.1.0...v0.1.1)
