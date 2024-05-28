@@ -1,8 +1,3 @@
-emails = { $unreadEmails ->
-    [one] You have one unread email.
-   *[other] You have { $unreadEmails } unread emails.
-}
-
 lang = Language
 lang_english = English
 lang_russian = Russian
@@ -42,4 +37,11 @@ delete = Delete
 update = Update
 remove = Remove
 
-question = Question
+sign_in = Sign in
+sign_up = Sign up
+logout = Logout
+password = Password
+email = Email
+user_name = Name
+user_first_name = First name
+user_last_name = Last name

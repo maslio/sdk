@@ -46,9 +46,9 @@
     "astro"
   ],
   "i18n-ally.localesPaths": [
-    "playground/locales",
-    "src/runtime/ui/locales"
+    "src/runtime/locales"
   ],
-  "i18n-ally.sourceLanguage": "en",
+  "i18n-ally.sourceLanguage": "en-US",
+  "i18n-ally.displayLanguage": "en-US",
   "i18n-ally.keystyle": "nested"
 }

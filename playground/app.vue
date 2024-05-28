@@ -5,7 +5,7 @@
   <DbLayout>
     <InputLanguage
       :codes="$locales"
-      :model-value="$locale.value"
+      :model-value="$locale"
       @update:model-value="$changeLocale"
     />
     <Card>
