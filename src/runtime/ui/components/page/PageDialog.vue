@@ -91,6 +91,7 @@ defineExpose({ open, close, opened })
               ref="layout" :label
               :no-header="!header"
               :close
+              close-icon="close"
             >
               <PageError v-if="error" :error @close="close" />
               <Suspense v-else @resolve="loading = false" @pending="loading = true">

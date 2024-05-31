@@ -45,3 +45,4 @@ email = Email
 user_name = Name
 user_first_name = First name
 user_last_name = Last name
+search = Search

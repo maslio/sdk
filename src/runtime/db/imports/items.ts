@@ -7,4 +7,5 @@ export {
   updateItems,
   deleteItem,
   deleteItems,
+  aggregate,
 } from '@directus/sdk'
