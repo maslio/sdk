@@ -1,25 +1,25 @@
 <script setup lang="ts">
-import { readFieldsByCollection, readItem, updateItem } from '@directus/sdk'
+import { createItem, readFieldsByCollection, readItem, updateItem } from '@directus/sdk'
 import type { Field } from '@directus/types'
 import { titleCase } from 'scule'
-import { useDirectus } from '../composables/useDirectus'
-import Card from '../../ui/components/elements/Card.vue'
-import Button from '../../ui/components/elements/Button.vue'
+import { useDirectus } from '../../composables/useDirectus'
+import Card from '../../../ui/components/elements/Card.vue'
+import Button from '../../../ui/components/elements/Button.vue'
 import { defineAsyncComponent, reactive, ref, watch } from '#imports'
 
 const props = defineProps<{
   collection: string
-  fields: string[]
+  fields: string | string[]
   id?: string | number
   values?: Record<string, any>
   labels?: Record<string, string>
-  saveLabel?: string
-  save?: (data: Record<string, any>) => any
+  submitLabel?: string
+  submit: (data: Record<string, any>) => any
 }>()
-const emit = defineEmits(['save'])
+const emit = defineEmits(['submit'])
 
-if (!props.id && !props.values)
-  throw new Error('Required at least id or values')
+// if (props.type === 'update' && !props.id && !props.values)
+//   throw new Error('Required at least "id" or "values" for type "update"')
 
 const { requestAny } = useDirectus()
 
@@ -33,8 +33,10 @@ function getFieldLabel(field: Field) {
   return titleCase(field.field)
 }
 
+const fieldsArray = typeof props.fields === 'string' ? props.fields.split(' ') : props.fields
+
 const allFields = await requestAny(readFieldsByCollection(props.collection)) as Field[]
-const fields = props.fields.map((key) => {
+const fields = fieldsArray.map((key) => {
   const field = allFields.find(f => f.field === key)
   if (!field)
     throw new Error(`field '${key}' is not found in collection ${props.collection}`)
@@ -48,9 +50,9 @@ const fields = props.fields.map((key) => {
 })
 const values = reactive(
   props.id
-    ? await requestAny(readItem(props.collection, props.id, { fields: props.fields })) as Record<string, any>
+    ? await requestAny(readItem(props.collection, props.id, { fields: fieldsArray })) as Record<string, any>
     : Object.fromEntries(
-      props.fields.map(key => [key, props.values?.[key] ?? null]),
+      fieldsArray.map(key => [key, props.values?.[key] ?? null]),
     ),
 )
 
@@ -66,11 +68,9 @@ watch(values, () => {
 
 async function save() {
   try {
-    if (props.save)
-      await props.save(values)
-    else if (props.id)
-      await requestAny(updateItem(props.collection, props.id, values))
-    emit('save', values)
+    if (props.submit)
+      await props.submit(values)
+    emit('submit', values)
   }
   catch (e: any) {
     if (e.errors) {
@@ -95,5 +95,5 @@ async function save() {
       :error="errors[field.key]"
     />
   </Card>
-  <Button :label="saveLabel ?? $t('save')" :click="save" color="primary" />
+  <Button :label="submitLabel ?? $t('save')" :click="save" color="primary" />
 </template>

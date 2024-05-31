@@ -40,7 +40,7 @@ export default async function setupDb(options: OptionsDb, nuxt: Nuxt) {
 
   addComponentsDir({
     path: resolve('./runtime/db/components'),
-    prefix: options.prefix ?? 'db',
+    prefix: options.prefix ?? '',
     pathPrefix: false,
     ignore: ['imports/*'],
   })

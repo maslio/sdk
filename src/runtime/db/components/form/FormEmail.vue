@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Field } from '@directus/types'
-import InputString from '../../ui/components/inputs/InputString.vue'
+import InputString from '../../../ui/components/inputs/InputString.vue'
 
 defineProps<{
   field: Field

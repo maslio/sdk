@@ -120,7 +120,7 @@ provide<LayoutProvide>('layout', { isMini, pageEl, menuEl, nextEl, nextId, foote
         <slot />
         <div ref="bottomEl" class="sticky bottom-0" />
       </main>
-      <footer ref="footerEl" class="px-3" />
+      <footer ref="footerEl" class="px-3 pb-3 dialog:pb-0" />
     </div>
     <div ref="nextEl" class="next">
       <div v-if="$slots.placeholder" class="fit hidden last:block">

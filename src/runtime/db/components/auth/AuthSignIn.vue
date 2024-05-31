@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { useDirectus } from '../composables/useDirectus'
-import Card from '../../ui/components/elements/Card.vue'
-import InputPassword from '../../ui/components/inputs/InputPassword.vue'
-import InputString from '../../ui/components/inputs/InputString.vue'
-import Button from '../../ui/components/elements/Button.vue'
+import { useDirectus } from '../../composables/useDirectus'
+import Card from '../../../ui/components/elements/Card.vue'
+import InputPassword from '../../../ui/components/inputs/InputPassword.vue'
+import InputString from '../../../ui/components/inputs/InputString.vue'
+import Button from '../../../ui/components/elements/Button.vue'
 import { ref } from '#imports'
 
 const d = useDirectus()
@@ -37,4 +37,3 @@ async function click() {
     />
   </div>
 </template>
-../../composables/useDirectus

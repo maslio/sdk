@@ -19,6 +19,7 @@ const props = withDefaults(defineProps<{
   increment?: number
   debounce?: string | number
   search?: string
+  showTotal?: boolean
 }>(), {
   limit: 5,
   increment: 5,
@@ -47,6 +48,7 @@ watchDebounced(input, (value) => {
 const list = ref<HTMLDivElement>()
 
 const items = computed<T[]>(() => {
+  // console.log(props.data.data.value.length)
   if (props.data)
     return props.data.data.value as T[]
   if (props.items)
@@ -180,7 +182,7 @@ const focus = (function () {
     </div>
   </Card>
   <div
-    v-if="total"
+    v-if="total && showTotal"
     class="m-2 text-center text-faint"
   >
     Total: {{ total }}

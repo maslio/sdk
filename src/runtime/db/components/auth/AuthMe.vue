@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import type { File, User } from '@directus/types'
 import { readMe, updateMe } from '@directus/sdk'
-import { useDirectus } from '../composables/useDirectus'
-import Card from '../../ui/components/elements/Card.vue'
-import Item from '../../ui/components/elements/Item.vue'
-import Button from '../../ui/components/elements/Button.vue'
-import UserAvatar from './UserAvatar.vue'
-import Form from './Form.vue'
-import FilesUpload from './FilesUpload.vue'
+import { useDirectus } from '../../composables/useDirectus'
+import Card from '../../../ui/components/elements/Card.vue'
+import Item from '../../../ui/components/elements/Item.vue'
+import Button from '../../../ui/components/elements/Button.vue'
+import Form from '../form/Form.vue'
+import UserAvatar from '../users/UserAvatar.vue'
+import FilesUpload from '../files/FilesUpload.vue'
 import { ref, useAsyncData } from '#imports'
 
 const { requestAny, logout, refreshUser } = useDirectus()
@@ -63,7 +63,7 @@ function saveAvatar(close: () => void) {
               first_name: $t('user_first_name'),
               last_name: $t('user_last_name'),
             }"
-            :save @save="close"
+            :submit="save" @save="close"
           />
         </template>
       </Item>
@@ -74,7 +74,7 @@ function saveAvatar(close: () => void) {
             :fields="['email']"
             :values="user"
             :labels="{ email: $t('email') }"
-            :save @save="close"
+            :submit="save" @save="close"
           />
         </template>
       </Item>

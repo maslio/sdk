@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import Layout from '../../ui/components/layout/Layout.vue'
-import { useDirectus } from '../composables/useDirectus'
-import Item from '../../ui/components/elements/Item.vue'
-import LayoutSignIn from './LayoutSignIn.vue'
-import LayoutMe from './LayoutMe.vue'
-import UserAvatar from './UserAvatar.vue'
+import UserAvatar from '../users/UserAvatar.vue'
+import Layout from '../../../ui/components/layout/Layout.vue'
+import Item from '../../../ui/components/elements/Item.vue'
+import { useDirectus } from '../../composables/useDirectus'
+import AuthMe from './AuthMe.vue'
+import AuthSignIn from './AuthSignIn.vue'
 
 const d = useDirectus()
 const user = d.user
@@ -16,7 +16,7 @@ const user = d.user
     color="back"
     class="fit flex items-center justify-center"
   >
-    <LayoutSignIn />
+    <AuthSignIn />
   </div>
   <Layout v-else root>
     <Item
@@ -27,7 +27,7 @@ const user = d.user
         <UserAvatar :user="user" size="40" />
       </template>
       <template #page>
-        <LayoutMe />
+        <AuthMe />
       </template>
     </Item>
     <slot />
