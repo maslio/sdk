@@ -2,7 +2,7 @@
 import { computed } from '#imports'
 
 const { error } = defineProps<{
-  error: Error | string
+  error: any
 }>()
 
 const text = computed(() => {
@@ -12,7 +12,8 @@ const text = computed(() => {
     return error
   if (error.message)
     return error.message
-
+  if (error.errors.message)
+    return error.errors.message
   return 'Error'
 })
 </script>

@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { useAction } from '../../composables/useAction'
-import { type PageProps, type PageTarget, usePage } from '../../composables/usePage'
 import Error from '../elements/Error.vue'
 import Spinner from './Spinner.vue'
-import { type Ref, ref, useSlots } from '#imports'
+import { type Ref, ref } from '#imports'
 
 defineOptions({
   inheritAttrs: false,
@@ -16,35 +15,21 @@ const props = withDefaults(defineProps<{
   disabled?: boolean
   mini?: boolean
   flat?: boolean
-  page?: PageProps | PageTarget
 }>(), {
   color: 'default',
-  page: 'center',
 })
 
 const emit = defineEmits(['click'])
-
-defineSlots<{
-  page: (props: {
-    close: () => void
-  }) => any
-}>()
-
 const el = ref() as Ref<HTMLElement>
-const slots = useSlots()
-
-const page = slots.page ? usePage(props.page, props.label) : null
 
 const { pending, action, shake, error } = useAction(async (e: Event) => {
-  if (props.disabled)
-    return
   e.stopPropagation()
   e.preventDefault()
-  emit('click', e)
+  if (props.disabled)
+    return
   if (props.click)
-    return await props.click(e)
-  if (page)
-    return page.open()
+    await props.click(e)
+  emit('click', e)
 })
 </script>
 
@@ -59,7 +44,7 @@ const { pending, action, shake, error } = useAction(async (e: Event) => {
       class="max-h-full min-h-11 w-full rounded-xl font-500 desktop:min-h-10"
       :color
       :disabled="disabled || pending"
-      :class="{ clickable: !disabled, mini, flat, opened: page?.opened.value, shake }"
+      :class="{ clickable: !disabled, mini, flat, shake }"
       @[$click]="action"
     >
       <div v-if="pending">
@@ -72,16 +57,6 @@ const { pending, action, shake, error } = useAction(async (e: Event) => {
         </div>
       </div>
     </button>
-    <template v-if="page">
-      <component
-        :is="page.component"
-        :ref="page.target"
-        v-bind="page.props"
-        :parent="el"
-      >
-        <slot name="page" :close="page.close" />
-      </component>
-    </template>
   </div>
 </template>
 

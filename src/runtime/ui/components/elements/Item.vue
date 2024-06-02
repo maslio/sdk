@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { type PageProps, type PageTarget, usePage } from '../../composables/usePage'
 import Checkbox from './Checkbox.vue'
-import { type Ref, computed, ref, useSlots } from '#imports'
+import { type Ref, computed, ref } from '#imports'
 
 export interface Props {
   icon?: string
@@ -15,18 +14,21 @@ export interface Props {
   value?: string
   valueClass?: string | string[]
   clickable?: boolean
-  page?: PageProps | PageTarget
   href?: string
   option?: boolean
   selected?: boolean
   noTruncate?: boolean
   disabled?: boolean
+  open?: boolean
+  opened?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
   iconSize: '24',
 })
+
 const emit = defineEmits(['click'])
+
 defineSlots<{
   page: (props: {
     close: () => void
@@ -35,30 +37,17 @@ defineSlots<{
   main: () => any
   right: () => any
 }>()
-// console.log(props.label)
-const el = ref() as Ref<HTMLElement>
-const slots = useSlots()
 
-const page = slots.page ? usePage(props.page, props.label) : null
+const el = ref() as Ref<HTMLElement>
 
 async function onClick(e: Event) {
   if (props.disabled)
     return
   emit('click', e)
-  if (props.option)
-    return
-  if (page)
-    page.open()
 }
-// const icon = computed(() => {
-//   if (!props.icon)
-//     return null
-//   const [name, ..._class] = props.icon.split(' ')
-//   return { name, class: _class }
-// })
 const tag = props.href ? 'a' : 'div'
 const clickable = computed(() => {
-  return props.clickable || props.option || props.href || page
+  return props.clickable || props.option || props.href || props.open
 })
 </script>
 
@@ -67,7 +56,7 @@ const clickable = computed(() => {
     :is="tag"
     class="block min-h-11 w-full overflow-hidden rounded-xl text-left desktop:min-h-10 card:rounded-none"
     color="default"
-    :class="{ clickable, opened: page?.opened.value }"
+    :class="{ clickable, opened }"
     :href="href"
     v-bind="$attrs"
     @[$click]="onClick"
@@ -115,20 +104,10 @@ const clickable = computed(() => {
         class="ml--3 mr--1 transition-color text-faint"
       />
       <Icon
-        v-else-if="page"
+        v-else-if="open"
         name="fluent:chevron-right-16-filled" size="18"
         class="ml--3 mr--1 transition-color text-faint"
       />
     </div>
   </component>
-  <template v-if="page">
-    <component
-      :is="page.component"
-      :ref="page.target"
-      v-bind="page.props"
-      :parent="el"
-    >
-      <slot name="page" :close="page.close" />
-    </component>
-  </template>
 </template>

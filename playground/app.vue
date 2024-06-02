@@ -1,21 +1,29 @@
 <script setup lang="ts">
+const next = openRef()
+const bottom = openRef()
+const Hello = defineAsyncComponent(() => import('./components/Hello.vue'))
 </script>
 
 <template>
-  <DbLayout>
-    <InputLanguage
-      :codes="$locales"
-      :model-value="$locale"
-      @update:model-value="$changeLocale"
+  <Layout root>
+    <Item
+      label="Item" open
+      :opened="next?.opened('Item')"
+      @click="next.open({
+        id: 'Item',
+        props: { name: 'Item' },
+        component: Hello,
+        label: 'Item',
+      })"
     />
-    <Card>
-      <InputDate />
-      <InputDateRange />
-    </Card>
-    <Item label="Question" :page="{ target: 'next', width: 500 }">
-      <template #page>
-        <Question />
-      </template>
-    </Item>
-  </DbLayout>
+
+    <Open ref="next" v-slot="{ component, props }" target="bottom">
+      <Component :is="component" v-bind="props" />
+      <Button label="Bottom" @click="bottom.open(); next.close()" />
+    </Open>
+
+    <Open ref="bottom">
+      <div>hello bottom</div>
+    </Open>
+  </Layout>
 </template>
