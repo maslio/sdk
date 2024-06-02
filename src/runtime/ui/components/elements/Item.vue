@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import Checkbox from './Checkbox.vue'
 import { type Ref, computed, ref } from '#imports'
 
 export interface Props {
@@ -15,8 +14,8 @@ export interface Props {
   valueClass?: string | string[]
   clickable?: boolean
   href?: string
-  option?: boolean
-  selected?: boolean
+  // option?: boolean
+  // selected?: boolean
   noTruncate?: boolean
   disabled?: boolean
   open?: boolean
@@ -47,7 +46,7 @@ async function onClick(e: Event) {
 }
 const tag = props.href ? 'a' : 'div'
 const clickable = computed(() => {
-  return props.clickable || props.option || props.href || props.open
+  return props.clickable || props.href || props.open
 })
 </script>
 
@@ -65,9 +64,6 @@ const clickable = computed(() => {
       ref="el"
       class="relative min-h-11 flex items-center gap-3 px-3 py-3 desktop:min-h-10 desktop:py-2"
     >
-      <div v-if="option">
-        <Checkbox :selected />
-      </div>
       <slot v-if="$slots.left" name="left" />
       <div v-else-if="$props.icon" class="h-6 w-6 flex items-center justify-center rounded desktop:(h-5 w-5)">
         <Icon

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { defu } from 'defu'
+import { nanoid } from 'nanoid'
 import type { Component } from '#imports'
 import { computed, defineAsyncComponent, ref, shallowRef } from '#imports'
 
@@ -28,15 +29,17 @@ const id = ref()
 const data = shallowRef<Props>({})
 
 function open(_data: Omit<Props, 'target'> = {}) {
-  id.value = _data.id
+  id.value = _data.id ?? nanoid()
   data.value = defu<Props, any>(_data, props)
   targetRef.value.open()
 }
 function close() {
   targetRef.value.close()
 }
-function opened(_id: typeof id['value']) {
-  return _id === id.value
+function opened(_id?: typeof id['value']) {
+  if (_id)
+    return _id === id.value
+  return !!id.value
 }
 function onClose() {
   id.value = null

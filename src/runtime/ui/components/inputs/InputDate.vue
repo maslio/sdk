@@ -3,18 +3,21 @@ import { useFluent } from 'fluent-vue'
 import { addDays, subDays } from 'date-fns'
 import Item from '../elements/Item.vue'
 import { formatDate } from '../../../base/utils/date'
+import { openRef } from '../../utils/open'
 import DateCalendar from './DateCalendar.vue'
 import DateInput from './DateInput.vue'
 import Select from './Select.vue'
 import { type Ref, computed, useNuxtApp } from '#imports'
 
-defineProps<{
+const props = defineProps<{
   label?: string
   readonly?: boolean
 }>()
 
 const { $t } = useFluent()
 const locale = useNuxtApp().$locale as Ref<string>
+const label = computed(() => props.label ?? $t('date'))
+const open = openRef()
 const { format: formatPresetDate } = new Intl.DateTimeFormat(locale.value, {
   month: 'long',
   year: 'numeric',
@@ -57,11 +60,16 @@ const value = computed(() => {
 </script>
 
 <template>
-  <Item :label="label ?? $t('date')" :value :disabled="readonly">
-    <template v-if="!readonly" #page>
-      <DateInput v-model="model" />
-      <Select v-model="model" :options="presets" />
-      <DateCalendar :selected="[model]" @select="onCalendarSelect" />
-    </template>
-  </Item>
+  <Item
+    :label
+    :value
+    :disabled="readonly"
+    open :opened="open?.opened()"
+    @click="open.open()"
+  />
+  <Open ref="open" :label>
+    <DateInput v-model="model" />
+    <Select v-model="model" :options="presets" />
+    <DateCalendar :selected="[model]" @select="onCalendarSelect" />
+  </Open>
 </template>

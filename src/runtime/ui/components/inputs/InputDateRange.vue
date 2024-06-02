@@ -5,16 +5,19 @@ import Item from '../elements/Item.vue'
 import Card from '../elements/Card.vue'
 import { formatDate } from '../../../base/utils/date'
 import Tabs from '../elements/Tabs.vue'
+import { openRef } from '../../utils/open'
 import Select from './Select.vue'
 import DateInput from './DateInput.vue'
 import DateCalendar from './DateCalendar.vue'
 import { type Ref, computed, ref, useAppConfig, useNuxtApp } from '#imports'
 
-defineProps<{
+const props = defineProps<{
   label?: string
   readonly?: boolean
 }>()
+const open = openRef()
 const { $t } = useFluent()
+const label = computed(() => props.label ?? $t('date_range'))
 const locale = useNuxtApp().$locale as Ref<string>
 // @ts-expect-error ui config
 const weekStartsOn = useAppConfig().ui.weekStartsOn as Day
@@ -196,7 +199,6 @@ const presetsFiltered = computed(() => {
 
 const calendarSelected = computed(() => {
   const dates = []
-  // let date = new Date(model.value[0])
   const dateEnd = new Date(model.value[1])
   for (let date = new Date(model.value[0]); date <= dateEnd; date = addDays(date, 1))
     dates.push(formatDate(date))
@@ -241,30 +243,34 @@ const value = computed(() => {
 </script>
 
 <template>
-  <Item :label="$props.label ?? $t('date_range')" :value :disabled="readonly">
-    <template v-if="!readonly" #page>
-      <Card>
-        <DateInput
-          ref="input1"
-          :model-value="model[0]"
-          :label="$t('date_range_start')"
-          @update:model-value="model = [$event, model[1]]"
-          @next="input2.select('day')"
-        />
-        <DateInput
-          ref="input2"
-          :label="$t('date_range_end')"
-          :model-value="model[1]"
-          @update:model-value="model = [model[0], $event]"
-          @prev="input1.select('year')"
-        />
-      </Card>
-      <Card>
-        <Tabs v-model="presetsTab" :tabs="presetsTabs" />
-        <!-- <Separator /> -->
-        <Select v-model="modelString" :options="presetsFiltered" />
-      </Card>
-      <DateCalendar :selected="calendarSelected" @select="onCalendarSelect" />
-    </template>
-  </Item>
+  <Item
+    :label
+    :value
+    :disabled="readonly"
+    open :opened="open?.opened()"
+    @click="open.open()"
+  />
+  <Open ref="open" :label>
+    <Card>
+      <DateInput
+        ref="input1"
+        :model-value="model[0]"
+        :label="$t('date_range_start')"
+        @update:model-value="model = [$event, model[1]]"
+        @next="input2.select('day')"
+      />
+      <DateInput
+        ref="input2"
+        :label="$t('date_range_end')"
+        :model-value="model[1]"
+        @update:model-value="model = [model[0], $event]"
+        @prev="input1.select('year')"
+      />
+    </Card>
+    <Card>
+      <Tabs v-model="presetsTab" :tabs="presetsTabs" />
+      <Select v-model="modelString" :options="presetsFiltered" />
+    </Card>
+    <DateCalendar :selected="calendarSelected" @select="onCalendarSelect" />
+  </Open>
 </template>
