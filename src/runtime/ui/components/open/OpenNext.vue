@@ -3,7 +3,7 @@ import { useLayout } from '../../composables/useLayout'
 import Layout from '../layout/Layout.vue'
 import Spinner from '../elements/Spinner.vue'
 import OpenError from './OpenError.vue'
-import { computed, getCurrentInstance, onErrorCaptured, ref, useToNumber } from '#imports'
+import { computed, getCurrentInstance, onErrorCaptured, ref, useToNumber, watch } from '#imports'
 
 defineOptions({
   inheritAttrs: false,
@@ -14,7 +14,6 @@ const props = defineProps<{
 }>()
 const emit = defineEmits(['close'])
 const width = useToNumber(() => props.width ?? 320)
-// const id = (import.meta.dev ? label : null) ?? String(getCurrentInstance()?.uid)
 const id = String(getCurrentInstance()?.uid)
 const loading = ref(true)
 const error = ref<Error | null>(null)
@@ -30,6 +29,10 @@ function close() {
   nextId.value = null
   emit('close')
 }
+watch(opened, (value) => {
+  if (!value)
+    emit('close')
+})
 defineExpose({ open, close, opened })
 onErrorCaptured((e: Error) => {
   error.value = e

@@ -20,6 +20,7 @@ const icons = {
   sort: 'material-symbols:sort',
   edit: 'material-symbols:edit',
   send: 'material-symbols:send',
+  next: 'fluent:chevron-right-16-filled',
 }
 
 export default async function setupUi(options: OptionsUi, nuxt: Nuxt) {

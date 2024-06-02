@@ -1,13 +1,17 @@
 <script setup lang="ts">
-// const next = openRef()
+import Hello from './components/Hello.vue'
+
+const next = ref()
 // const bottom = openRef()
 // const Hello = defineAsyncComponent(() => import('./components/Hello.vue'))
 </script>
 
 <template>
-  <Layout>
-    <Menu v-slot="{ close }">
-      <Button label="Hello" @click="close" />
-    </Menu>
-  </Layout>
+  <AuthLayout>
+    <Item
+      label="Hello"
+      :open="{ ref: next, component: Hello }"
+    />
+    <Open ref="next" />
+  </AuthLayout>
 </template>

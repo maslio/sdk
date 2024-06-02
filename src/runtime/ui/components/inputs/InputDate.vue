@@ -2,6 +2,7 @@
 import { useFluent } from 'fluent-vue'
 import { addDays, subDays } from 'date-fns'
 import Item from '../elements/Item.vue'
+import Open from '../open/Open.vue'
 import { formatDate } from '../../../base/utils/date'
 import { openRef } from '../../utils/open'
 import DateCalendar from './DateCalendar.vue'

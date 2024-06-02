@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { type Ref, computed, ref } from '#imports'
+import { type Ref, computed, ref, useId } from '#imports'
 
 export interface Props {
+  id?: string | number
   icon?: string
   iconClass?: string
   iconSize?: string
@@ -12,13 +13,12 @@ export interface Props {
   captionClass?: string | string[]
   value?: string
   valueClass?: string | string[]
-  clickable?: boolean
+  clickable?: boolean | string
   href?: string
-  // option?: boolean
-  // selected?: boolean
   noTruncate?: boolean
   disabled?: boolean
-  open?: boolean
+  open?: any
+  openIcon?: string
   opened?: boolean
 }
 
@@ -36,12 +36,39 @@ defineSlots<{
   main: () => any
   right: () => any
 }>()
+const id = props.id ?? useId()
+
+const opened = computed(() => {
+  if (props.opened)
+    return true
+  if (props.open)
+    return props.open.ref?.opened(id)
+  return false
+})
+const openIcon = computed(() => {
+  if (props.openIcon)
+    return props.openIcon
+  if (props.href)
+    return 'material-symbols-light:open-in-new-rounded'
+  if (props.open)
+    return 'fluent:chevron-right-16-filled'
+  return null
+})
 
 const el = ref() as Ref<HTMLElement>
 
 async function onClick(e: Event) {
   if (props.disabled)
     return
+  if (props.open) {
+    props.open.ref.open({
+      id,
+      label: props.open.label ?? props.label,
+      component: props.open.component,
+      caption: props.open.caption,
+      props: props.open.props,
+    })
+  }
   emit('click', e)
 }
 const tag = props.href ? 'a' : 'div'
@@ -95,13 +122,8 @@ const clickable = computed(() => {
       </div>
 
       <Icon
-        v-if="href"
-        name="material-symbols-light:open-in-new-rounded" size="18"
-        class="ml--3 mr--1 transition-color text-faint"
-      />
-      <Icon
-        v-else-if="open"
-        name="fluent:chevron-right-16-filled" size="18"
+        v-if="openIcon"
+        :name="openIcon" size="18"
         class="ml--3 mr--1 transition-color text-faint"
       />
     </div>

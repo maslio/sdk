@@ -2,7 +2,7 @@
 import { defu } from 'defu'
 import { nanoid } from 'nanoid'
 import type { Component } from '#imports'
-import { computed, defineAsyncComponent, ref, shallowRef } from '#imports'
+import { computed, defineAsyncComponent, nextTick, ref, shallowRef } from '#imports'
 
 type Target = 'next' | 'bottom' | 'top' | 'new' | 'full' | 'center'
 
@@ -28,7 +28,7 @@ const targetRef = ref()
 const id = ref()
 const data = shallowRef<Props>({})
 
-function open(_data: Omit<Props, 'target'> = {}) {
+async function open(_data: Omit<Props, 'target'> = {}) {
   id.value = _data.id ?? nanoid()
   data.value = defu<Props, any>(_data, props)
   targetRef.value.open()
@@ -45,18 +45,28 @@ function onClose() {
   id.value = null
 }
 
-defineExpose({ open, close, opened })
+defineExpose({ open, close, opened, _isOpen: true })
 </script>
 
 <template>
   <component
     :is="targetIs"
+    :id
     ref="targetRef"
     :target="target"
     v-bind="data"
     @close="onClose"
   >
-    <slot v-if="$slots.default" v-bind="data" />
-    <component :is="data.component" v-else-if="data.component" v-bind="data.props" />
+    <template v-if="id">
+      <slot
+        v-if="$slots.default" :key="id"
+        v-bind="data"
+        :props="data.props ?? {}"
+      />
+      <component
+        :is="data.component" v-else-if="data.component"
+        v-bind="data.props"
+      />
+    </template>
   </component>
 </template>
