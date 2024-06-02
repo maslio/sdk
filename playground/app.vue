@@ -5,7 +5,9 @@
 </script>
 
 <template>
-  <Layout root>
-    <InputDateRange />
+  <Layout>
+    <Menu v-slot="{ close }">
+      <Button label="Hello" @click="close" />
+    </Menu>
   </Layout>
 </template>
