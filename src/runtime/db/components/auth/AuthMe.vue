@@ -2,6 +2,7 @@
 import type { File, User } from '@directus/types'
 import { readMe, updateMe } from '@directus/sdk'
 import { useFluent } from 'fluent-vue'
+import { pick } from 'lodash-es'
 import { useDirectus } from '../../composables/useDirectus'
 import Card from '../../../ui/components/elements/Card.vue'
 import Item from '../../../ui/components/elements/Item.vue'
@@ -91,7 +92,7 @@ const formLabels = {
       <Form
         collection="directus_users"
         :fields="props.fields"
-        :values="user"
+        :values="pick(user, props.fields)"
         :labels="formLabels"
         :submit="save"
       />

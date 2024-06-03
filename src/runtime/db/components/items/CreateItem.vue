@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { createItem } from '@directus/sdk'
-import Form from '../form/Form.vue'
+import Form, { type Group } from '../form/Form.vue'
 import { useDirectus } from '../../composables/useDirectus'
 
 const props = defineProps<{
   collection: string
-  fields: string | string[]
+  fields?: string | string[]
+  groups?: Group[]
   values?: Record<string, any>
   labels?: Record<string, string>
   submitLabel?: string

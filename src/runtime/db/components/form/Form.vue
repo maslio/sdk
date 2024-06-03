@@ -1,29 +1,50 @@
 <script setup lang="ts">
-import { createItem, readFieldsByCollection, readItem, updateItem } from '@directus/sdk'
+import { readFieldsByCollection, readItem } from '@directus/sdk'
 import type { Field } from '@directus/types'
 import { titleCase } from 'scule'
+import { defu } from 'defu'
+import { flatten } from 'lodash-es'
+import { nanoid } from 'nanoid'
 import { useDirectus } from '../../composables/useDirectus'
 import Card from '../../../ui/components/elements/Card.vue'
 import Button from '../../../ui/components/elements/Button.vue'
 import { defineAsyncComponent, reactive, ref, watch } from '#imports'
 
+defineOptions({
+  inheritAttrs: false,
+})
 const props = defineProps<{
   collection: string
-  fields: string | string[]
-  id?: string | number
+  fields?: string | string[]
+  groups?: Group[]
   values?: Record<string, any>
   labels?: Record<string, string>
   submitLabel?: string
   submit: (data: Record<string, any>) => any
 }>()
-const emit = defineEmits(['submit'])
 
-// if (props.type === 'update' && !props.id && !props.values)
-//   throw new Error('Required at least "id" or "values" for type "update"')
+const emit = defineEmits(['submit'])
 
 const { requestAny } = useDirectus()
 
-function getFieldComponent(_field: Field) {
+export interface Group {
+  label?: string
+  fields: string | string[]
+}
+
+function arrify(input: string | string[]): string[] {
+  return typeof input === 'string' ? input.split(' ') : input
+}
+
+const fields = props.groups
+  ? flatten(props.groups.map(g => arrify(g.fields)))
+  : props.fields ? arrify(props.fields) : []
+
+function getFieldComponent(field: Field) {
+  if (field.meta?.interface === 'select-dropdown')
+    return defineAsyncComponent(() => import('./FormSelect.vue'))
+  if (field.type === 'boolean')
+    return defineAsyncComponent(() => import('./FormBoolean.vue'))
   return defineAsyncComponent(() => import('./FormString.vue'))
 }
 
@@ -33,11 +54,10 @@ function getFieldLabel(field: Field) {
   return titleCase(field.field)
 }
 
-const fieldsArray = typeof props.fields === 'string' ? props.fields.split(' ') : props.fields
+const directusFields = await requestAny(readFieldsByCollection(props.collection)) as Field[]
 
-const allFields = await requestAny(readFieldsByCollection(props.collection)) as Field[]
-const fields = fieldsArray.map((key) => {
-  const field = allFields.find(f => f.field === key)
+const data = fields.map((key) => {
+  const field = directusFields.find(f => f.field === key)
   if (!field)
     throw new Error(`field '${key}' is not found in collection ${props.collection}`)
   return {
@@ -48,16 +68,40 @@ const fields = fieldsArray.map((key) => {
     component: getFieldComponent(field),
   }
 })
+
+const groups = props.groups ?? [{ fields }]
+function getGroupFields(fields: string | string[]) {
+  fields = arrify(fields)
+  return data.filter(d => fields.includes(d.key))
+}
+// const groups = (function () {
+//   const groups = []
+//   if (props.groups) {
+//     for (const group of props.groups) {
+//       const fields = arrify(group.fields).map(f => data.find(d => d.key === f))
+//       groups.push({
+//         id: nanoid(),
+//         fields,
+//       })
+//     }
+//   }
+//   else {
+//     groups.push({
+//       id: nanoid(),
+//       fields: data,
+//     })
+//   }
+//   return groups
+// })()
+
 const values = reactive(
-  props.id
-    ? await requestAny(readItem(props.collection, props.id, { fields: fieldsArray })) as Record<string, any>
-    : Object.fromEntries(
-      fieldsArray.map(key => [key, props.values?.[key] ?? null]),
-    ),
+  Object.fromEntries(
+    fields.map(key => [key, props.values?.[key] ?? null]),
+  ),
 )
 
 const errors = reactive(Object.fromEntries(
-  fields.map(field => [field.key, false]),
+  data.map(field => [field.key, false]),
 ))
 
 watch(values, () => {
@@ -67,10 +111,11 @@ watch(values, () => {
 })
 
 async function save() {
+  const data = defu(values, props.values)
   try {
     if (props.submit)
-      await props.submit(values)
-    emit('submit', values)
+      await props.submit(data)
+    emit('submit', data)
   }
   catch (e: any) {
     if (e.errors) {
@@ -84,10 +129,10 @@ async function save() {
 </script>
 
 <template>
-  <Card>
+  <Card v-for="(group, index) in groups" :key="index">
     <Component
       :is="field.component"
-      v-for="field in fields"
+      v-for="field in getGroupFields(group.fields)"
       :key="field.key"
       v-model="values[field.key]"
       :field="field.field"

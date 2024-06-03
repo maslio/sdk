@@ -19,11 +19,11 @@ defineSlots<{
 const open = openRef()
 const { menuEl } = useLayout()
 function close() {
-  open.value.close()
+  open?.value.close()
 }
 function onClick(e: Event) {
   emit('click', e)
-  open.value.open()
+  open?.value?.open()
 }
 </script>
 
@@ -32,11 +32,11 @@ function onClick(e: Event) {
     <Button
       flat mini
       :icon
-      :page="{ target: 'top', label, header: !!label }"
+      :page="{ label, header: !!label }"
       @click="onClick"
     />
   </Teleport>
-  <Open ref="open" target="top">
+  <Open v-if="$slots.default" ref="open" target="top">
     <slot :close />
   </Open>
 </template>

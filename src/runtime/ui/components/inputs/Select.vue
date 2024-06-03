@@ -4,6 +4,11 @@ import Item, { type Props as ItemProps } from '../elements/Item.vue'
 import List from '../elements/List.vue'
 import { computed, ref, watch } from '#imports'
 
+defineOptions({
+  inheritAttrs: false,
+})
+
+const props = defineProps<Props>()
 export interface Option {
   value: string | number
   item: ItemProps
@@ -13,7 +18,6 @@ export interface Props {
   options: Option[]
   input?: boolean
 }
-const props = defineProps<Props>()
 const model = defineModel<Value>()
 
 const items = computed(() => {

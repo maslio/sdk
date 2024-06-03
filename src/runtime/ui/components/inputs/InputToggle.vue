@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Input from './Input.vue'
+import Item from '../elements/Item.vue'
 
 const { readonly } = defineProps<{
   label: string
@@ -14,7 +14,7 @@ function toggle() {
 </script>
 
 <template>
-  <Input :clickable="!readonly" :label @click="toggle">
+  <Item :clickable="!readonly" :label @click="toggle">
     <template #right>
       <ClientOnly>
         <div
@@ -36,5 +36,5 @@ function toggle() {
         </div>
       </ClientOnly>
     </template>
-  </Input>
+  </Item>
 </template>

@@ -6,6 +6,8 @@ const { bottomEl } = useLayout()
 
 <template>
   <Teleport v-if="bottomEl" :to="bottomEl">
-    <slot />
+    <div v-bind="$attrs">
+      <slot />
+    </div>
   </Teleport>
 </template>
