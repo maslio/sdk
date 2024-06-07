@@ -5,12 +5,14 @@ import setupFluent from './setupFluent'
 import setupUi, { type OptionsUi } from './setupUi'
 import setupDb, { type OptionsDb } from './setupDb'
 import setupAi, { type OptionsAi } from './setupAi'
+import setupFs, { type OptionsFs } from './setupFs'
 
 export interface ModuleOptions {
   locales?: string[]
   ui?: OptionsUi
   db?: OptionsDb
   ai?: OptionsAi
+  fs?: OptionsFs
 }
 
 export default defineNuxtModule<ModuleOptions>({
@@ -28,5 +30,7 @@ export default defineNuxtModule<ModuleOptions>({
       await setupDb(options.db, nuxt)
     if (options.ai)
       await setupAi(options.ai, nuxt)
+    if (options.fs)
+      await setupFs(options.fs, nuxt)
   },
 })

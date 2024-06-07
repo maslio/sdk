@@ -8,6 +8,9 @@ export default defineNuxtConfig({
     },
     db: {},
     ai: {},
+    fs: {
+      dirs: ['torrents'],
+    },
   },
   devtools: { enabled: true },
 })
