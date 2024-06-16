@@ -1,6 +1,44 @@
 # Changelog
 
 
+## v0.2.0
+
+[compare changes](https://github.com/maslio/sdk/compare/v0.1.3...v0.2.0)
+
+### 🚀 Enhancements
+
+- **db:** ⚠️  Rewrite db component ([d16ed2a](https://github.com/maslio/sdk/commit/d16ed2a))
+- **ui:** ⚠️  Open component instead Page component ([62a4297](https://github.com/maslio/sdk/commit/62a4297))
+- **db:** Update form component ([ce0564f](https://github.com/maslio/sdk/commit/ce0564f))
+- **ui:** New Dropzone component ([3ddbc18](https://github.com/maslio/sdk/commit/3ddbc18))
+- New Fs module ([9a09320](https://github.com/maslio/sdk/commit/9a09320))
+- Rename into sdk ([f05b04a](https://github.com/maslio/sdk/commit/f05b04a))
+
+### 🩹 Fixes
+
+- **ui:** Fix InputDate to work with Open Component ([3b790eb](https://github.com/maslio/sdk/commit/3b790eb))
+- **ui:** Fix Menu.vue to work with Open.vue ([0da6afd](https://github.com/maslio/sdk/commit/0da6afd))
+- **db:** Fix auth components to work with Open ([72f0f45](https://github.com/maslio/sdk/commit/72f0f45))
+- Some fixes ([b5ad6b9](https://github.com/maslio/sdk/commit/b5ad6b9))
+
+### 💅 Refactors
+
+- **fluent:** Move all module fluent files into runtime/locales/ ([42cfef6](https://github.com/maslio/sdk/commit/42cfef6))
+
+### 🏡 Chore
+
+- Fix some issues ([4d0ff0d](https://github.com/maslio/sdk/commit/4d0ff0d))
+- Lit fix ([b86858c](https://github.com/maslio/sdk/commit/b86858c))
+
+#### ⚠️ Breaking Changes
+
+- **db:** ⚠️  Rewrite db component ([d16ed2a](https://github.com/maslio/sdk/commit/d16ed2a))
+- **ui:** ⚠️  Open component instead Page component ([62a4297](https://github.com/maslio/sdk/commit/62a4297))
+
+### ❤️ Contributors
+
+- Maslio <vlad@maslio.com>
+
 ## v0.1.3
 
 [compare changes](https://github.com/maslio/kit/compare/v0.1.2...v0.1.3)
