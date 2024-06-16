@@ -1,5 +1,5 @@
 import type Open from '../components/open/Open.vue'
-import { type Ref, isRef, ref } from '#imports'
+import { type Ref, ref } from '#imports'
 
 export type OpenRef = Ref<InstanceType<typeof Open>>
 

@@ -1,6 +1,6 @@
 import { FluentBundle, FluentResource } from '@fluent/bundle'
 import { createFluentVue } from 'fluent-vue'
-import { callOnce, computed, defineNuxtPlugin, shallowRef, useCookie, useRuntimeConfig, useState } from '#imports'
+import { callOnce, defineNuxtPlugin, shallowRef, useCookie, useRuntimeConfig, useState } from '#imports'
 
 export default defineNuxtPlugin(async (nuxt) => {
   const data = useState<string>(() => shallowRef())

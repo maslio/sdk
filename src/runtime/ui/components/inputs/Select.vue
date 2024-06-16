@@ -2,7 +2,7 @@
 import Checkbox from '../elements/Checkbox.vue'
 import Item, { type Props as ItemProps } from '../elements/Item.vue'
 import List from '../elements/List.vue'
-import { computed, ref, watch } from '#imports'
+import { computed, ref } from '#imports'
 
 defineOptions({
   inheritAttrs: false,

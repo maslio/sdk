@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import Item from '../elements/Item.vue'
 import { openRef } from '../../utils/open'
-import Button from '../elements/Button.vue'
 import type { Props as SelectProps } from './Select.vue'
 import Select from './Select.vue'
 import { computed } from '#imports'

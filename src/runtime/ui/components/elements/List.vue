@@ -5,7 +5,6 @@ import Separator from './Separator.vue'
 import Item from './Item.vue'
 import Card from './Card.vue'
 import type { Ref, useAsyncData } from '#imports'
-import type { NuxtError } from '#app'
 import { computed, onKeyStroke, ref, toReactive, useNuxtApp, useToNumber, watchDebounced } from '#imports'
 
 const props = withDefaults(defineProps<{

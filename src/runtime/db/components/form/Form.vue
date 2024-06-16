@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { readFieldsByCollection, readItem } from '@directus/sdk'
+import { readFieldsByCollection } from '@directus/sdk'
 import type { Field } from '@directus/types'
 import { titleCase } from 'scule'
 import { defu } from 'defu'
 import { flatten } from 'lodash-es'
-import { nanoid } from 'nanoid'
 import { useDirectus } from '../../composables/useDirectus'
 import Card from '../../../ui/components/elements/Card.vue'
 import Button from '../../../ui/components/elements/Button.vue'

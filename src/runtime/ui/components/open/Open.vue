@@ -2,7 +2,7 @@
 import { defu } from 'defu'
 import { nanoid } from 'nanoid'
 import type { Component } from '#imports'
-import { computed, defineAsyncComponent, nextTick, ref, shallowRef } from '#imports'
+import { computed, defineAsyncComponent, ref, shallowRef } from '#imports'
 
 type Target = 'next' | 'bottom' | 'top' | 'new' | 'full' | 'center'
 
