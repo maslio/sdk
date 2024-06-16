@@ -82,7 +82,7 @@ provide<LayoutProvide>('layout', { isMini, pageEl, menuEl, nextEl, nextId, foote
   >
     <div
       ref="pageEl"
-      class="page relative h-full flex flex-col mobile:w-full!"
+      class="page relative h-full flex flex-col mobile:max-h-500px! mobile:w-full!"
       :style="styleRoot"
     >
       <header

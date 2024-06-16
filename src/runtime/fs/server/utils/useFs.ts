@@ -7,13 +7,17 @@ export function useFs(dir: string) {
     throw createError({ statusCode: 400, statusMessage: `Directory '${dir}' is not found in runtime config` })
   const root = fs[dir]
 
-  function resolve(path: string) {
-    return p.resolve(root, path)
+  function join(...path: string[]) {
+    return p.join(...path)
   }
 
-  function relative(path: string) {
-    return p.relative(root, path)
+  function resolve(...path: string[]) {
+    return p.join(root, ...path)
   }
 
-  return { root, resolve, relative }
+  function relative(...path: string[]) {
+    return p.relative(root, join(...path))
+  }
+
+  return { root, resolve, relative, join }
 }

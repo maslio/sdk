@@ -108,7 +108,7 @@ const clickable = computed(() => {
         class="flex flex-1 flex-basis-2xl flex-col flex-nowrap overflow-hidden"
         :class="captionFirst ? 'flex-col-reverse' : 'flex-col'"
       >
-        <div v-if="$props.label" class="text-base" :class="$props.labelClass">
+        <div v-if="$props.label" :class="$props.labelClass ?? 'text-base'">
           {{ label }}
         </div>
         <div v-if="$props.caption" class="text-sm text-faint" :class="$props.captionClass">

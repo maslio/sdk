@@ -11,8 +11,8 @@ import { computed, onKeyStroke, ref, toReactive, useNuxtApp, useToNumber, watchD
 const props = withDefaults(defineProps<{
   label?: string
   caption?: string
-  data?: ReturnType<typeof useAsyncData<T[] | null, NuxtError | null>>
-  total?: ReturnType<typeof useAsyncData<number | null, NuxtError | null>>
+  data?: ReturnType<typeof useAsyncData<T[] | null, any>>
+  total?: ReturnType<typeof useAsyncData<number | null, any>>
   items?: T[]
   itemKey: string & keyof T
   limit?: number
