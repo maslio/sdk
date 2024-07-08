@@ -5,5 +5,5 @@ defineProps<{
 </script>
 
 <template>
-  <IconCSS name="spinner" animate-spin :size />
+  <Icon name="spinner" animate-spin :size />
 </template>

@@ -21,7 +21,6 @@ export default async function setupBase(_options: ModuleOptions, nuxt: Nuxt) {
     classSuffix: '',
   })
   await installModule('@nuxtjs/device')
-  await installModule('nuxt-icon')
   await installModule('@nuxt/image', {
     directus: { baseURL: '/_db/assets' },
   })

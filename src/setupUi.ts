@@ -14,7 +14,7 @@ export interface OptionsUi {
 const icons = {
   spinner: 'mingcute:loading-fill',
   close: 'material-symbols:close',
-  back: 'octicon:arrow-left-16',
+  back: 'ic:baseline-arrow-back',
   search: 'material-symbols:search',
   more: 'mingcute:more-2-fill',
   sort: 'material-symbols:sort',
@@ -24,13 +24,13 @@ const icons = {
 }
 
 export default async function setupUi(options: OptionsUi, nuxt: Nuxt) {
+  await installModule('@nuxt/icon', {
+    size: '24px',
+    aliases: icons,
+  })
   nuxt.options.appConfig.ui = {
     weekStartsOn: options.weekStartsOn ?? 1,
     mousedown: options.mousedown ?? false,
-  }
-  nuxt.options.appConfig.nuxtIcon = {
-    size: '24px',
-    aliases: icons,
   }
   const unoConfigFile = addTemplate({
     getContents: () => genUnoConfig(),
